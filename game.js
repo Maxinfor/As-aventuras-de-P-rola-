@@ -12,8 +12,8 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload() {
-    // Carregando a sprite sheet com as medidas calculadas
-    this.load.spritesheet("perola", "perola.png", { frameWidth: 96, frameHeight: 105 });
+    // Carregando a sprite sheet com as medidas calculadas (768/4 = 192; 1364/7 = 194.85 -> 195)
+    this.load.spritesheet("perola", "perola.png", { frameWidth: 192, frameHeight: 195 });
     this.load.image("chao", "Chao.jpg");
     this.load.image("plataforma", "plataforma.jpg");
 }
@@ -30,30 +30,36 @@ function create() {
     this.perola.setCollideWorldBounds(true);
     this.physics.add.collider(this.perola, this.plataformas);
 
-    // Animações
-    this.anims.create({ key: "correrDir", frames: this.anims.generateFrameNumbers("perola", { start: 0, end: 7 }), frameRate: 10, repeat: -1 });
-    this.anims.create({ key: "correrEsq", frames: this.anims.generateFrameNumbers("perola", { start: 8, end: 15 }), frameRate: 10, repeat: -1 });
-    this.anims.create({ key: "pular", frames: this.anims.generateFrameNumbers("perola", { start: 16, end: 17 }), frameRate: 5 });
+    // Animações configuradas conforme a grade 4x7
+    this.anims.create({ key: "correrDir", frames: this.anims.generateFrameNumbers("perola", { start: 0, end: 3 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "correrEsq", frames: this.anims.generateFrameNumbers("perola", { start: 4, end: 7 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "agachar", frames: this.anims.generateFrameNumbers("perola", { start: 8, end: 9 }), frameRate: 5 });
+    this.anims.create({ key: "escalar", frames: this.anims.generateFrameNumbers("perola", { start: 12, end: 15 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "rodar", frames: this.anims.generateFrameNumbers("perola", { start: 16, end: 19 }), frameRate: 10, repeat: -1 });
+    this.anims.create({ key: "pular", frames: this.anims.generateFrameNumbers("perola", { start: 20, end: 23 }), frameRate: 5 });
+    this.anims.create({ key: "saltarLonge", frames: this.anims.generateFrameNumbers("perola", { start: 24, end: 27 }), frameRate: 10 });
 
     this.cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update() {
-    // Movimentação
+    // Movimentação básica
     if (this.cursors.left.isDown) {
         this.perola.setVelocityX(-160);
         this.perola.play("correrEsq", true);
     } else if (this.cursors.right.isDown) {
         this.perola.setVelocityX(160);
         this.perola.play("correrDir", true);
+    } else if (this.cursors.down.isDown) {
+        this.perola.play("agachar", true);
     } else {
         this.perola.setVelocityX(0);
         this.perola.anims.stop();
     }
 
-    // Pulo
+    // Pulo (com lógica simples para verificar chão)
     if (this.cursors.up.isDown && this.perola.body.touching.down) {
-        this.perola.setVelocityY(this.cursors.shift.isDown ? -500 : -300);
+        this.perola.setVelocityY(-300);
         this.perola.play("pular", true);
     }
 }
