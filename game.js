@@ -27,6 +27,20 @@ function create() {
         frames: this.anims.generateFrameNumbers("perola", { start: 0, end: 7 }),
         frameRate: 10,
         repeat: -1
+        // 1. Criando o grupo estático de plataformas
+this.plataformas = this.physics.add.staticGroup();
+
+// 2. Criando o chão (uma barra longa na parte inferior)
+this.plataformas.create(400, 568, 'chao').setScale(2).refreshBody();
+
+// 3. Criando plataformas individuais em alturas diferentes
+this.plataformas.create(600, 400, 'plataforma');
+this.plataformas.create(50, 250, 'plataforma');
+this.plataformas.create(750, 220, 'plataforma');
+
+// 4. Adicionando colisão entre a Pérola e as plataformas
+this.physics.add.collider(this.perola, this.plataformas);
+
     });
 
     // 2. Correr Esquerda (Quadros 8 a 15)
