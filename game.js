@@ -1,46 +1,62 @@
-// ... (seu config permanece o mesmo)
+function preload() {
+    // Carregando as novas imagens como spritesheets
+    // Certifique-se de ajustar a largura e altura dos frames (frameWidth/frameHeight) conforme o tamanho da sua imagem
+    this.load.spritesheet("pulando", "pulando.png", { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet("andando", "andando.png", { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet("passolargo", "passolargo.png", { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet("escalando1", "escalando1.png", { frameWidth: 32, frameHeight: 48 });
+    this.load.image("capa", "capa.png");
+}
 
 function create() {
+    // Exemplo de como usar a capa no início do jogo
+    // this.add.image(400, 300, 'capa');
+
     // Cenário
     this.plataformas = this.physics.add.staticGroup();
     this.plataformas.create(400, 568, 'chao').setScale(2).refreshBody();
     this.plataformas.create(600, 400, 'plataforma');
     this.plataformas.create(50, 250, 'plataforma');
 
-    // Personagem
-    this.perola = this.physics.add.sprite(100, 450, "perola");
+    // Personagem (usando 'andando' como base inicial)
+    this.perola = this.physics.add.sprite(100, 450, "andando");
     this.perola.setCollideWorldBounds(true);
     this.physics.add.collider(this.perola, this.plataformas);
 
-    // Animações corrigidas (Base 4 colunas: linha * 4 + coluna)
-    // Linha 0 (0-3): Andar Direita
-    this.anims.create({ key: "correrDir", frames: this.anims.generateFrameNumbers("perola", { start: 0, end: 3 }), frameRate: 10, repeat: -1 });
-    // Linha 1 (4-7): Andar Esquerda
-    this.anims.create({ key: "correrEsq", frames: this.anims.generateFrameNumbers("perola", { start: 4, end: 7 }), frameRate: 10, repeat: -1 });
-    // Linha 2 (8-11): Agachar (índices 8, 9)
-    this.anims.create({ key: "agachar", frames: this.anims.generateFrameNumbers("perola", { start: 8, end: 9 }), frameRate: 5 });
-    // Linha 3 (12-15): Escalar
-    this.anims.create({ key: "escalar", frames: this.anims.generateFrameNumbers("perola", { start: 12, end: 15 }), frameRate: 10, repeat: -1 });
-    // Linha 4 (16-19): Rodar
-    this.anims.create({ key: "rodar", frames: this.anims.generateFrameNumbers("perola", { start: 16, end: 19 }), frameRate: 10, repeat: -1 });
-    // Linha 5 (20-23): Pular
-    this.anims.create({ key: "pular", frames: this.anims.generateFrameNumbers("perola", { start: 20, end: 23 }), frameRate: 5 });
-    // Linha 6 (24-27): Saltar Longe
-    this.anims.create({ key: "saltarLonge", frames: this.anims.generateFrameNumbers("perola", { start: 24, end: 27 }), frameRate: 10 });
+    // Animações utilizando os novos arquivos
+    this.anims.create({ 
+        key: "correr", 
+        frames: this.anims.generateFrameNumbers("andando", { start: 0, end: 3 }), 
+        frameRate: 10, 
+        repeat: -1 
+    });
+
+    this.anims.create({ 
+        key: "pular", 
+        frames: this.anims.generateFrameNumbers("pulando", { start: 0, end: 3 }), 
+        frameRate: 5 
+    });
+
+    this.anims.create({ 
+        key: "escalar", 
+        frames: this.anims.generateFrameNumbers("escalando1", { start: 0, end: 3 }), 
+        frameRate: 10, 
+        repeat: -1 
+    });
 
     this.cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update() {
-    // Movimentação
+    // Movimentação atualizada
     if (this.cursors.left.isDown) {
         this.perola.setVelocityX(-160);
-        this.perola.anims.play("correrEsq", true);
+        this.perola.flipX = true; // Espelha a imagem para esquerda
+        this.perola.anims.play("correr", true);
     } else if (this.cursors.right.isDown) {
         this.perola.setVelocityX(160);
-        this.perola.anims.play("correrDir", true);
-    } else if (this.cursors.down.isDown) {
-        this.perola.anims.play("agachar", true);
+        this.perola.flipX = false; // Mantém a imagem normal para direita
+        this.perola.anims.play("correr", true);
     } else {
         this.perola.setVelocityX(0);
         this.perola.anims.stop();
