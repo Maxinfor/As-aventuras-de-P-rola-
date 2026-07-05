@@ -9,12 +9,13 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload() {
-    // Atenção: Use exatamente o nome do arquivo, maiúsculas importam!
-    this.load.image("capa", "capa.png");
-    this.load.image("chao", "Chao.jpg"); 
-    this.load.image("plataforma", "plataforma.jpg");
-    this.load.spritesheet("andando", "andando.png", { frameWidth: 500, frameHeight: 500 });
+    // Imagens de teste da própria biblioteca Phaser
+    this.load.image("capa", "https://labs.phaser.io/assets/pics/phaser-logo-small.png");
+    this.load.image("chao", "https://labs.phaser.io/assets/sprites/platform.png");
+    this.load.image("plataforma", "https://labs.phaser.io/assets/sprites/platform.png");
+    this.load.spritesheet("andando", "https://labs.phaser.io/assets/sprites/brawler.png", { frameWidth: 100, frameHeight: 100 });
 }
+
 
 function create() {
     this.add.image(187.5, 332.5, 'capa');
