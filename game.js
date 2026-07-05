@@ -12,16 +12,16 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload() {
-    // Carregamos a imagem do sprite sheet que você gerou
-    // Ajuste o frameWidth/Height baseado no tamanho real de cada quadro na sua imagem
-    this.load.spritesheet("perola", "watermarked_img_1976088997429529370.png", {
-        frameWidth: 64, 
-        frameHeight: 64
+    // Carrega a imagem única 'perola.png'
+    // Ajuste frameWidth e frameHeight conforme o tamanho real do seu arquivo
+    this.load.spritesheet("perola", "perola.png", {
+        frameWidth: 128, 
+        frameHeight: 128
     });
 }
 
 function create() {
-    // Criando a animação de correr para a direita (exemplo com os primeiros 8 quadros)
+    // 1. Correr Direita (Quadros 0 a 7)
     this.anims.create({
         key: "correrDir",
         frames: this.anims.generateFrameNumbers("perola", { start: 0, end: 7 }),
@@ -29,11 +29,37 @@ function create() {
         repeat: -1
     });
 
-    // Pérola aparece no jogo
-    this.perola = this.physics.add.sprite(100, 450, "perola");
-    this.perola.play("correrDir");
+    // 2. Correr Esquerda (Quadros 8 a 15)
+    this.anims.create({
+        key: "correrEsq",
+        frames: this.anims.generateFrameNumbers("perola", { start: 8, end: 15 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    // 3. Pulo (Quadros 16 e 17)
+    this.anims.create({
+        key: "pular",
+        frames: this.anims.generateFrameNumbers("perola", { start: 16, end: 17 }),
+        frameRate: 5,
+        repeat: 0
+    });
+
+    // Criando a Pérola no jogo
+    this.perola = this.physics.add.sprite(400, 300, "perola");
+    this.cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update() {
-    // Lógica de controle do teclado ou toque virá aqui
+    // Lógica simples de movimento
+    if (this.cursors.left.isDown) {
+        this.perola.setVelocityX(-160);
+        this.perola.play("correrEsq", true);
+    } else if (this.cursors.right.isDown) {
+        this.perola.setVelocityX(160);
+        this.perola.play("correrDir", true);
+    } else {
+        this.perola.setVelocityX(0);
+        this.perola.anims.stop();
+    }
 }
