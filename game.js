@@ -1,83 +1,59 @@
-// Configuração do jogo com a proporção da sua capa
-var config = {
-    type: Phaser.AUTO,
-    width: 375,
-    height: 665,
-    physics: {
-        default: 'arcade',
-        arcade: { gravity: { y: 300 }, debug: false }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
-};
-
-var game = new Phaser.Game(config);
+var gameState = 'menu'; // Estados: 'menu', 'dificuldade', 'jogando'
 
 function preload() {
-    // Carregamento de todos os arquivos
     this.load.image("capa", "capa.png");
+    // Carregue aqui outras imagens de botões se tiver, ou usaremos texto
     this.load.spritesheet("andando", "andando.png", { frameWidth: 500, frameHeight: 500 });
     this.load.spritesheet("pulando", "pulando.png", { frameWidth: 500, frameHeight: 500 });
     this.load.spritesheet("correndoEsq", "correndoesquerda.png", { frameWidth: 500, frameHeight: 500 });
 }
 
 function create() {
-    // Adiciona a capa centralizada
-    this.add.image(187.5, 332.5, 'capa');
+    // Tela Inicial
+    this.telaCapa = this.add.image(187.5, 332.5, 'capa');
+    
+    // Botão Jogar
+    this.botaoJogar = this.add.text(187.5, 500, 'JOGAR', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive();
+    
+    this.botaoJogar.on('pointerdown', () => {
+        this.telaCapa.setVisible(false);
+        this.botaoJogar.setVisible(false);
+        mostrarDificuldade.call(this);
+    });
+}
 
-    // Cenário (ajustado para a tela vertical)
+function mostrarDificuldade() {
+    this.add.text(187.5, 200, 'Escolha a Dificuldade', { fontSize: '24px' }).setOrigin(0.5);
+    
+    let btnFacil = this.add.text(187.5, 300, 'FÁCIL', { fontSize: '20px', color: '#0f0' }).setOrigin(0.5).setInteractive();
+    let btnMedio = this.add.text(187.5, 350, 'MÉDIO', { fontSize: '20px', color: '#ff0' }).setOrigin(0.5).setInteractive();
+    let btnDificil = this.add.text(187.5, 400, 'DIFÍCIL', { fontSize: '20px', color: '#f00' }).setOrigin(0.5).setInteractive();
+
+    [btnFacil, btnMedio, btnDificil].forEach(btn => {
+        btn.on('pointerdown', () => {
+            iniciarJogo.call(this);
+        });
+    });
+}
+
+function iniciarJogo() {
+    // Esconde os botões de dificuldade (poderia limpar a cena aqui)
+    gameState = 'jogando';
+    
+    // Cria o cenário e o personagem como antes
     this.plataformas = this.physics.add.staticGroup();
     this.plataformas.create(187.5, 650, 'chao').setScale(2).refreshBody();
 
-    // Criação do personagem
     this.perola = this.physics.add.sprite(187.5, 500, "andando");
-    this.perola.setScale(0.2); // Reduzindo o tamanho para caber na tela
-    this.perola.setCollideWorldBounds(true);
+    this.perola.setScale(0.2).setCollideWorldBounds(true);
     this.physics.add.collider(this.perola, this.plataformas);
-
-    // Definição das animações
-    this.anims.create({ 
-        key: "correrDir", 
-        frames: this.anims.generateFrameNumbers("andando", { start: 0, end: 0 }), 
-        frameRate: 10, 
-        repeat: -1 
-    });
-
-    this.anims.create({ 
-        key: "correrEsq", 
-        frames: this.anims.generateFrameNumbers("correndoEsq", { start: 0, end: 0 }), 
-        frameRate: 10, 
-        repeat: -1 
-    });
-
-    this.anims.create({ 
-        key: "pular", 
-        frames: this.anims.generateFrameNumbers("pulando", { start: 0, end: 0 }), 
-        frameRate: 5 
-    });
-
-    this.cursors = this.input.keyboard.createCursorKeys();
+    
+    // (Incluir aqui as animações do seu código anterior)
 }
 
 function update() {
-    // Lógica de movimentação
-    if (this.cursors.left.isDown) {
-        this.perola.setVelocityX(-160);
-        this.perola.anims.play("correrEsq", true);
-    } else if (this.cursors.right.isDown) {
-        this.perola.setVelocityX(160);
-        this.perola.anims.play("correrDir", true);
-    } else {
-        this.perola.setVelocityX(0);
-        this.perola.anims.stop();
-    }
-
-    // Lógica do pulo
-    if (this.cursors.up.isDown && this.perola.body.touching.down) {
-        this.perola.setVelocityY(-350);
-        this.perola.anims.play("pular", true);
+    if (gameState === 'jogando' && this.perola) {
+        // Lógica de movimento que já criamos
+        if (this.cursors.left.isDown) { ... }
     }
 }
