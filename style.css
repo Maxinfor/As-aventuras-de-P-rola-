@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    overflow: hidden; /* Remove barras de rolagem */
+    background-color: #f0f0f0;
+}
+
+canvas {
+    display: block;
+    background-color: #87CEEB; /* Cor de céu azul */
+}
