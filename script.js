@@ -7,8 +7,8 @@ canvas.height = window.innerHeight;
 const perola = {
     x: 50,
     y: 300,
-    largura: 100,
-    altura: 100,
+    largura: 300,
+    altura: 200,
     velocidade: 10,
     imgAtual: new Image()
 };
