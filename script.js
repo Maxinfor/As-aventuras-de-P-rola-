@@ -15,7 +15,7 @@ const perola = {
     imagem: new Image()
 };
 
-perola.imagem.src = 'assets/andando.png'; // Garanta que a imagem esteja na pasta assets
+perola.imagem.src = 'andando.png'; // Garanta que a imagem esteja na pasta assets
 
 // Função para desenhar a Pérola
 function desenhar() {
