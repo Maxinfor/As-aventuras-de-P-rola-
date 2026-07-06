@@ -1,34 +1,45 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Ajusta o tamanho do canvas para a tela toda
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Objeto da personagem
 const perola = {
     x: 50,
     y: 300,
     largura: 100,
     altura: 100,
     velocidade: 10,
-    imagem: new Image()
+    imgAtual: new Image()
 };
 
-perola.imagem.src = 'andando.png'; // Garanta que a imagem esteja na pasta assets
+// Carrega a imagem inicial
+perola.imgAtual.src = 'andando.png'; 
 
-// Função para desenhar a Pérola
 function desenhar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa a tela
-    ctx.drawImage(perola.imagem, perola.x, perola.y, perola.largura, perola.altura);
-    requestAnimationFrame(desenhar); // Mantém o desenho constante
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(perola.imgAtual, perola.x, perola.y, perola.largura, perola.altura);
+    requestAnimationFrame(desenhar);
 }
 
-// Controle pelo teclado
-window.addEventListener('keydown', (evento) => {
-    if (evento.key === 'ArrowRight') perola.x += perola.velocidade;
-    if (evento.key === 'ArrowLeft') perola.x -= perola.velocidade;
+// Lógica de troca de imagem
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+        perola.x += perola.velocidade;
+        perola.imgAtual.src = 'passolargo.png'; // Troca a imagem
+    }
+    if (e.key === 'ArrowLeft') {
+        perola.x -= perola.velocidade;
+        perola.imgAtual.src = 'correndoesquerda.png'; // Troca a imagem
+    }
+    if (e.key === 'ArrowUp') {
+        perola.imgAtual.src = 'pulando.png'; // Troca para pulando
+    }
 });
 
-// Inicia o jogo
+// Volta para a imagem original quando soltar a tecla
+window.addEventListener('keyup', () => {
+    perola.imgAtual.src = 'andando.png';
+});
+
 desenhar();
