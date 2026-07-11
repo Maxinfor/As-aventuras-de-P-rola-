@@ -30,14 +30,14 @@
             cursor: pointer;
         }
         
-        /* Tela Inicial - Estilo Fofo */
+        /* Tela Inicial */
         #start-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 30, 0.85);
+            background: rgba(10, 10, 30, 0.88);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
@@ -54,22 +54,20 @@
         }
         
         #start-screen .logo {
-            font-size: 7rem;
+            font-size: 6rem;
             animation: float 3s ease-in-out infinite;
             text-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-25px) rotate(2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
         
         #start-screen h1 {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             color: #FFD700;
-            text-shadow: 
-                0 0 30px rgba(255, 215, 0, 0.3),
-                0 4px 20px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.3);
             margin: 10px 0;
             text-align: center;
             font-weight: 900;
@@ -77,21 +75,16 @@
         }
         
         #start-screen .subtitle {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #87CEEB;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         }
         
-        #start-screen .subtitle .emoji {
-            display: inline-block;
-            animation: float 2s ease-in-out infinite;
-        }
-        
         .btn-start {
-            padding: 22px 60px;
-            font-size: 2rem;
+            padding: 18px 50px;
+            font-size: 1.8rem;
             border: none;
             border-radius: 30px;
             background: linear-gradient(135deg, #FF6B6B, #FF4757);
@@ -101,7 +94,7 @@
             transition: all 0.3s ease;
             font-family: 'Comic Sans MS', cursive;
             box-shadow: 0 8px 40px rgba(255, 71, 87, 0.4);
-            margin: 10px 0;
+            margin: 8px 0;
             letter-spacing: 1px;
         }
         
@@ -115,8 +108,8 @@
         }
         
         .btn-secondary {
-            padding: 14px 40px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.1rem;
             border: none;
             border-radius: 25px;
             background: linear-gradient(135deg, #4A90D9, #2C5F8A);
@@ -136,12 +129,12 @@
         
         .controls-info {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.95rem;
-            margin-top: 20px;
+            font-size: 0.9rem;
+            margin-top: 15px;
             text-align: center;
             line-height: 2.2;
             background: rgba(0, 0, 0, 0.3);
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 20px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -151,14 +144,14 @@
         .controls-info .key {
             display: inline-block;
             background: rgba(255, 255, 255, 0.15);
-            padding: 2px 14px;
+            padding: 2px 12px;
             border-radius: 10px;
             font-weight: bold;
             color: #fff;
             margin: 0 3px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            min-width: 30px;
+            font-size: 0.85rem;
+            min-width: 28px;
         }
         
         .controls-info .highlight {
@@ -178,13 +171,13 @@
         
         #lives-display {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             color: white;
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             background: rgba(0, 0, 0, 0.35);
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 25px;
             backdrop-filter: blur(10px);
             font-family: 'Comic Sans MS', cursive;
@@ -197,7 +190,7 @@
         
         #lives-display .heart {
             color: #FF4757;
-            font-size: 2rem;
+            font-size: 1.8rem;
             animation: heartbeat 1.2s ease-in-out infinite;
         }
         
@@ -208,14 +201,14 @@
         
         #score-display {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             color: white;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             background: rgba(0, 0, 0, 0.35);
-            padding: 10px 25px;
+            padding: 8px 20px;
             border-radius: 25px;
             backdrop-filter: blur(10px);
             font-family: 'Comic Sans MS', cursive;
@@ -223,12 +216,12 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         
         #score-display .star-icon {
             color: #FFD700;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             animation: spinStar 3s linear infinite;
         }
         
@@ -245,7 +238,7 @@
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
             background: rgba(10, 10, 30, 0.95);
-            padding: 40px 50px;
+            padding: 35px 45px;
             border-radius: 40px;
             text-align: center;
             color: white;
@@ -255,7 +248,7 @@
             z-index: 100;
             pointer-events: all;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            min-width: 320px;
+            min-width: 300px;
         }
         
         #game-over.show {
@@ -263,14 +256,14 @@
         }
         
         #game-over .emoji-big {
-            font-size: 5rem;
+            font-size: 4.5rem;
             display: block;
             margin-bottom: 10px;
             animation: float 2s ease-in-out infinite;
         }
         
         #game-over h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #FFD700;
             margin: 10px 0;
             font-family: 'Comic Sans MS', cursive;
@@ -278,21 +271,21 @@
         }
         
         #game-over .final-score {
-            font-size: 1.8rem;
-            margin: 20px 0;
+            font-size: 1.6rem;
+            margin: 18px 0;
             color: #87CEEB;
         }
         
         #game-over .final-score span {
             color: #FFD700;
-            font-size: 3rem;
+            font-size: 2.8rem;
             display: inline-block;
             animation: spinStar 2s linear infinite;
         }
         
-        #game-over .btn-restart {
-            padding: 18px 50px;
-            font-size: 1.5rem;
+        .btn-restart {
+            padding: 16px 45px;
+            font-size: 1.3rem;
             border: none;
             border-radius: 25px;
             background: linear-gradient(135deg, #FFD700, #FFA500);
@@ -305,35 +298,34 @@
             margin-top: 10px;
         }
         
-        #game-over .btn-restart:hover {
+        .btn-restart:hover {
             transform: scale(1.05);
             box-shadow: 0 12px 50px rgba(255, 215, 0, 0.5);
         }
         
-        /* Responsivo */
         @media (max-width: 768px) {
-            #start-screen h1 { font-size: 2.8rem; }
-            #start-screen .logo { font-size: 5rem; }
-            #start-screen .subtitle { font-size: 1.2rem; }
-            .btn-start { font-size: 1.3rem; padding: 16px 35px; }
-            .btn-secondary { font-size: 1rem; padding: 10px 25px; }
-            .controls-info { font-size: 0.75rem; padding: 12px 18px; max-width: 90%; }
-            #lives-display { font-size: 1.3rem; padding: 6px 14px; top: 10px; left: 10px; }
-            #lives-display .heart { font-size: 1.3rem; }
-            #score-display { font-size: 1.3rem; padding: 6px 14px; top: 10px; right: 10px; }
-            #score-display .star-icon { font-size: 1.6rem; }
+            #start-screen h1 { font-size: 2.5rem; }
+            #start-screen .logo { font-size: 4.5rem; }
+            #start-screen .subtitle { font-size: 1.1rem; }
+            .btn-start { font-size: 1.2rem; padding: 14px 30px; }
+            .btn-secondary { font-size: 0.9rem; padding: 10px 20px; }
+            .controls-info { font-size: 0.7rem; padding: 10px 15px; max-width: 95%; }
+            #lives-display { font-size: 1.2rem; padding: 5px 12px; top: 10px; left: 10px; }
+            #lives-display .heart { font-size: 1.2rem; }
+            #score-display { font-size: 1.2rem; padding: 5px 12px; top: 10px; right: 10px; }
+            #score-display .star-icon { font-size: 1.5rem; }
             #game-over { padding: 25px 20px; min-width: auto; width: 90%; }
             #game-over .emoji-big { font-size: 3.5rem; }
-            #game-over h1 { font-size: 2.5rem; }
-            #game-over .final-score { font-size: 1.2rem; }
+            #game-over h1 { font-size: 2.2rem; }
+            #game-over .final-score { font-size: 1.1rem; }
             #game-over .final-score span { font-size: 2rem; }
-            #game-over .btn-restart { font-size: 1.1rem; padding: 14px 30px; }
+            .btn-restart { font-size: 1rem; padding: 12px 25px; }
         }
         
         @media (max-width: 400px) {
             #start-screen h1 { font-size: 2rem; }
             #start-screen .logo { font-size: 3.5rem; }
-            .btn-start { font-size: 1rem; padding: 14px 25px; }
+            .btn-start { font-size: 1rem; padding: 12px 20px; }
         }
     </style>
 </head>
@@ -343,9 +335,7 @@
     <div id="start-screen">
         <div class="logo">🌊</div>
         <h1>As Aventuras de Pérola</h1>
-        <div class="subtitle">
-            <span class="emoji">🐚</span> Ajude a Pérola a coletar estrelas!
-        </div>
+        <div class="subtitle">🐚 Ajude a Pérola a coletar estrelas!</div>
         <button class="btn-start" onclick="startGame()">🎮 Começar</button>
         <button class="btn-secondary" onclick="toggleControls()">🎯 Como Jogar</button>
         <div class="controls-info" id="controls-info" style="display:none;">
@@ -381,12 +371,12 @@
     
     <script>
         // ============================================================
-        //  CANVAS
+        // CANVAS
         // ============================================================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        
         let W, H;
+        
         function resizeCanvas() {
             W = canvas.width = window.innerWidth;
             H = canvas.height = window.innerHeight;
@@ -395,7 +385,7 @@
         window.addEventListener('resize', resizeCanvas);
         
         // ============================================================
-        //  ESTADO DO JOGO
+        // ESTADO DO JOGO
         // ============================================================
         let gameRunning = false;
         let score = 0;
@@ -405,10 +395,9 @@
         let obstacleSpawnTimer = 0;
         let particles = [];
         let animId = null;
-        let gameLoopId = null;
         
         // ============================================================
-        //  PÉROLA
+        // PÉROLA
         // ============================================================
         const perola = {
             x: 100,
@@ -434,10 +423,10 @@
                 
                 ctx.save();
                 
-                // Sombra no chão
-                ctx.shadowColor = 'rgba(0,0,0,0.2)';
-                ctx.shadowBlur = 20;
-                ctx.shadowOffsetY = 8;
+                // Sombra
+                ctx.shadowColor = 'rgba(0,0,0,0.15)';
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetY = 5;
                 
                 // VESTIDO
                 const gradVestido = ctx.createRadialGradient(
@@ -462,7 +451,7 @@
                 ctx.lineWidth = 2;
                 ctx.stroke();
                 
-                // Laço no vestido
+                // Laço
                 ctx.shadowBlur = 5;
                 ctx.fillStyle = '#FF6B8A';
                 ctx.beginPath();
@@ -500,7 +489,6 @@
                 // CABELO
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#8B4513';
-                // Cabelo topo
                 ctx.beginPath();
                 ctx.arc(cabecaX - 8, cabecaY - 16, 14, 0, Math.PI * 2);
                 ctx.fill();
@@ -528,7 +516,6 @@
                 
                 // OLHOS
                 ctx.shadowBlur = 0;
-                // Branco dos olhos
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
                 ctx.ellipse(cabecaX - 9, cabecaY - 2, 7, 8, 0, 0, Math.PI * 2);
@@ -537,7 +524,6 @@
                 ctx.ellipse(cabecaX + 9, cabecaY - 2, 7, 8, 0, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // Íris
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
                 ctx.arc(cabecaX - 7, cabecaY - 1, 4.5, 0, Math.PI * 2);
@@ -546,7 +532,6 @@
                 ctx.arc(cabecaX + 11, cabecaY - 1, 4.5, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // Brilho nos olhos
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
                 ctx.arc(cabecaX - 8, cabecaY - 4, 2, 0, Math.PI * 2);
@@ -569,7 +554,7 @@
                     ctx.stroke();
                 }
                 
-                // BOCA (sorriso)
+                // BOCA
                 ctx.beginPath();
                 ctx.arc(cabecaX, cabecaY + 7, 9, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#CC4466';
@@ -596,11 +581,9 @@
                 // BRAÇOS
                 ctx.shadowBlur = 4;
                 ctx.fillStyle = '#F5C4A8';
-                // Braço esquerdo
                 ctx.beginPath();
                 ctx.ellipse(this.x + 8, this.y + 45, 7, 12, 0.3, 0, Math.PI * 2);
                 ctx.fill();
-                // Braço direito
                 ctx.beginPath();
                 ctx.ellipse(this.x + this.largura - 8, this.y + 45, 7, 12, -0.3, 0, Math.PI * 2);
                 ctx.fill();
@@ -640,20 +623,19 @@
         };
         
         // ============================================================
-        //  ESTRELAS
+        // ESTRELAS
         // ============================================================
         class Estrela {
             constructor() {
                 this.x = W + 50;
                 this.y = Math.random() * (H - 250) + 100;
-                this.raio = 18 + Math.random() * 10;
+                this.raio = 16 + Math.random() * 10;
                 this.velocidade = 2 + Math.random() * 2.5;
                 this.brilho = 1;
                 this.rotacao = Math.random() * Math.PI * 2;
                 this.coletada = false;
                 this.tipo = Math.random() > 0.75 ? 'dourada' : 'normal';
                 this.tamanho = this.tipo === 'dourada' ? 1.4 : 1;
-                this.pulos = 0;
             }
             
             desenhar() {
@@ -664,9 +646,9 @@
                 ctx.rotate(this.rotacao);
                 ctx.scale(this.tamanho, this.tamanho);
                 
-                // Brilho externo
+                // Brilho
                 const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.raio * 2);
-                const corBase = this.tipo === 'dourada' ? '255,215,0' : '255,215,0';
+                const corBase = '255,215,0';
                 grad.addColorStop(0, `rgba(${corBase},${0.2 * this.brilho})`);
                 grad.addColorStop(0.5, `rgba(${corBase},${0.1 * this.brilho})`);
                 grad.addColorStop(1, `rgba(${corBase},0)`);
@@ -691,32 +673,25 @@
                 }
                 ctx.closePath();
                 
-                const cor = this.tipo === 'dourada' ? '#FFD700' : '#FFD700';
                 const gradEstrela = ctx.createRadialGradient(-3, -3, 0, 0, 0, this.raio);
-                if (this.tipo === 'dourada') {
-                    gradEstrela.addColorStop(0, '#FFE066');
-                    gradEstrela.addColorStop(0.5, '#FFD700');
-                    gradEstrela.addColorStop(1, '#FFA500');
-                } else {
-                    gradEstrela.addColorStop(0, '#FFE066');
-                    gradEstrela.addColorStop(0.5, '#FFD700');
-                    gradEstrela.addColorStop(1, '#FFA500');
-                }
+                gradEstrela.addColorStop(0, '#FFE066');
+                gradEstrela.addColorStop(0.5, '#FFD700');
+                gradEstrela.addColorStop(1, '#FFA500');
                 ctx.fillStyle = gradEstrela;
                 ctx.fill();
-                ctx.strokeStyle = this.tipo === 'dourada' ? '#FF8C00' : '#FFA500';
+                ctx.strokeStyle = '#FFA500';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
                 
                 // Brilho
                 if (this.brilho > 0.6) {
-                    ctx.shadowColor = this.tipo === 'dourada' ? 'rgba(255,215,0,0.6)' : 'rgba(255,215,0,0.3)';
+                    ctx.shadowColor = 'rgba(255,215,0,0.4)';
                     ctx.shadowBlur = 25;
                     ctx.fill();
                     ctx.shadowBlur = 0;
                 }
                 
-                // Olhos na estrela (fofo)
+                // Olhos (estrela dourada)
                 if (this.tipo === 'dourada') {
                     ctx.fillStyle = '#2C3E50';
                     ctx.beginPath();
@@ -732,7 +707,6 @@
                     ctx.beginPath();
                     ctx.arc(4.5, -4, 1, 0, Math.PI * 2);
                     ctx.fill();
-                    // Sorriso
                     ctx.beginPath();
                     ctx.arc(0, 2, 4, 0.1, Math.PI - 0.1);
                     ctx.strokeStyle = '#2C3E50';
@@ -753,7 +727,7 @@
             
             coletar() {
                 this.coletada = true;
-                const cor = this.tipo === 'dourada' ? '#FFD700' : '#FFD700';
+                const cor = '#FFD700';
                 criarExplosao(this.x, this.y, cor, this.tipo === 'dourada' ? 30 : 20);
                 score += this.tipo === 'dourada' ? 5 : 1;
                 document.getElementById('score').textContent = score;
@@ -761,7 +735,7 @@
         }
         
         // ============================================================
-        //  OBSTÁCULOS (Fofos)
+        // OBSTÁCULOS
         // ============================================================
         class Obstaculo {
             constructor() {
@@ -773,7 +747,6 @@
                 this.tipo = Math.random() > 0.5 ? 'espinho' : 'agua_viva';
                 this.rotacao = 0;
                 this.animOffset = Math.random() * Math.PI * 2;
-                this.pulos = 0;
             }
             
             desenhar() {
@@ -782,7 +755,6 @@
                 ctx.rotate(this.rotacao);
                 
                 if (this.tipo === 'espinho') {
-                    // Estrela do mar vermelha (fofa)
                     const points = 5;
                     const outerRadius = this.largura/2;
                     const innerRadius = outerRadius * 0.35;
@@ -833,7 +805,7 @@
                     ctx.fill();
                     
                 } else {
-                    // Água-viva fofa
+                    // Água-viva
                     const grad = ctx.createRadialGradient(0, -5, 0, 0, 0, this.largura/2);
                     grad.addColorStop(0, 'rgba(200,230,255,0.4)');
                     grad.addColorStop(0.5, 'rgba(150,200,255,0.3)');
@@ -846,7 +818,7 @@
                     ctx.lineWidth = 1.5;
                     ctx.stroke();
                     
-                    // Tentáculos dançantes
+                    // Tentáculos
                     for (let i = 0; i < 6; i++) {
                         const angle = (i / 6) * Math.PI * 2 + this.animOffset;
                         const length = 18 + Math.sin(frameCount * 0.04 + i * 1.2) * 8;
@@ -864,7 +836,7 @@
                         ctx.stroke();
                     }
                     
-                    // Olhos fofos
+                    // Olhos
                     ctx.fillStyle = '#2C3E50';
                     ctx.beginPath();
                     ctx.arc(-6, -3, 3, 0, Math.PI * 2);
@@ -879,7 +851,6 @@
                     ctx.beginPath();
                     ctx.arc(7, -4, 1.5, 0, Math.PI * 2);
                     ctx.fill();
-                    // Sorriso
                     ctx.beginPath();
                     ctx.arc(0, 3, 5, 0.1, Math.PI - 0.1);
                     ctx.strokeStyle = '#2C3E50';
@@ -907,7 +878,7 @@
         }
         
         // ============================================================
-        //  PARTÍCULAS
+        // PARTÍCULAS
         // ============================================================
         function criarExplosao(x, y, cor, quantidade = 15) {
             for (let i = 0; i < quantidade; i++) {
@@ -921,8 +892,7 @@
                     life: 1,
                     decay: 0.008 + Math.random() * 0.02,
                     radius: 2 + Math.random() * 5,
-                    cor: cor || '#FFD700',
-                    tipo: 'estrela'
+                    cor: cor || '#FFD700'
                 });
             }
         }
@@ -937,8 +907,7 @@
                     life: 1,
                     decay: 0.015 + Math.random() * 0.02,
                     radius: 2 + Math.random() * 4,
-                    cor: '#87CEEB',
-                    tipo: 'agua'
+                    cor: '#87CEEB'
                 });
             }
         }
@@ -973,13 +942,13 @@
         }
         
         // ============================================================
-        //  LISTAS
+        // LISTAS
         // ============================================================
         let estrelas = [];
         let obstaculos = [];
         
         // ============================================================
-        //  COLISÕES
+        // COLISÕES
         // ============================================================
         function rectCollision(a, b) {
             return a.x < b.x + b.width &&
@@ -1024,7 +993,7 @@
         }
         
         // ============================================================
-        //  VIDA
+        // VIDA
         // ============================================================
         function perderVida() {
             lives--;
@@ -1049,7 +1018,7 @@
         }
         
         // ============================================================
-        //  GAME OVER
+        // GAME OVER
         // ============================================================
         function gameOver() {
             gameRunning = false;
@@ -1067,7 +1036,7 @@
         }
         
         // ============================================================
-        //  CONTROLES
+        // CONTROLES
         // ============================================================
         function toggleControls() {
             const info = document.getElementById('controls-info');
@@ -1075,7 +1044,7 @@
         }
         
         // ============================================================
-        //  INICIAR JOGO
+        // INICIAR JOGO
         // ============================================================
         function startGame() {
             document.getElementById('start-screen').style.display = 'none';
@@ -1106,7 +1075,7 @@
         }
         
         // ============================================================
-        //  LOOP PRINCIPAL
+        // LOOP PRINCIPAL
         // ============================================================
         function loop() {
             if (!gameRunning) {
@@ -1121,7 +1090,7 @@
         }
         
         function atualizarJogo() {
-            // Física da Pérola
+            // Física
             perola.velocidadeY += perola.gravidade;
             perola.y += perola.velocidadeY;
             
@@ -1154,7 +1123,7 @@
                 }
             }
             
-            // Atualizar objetos
+            // Atualizar
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 estrelas[i].atualizar();
                 if (estrelas[i].x < -50) estrelas.splice(i, 1);
@@ -1228,7 +1197,7 @@
         }
         
         // ============================================================
-        //  DECORAÇÕES
+        // DECORAÇÕES
         // ============================================================
         let nuvens = [];
         for (let i = 0; i < 6; i++) {
@@ -1337,7 +1306,7 @@
         }
         
         // ============================================================
-        //  CONTROLES - TECLADO E TOQUE
+        // CONTROLES - TECLADO
         // ============================================================
         const keys = {};
         
@@ -1359,14 +1328,12 @@
         
         // TOUCH
         let touchX = null;
-        let touchY = null;
         
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             const touch = e.touches[0];
             const rect = canvas.getBoundingClientRect();
             touchX = touch.clientX - rect.left;
-            touchY = touch.clientY - rect.top;
             
             if (perola.noChao && gameRunning) {
                 perola.velocidadeY = perola.pulo;
@@ -1395,7 +1362,6 @@
         canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
             touchX = null;
-            touchY = null;
         }, { passive: false });
         
         // Movimento contínuo
@@ -1413,7 +1379,7 @@
         }, 16);
         
         // ============================================================
-        //  REDIMENSIONAR
+        // REDIMENSIONAR
         // ============================================================
         window.addEventListener('resize', () => {
             resizeCanvas();
@@ -1423,7 +1389,7 @@
         });
         
         // ============================================================
-        //  INICIAR
+        // INICIAR
         // ============================================================
         console.log('🌊 As Aventuras de Pérola');
         console.log('🎮 Use as setas ou WASD para mover');
