@@ -1,45 +1,1222 @@
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const perola = {
-    x: 50,
-    y: 300,
-    largura: 300,
-    altura: 200,
-    velocidade: 10,
-    imgAtual: new Image()
-};
-
-// Carrega a imagem inicial
-perola.imgAtual.src = 'andando.png'; 
-
-function desenhar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(perola.imgAtual, perola.x, perola.y, perola.largura, perola.altura);
-    requestAnimationFrame(desenhar);
-}
-
-// Lógica de troca de imagem
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') {
-        perola.x += perola.velocidade;
-        perola.imgAtual.src = 'passolargo.png'; // Troca a imagem
-    }
-    if (e.key === 'ArrowLeft') {
-        perola.x -= perola.velocidade;
-        perola.imgAtual.src = 'correndoesquerda.png'; // Troca a imagem
-    }
-    if (e.key === 'ArrowUp') {
-        perola.imgAtual.src = 'pulando.png'; // Troca para pulando
-    }
-});
-
-// Volta para a imagem original quando soltar a tecla
-window.addEventListener('keyup', () => {
-    perola.imgAtual.src = 'andando.png';
-});
-
-desenhar();
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌊 As Aventuras de Pérola</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a1a;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            touch-action: none;
+            user-select: none;
+        }
+        
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #87CEEB 0%, #4A90D9 50%, #2C5F8A 100%);
+            cursor: default;
+        }
+        
+        #ui-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        #score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            font-family: 'Comic Sans MS', cursive;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #score-display .star {
+            color: #FFD700;
+            font-size: 2.5rem;
+            animation: twinkle 1s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        #lives-display {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 2rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            font-family: 'Comic Sans MS', cursive;
+            z-index: 20;
+        }
+        
+        #game-over {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            padding: 40px 60px;
+            border-radius: 30px;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(20px);
+            border: 3px solid #FFD700;
+            box-shadow: 0 0 100px rgba(255,215,0,0.2);
+            z-index: 30;
+            display: none;
+            pointer-events: all;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        
+        #game-over h1 {
+            font-size: 4rem;
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        
+        #game-over .final-score {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #87CEEB;
+        }
+        
+        #game-over button {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Comic Sans MS', cursive;
+            margin-top: 10px;
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+        
+        #game-over button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255,215,0,0.5);
+        }
+        
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 40;
+            pointer-events: all;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        #start-screen h1 {
+            font-size: 5rem;
+            color: #FFD700;
+            font-family: 'Comic Sans MS', cursive;
+            text-shadow: 0 0 50px rgba(255,215,0,0.3);
+            margin-bottom: 20px;
+        }
+        
+        #start-screen .subtitle {
+            font-size: 1.5rem;
+            color: #87CEEB;
+            margin-bottom: 40px;
+        }
+        
+        #start-screen button {
+            padding: 20px 60px;
+            font-size: 2rem;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #FF6B6B, #FF4757);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Comic Sans MS', cursive;
+            box-shadow: 0 8px 30px rgba(255,71,87,0.4);
+        }
+        
+        #start-screen button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(255,71,87,0.6);
+        }
+        
+        .controls-info {
+            color: rgba(255,255,255,0.5);
+            font-size: 1rem;
+            margin-top: 30px;
+            text-align: center;
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 768px) {
+            #start-screen h1 { font-size: 3rem; }
+            #start-screen .subtitle { font-size: 1rem; }
+            #start-screen button { font-size: 1.2rem; padding: 15px 30px; }
+            #score-display { font-size: 1.2rem; padding: 6px 12px; }
+            #lives-display { font-size: 1.2rem; padding: 6px 12px; }
+            #game-over h1 { font-size: 2.5rem; }
+            #game-over .final-score { font-size: 1.2rem; }
+            #game-over button { font-size: 1rem; padding: 10px 25px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Tela Inicial -->
+    <div id="start-screen">
+        <h1>🌊 As Aventuras de Pérola</h1>
+        <div class="subtitle">🐚 Ajude a Pérola a coletar estrelas do mar!</div>
+        <button onclick="startGame()">🎮 Começar</button>
+        <div class="controls-info">
+            ⬅️ ➡️ Mover | ⬆️ Pular | 🌟 Colete estrelas<br>
+            🎯 Desvie dos obstáculos!
+        </div>
+    </div>
+    
+    <!-- Interface do Jogo -->
+    <div id="ui-overlay">
+        <div id="lives-display">❤️ <span id="lives">3</span></div>
+        <div id="score-display">
+            <span class="star">⭐</span>
+            <span id="score">0</span>
+        </div>
+    </div>
+    
+    <!-- Game Over -->
+    <div id="game-over">
+        <h1>💫 Fim de Jogo!</h1>
+        <div class="final-score">⭐ Estrelas: <span id="final-score">0</span></div>
+        <button onclick="reiniciarJogo()">🔄 Jogar Novamente</button>
+    </div>
+    
+    <canvas id="gameCanvas"></canvas>
+    
+    <script>
+        // ============================================================
+        //  INICIALIZAÇÃO DO CANVAS
+        // ============================================================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let W, H;
+        function resizeCanvas() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // ============================================================
+        //  ESTADO DO JOGO
+        // ============================================================
+        let gameRunning = false;
+        let score = 0;
+        let lives = 3;
+        let frameCount = 0;
+        let starSpawnTimer = 0;
+        let obstacleSpawnTimer = 0;
+        let particles = [];
+        let animId = null;
+        
+        // ============================================================
+        //  PÉROLA (Personagem)
+        // ============================================================
+        const perola = {
+            x: 100,
+            y: 0,
+            largura: 80,
+            altura: 90,
+            velocidadeX: 0,
+            velocidadeY: 0,
+            gravidade: 0.6,
+            pulo: -14,
+            noChao: false,
+            escala: 1,
+            cor: '#FF6B6B',
+            sombra: true,
+            pulando: false,
+            
+            reset() {
+                this.x = 100;
+                this.y = H - 200;
+                this.velocidadeX = 0;
+                this.velocidadeY = 0;
+                this.noChao = false;
+                this.pulando = false;
+                this.escala = 1;
+            },
+            
+            desenhar() {
+                const cx = this.x + this.largura/2;
+                const cy = this.y + this.altura/2;
+                
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(this.escala, this.escala);
+                ctx.translate(-cx, -cy);
+                
+                // Sombra
+                if (this.sombra) {
+                    ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                    ctx.shadowBlur = 20;
+                    ctx.shadowOffsetY = 5;
+                }
+                
+                // Corpo (vestido)
+                const gradient = ctx.createRadialGradient(
+                    this.x + 20, this.y + 20, 10,
+                    this.x + 40, this.y + 40, 50
+                );
+                gradient.addColorStop(0, '#FF8A8A');
+                gradient.addColorStop(0.5, '#FF6B6B');
+                gradient.addColorStop(1, '#CC4444');
+                
+                // Vestido (traço)
+                ctx.beginPath();
+                ctx.ellipse(
+                    this.x + this.largura/2,
+                    this.y + this.altura * 0.6,
+                    this.largura * 0.4,
+                    this.altura * 0.45,
+                    0, 0, Math.PI * 2
+                );
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.strokeStyle = '#CC4444';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Cabeça
+                const cabecaX = this.x + this.largura/2;
+                const cabecaY = this.y + 25;
+                const raio = 28;
+                
+                const gradCabeca = ctx.createRadialGradient(
+                    cabecaX - 5, cabecaY - 5, 5,
+                    cabecaX, cabecaY, raio
+                );
+                gradCabeca.addColorStop(0, '#FFD5C2');
+                gradCabeca.addColorStop(1, '#F5C4A8');
+                
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(cabecaX, cabecaY, raio, 0, Math.PI * 2);
+                ctx.fillStyle = gradCabeca;
+                ctx.fill();
+                ctx.strokeStyle = '#E8B89A';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Cabelo
+                ctx.shadowBlur = 0;
+                ctx.beginPath();
+                ctx.arc(cabecaX - 10, cabecaY - 15, 15, 0, Math.PI * 2);
+                ctx.fillStyle = '#8B4513';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX + 10, cabecaY - 15, 15, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX, cabecaY - 20, 18, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Olhos
+                ctx.shadowBlur = 0;
+                // Olho esquerdo
+                ctx.beginPath();
+                ctx.arc(cabecaX - 10, cabecaY - 2, 7, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX - 8, cabecaY - 1, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#2C3E50';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX - 9, cabecaY - 3, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                
+                // Olho direito
+                ctx.beginPath();
+                ctx.arc(cabecaX + 10, cabecaY - 2, 7, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX + 12, cabecaY - 1, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#2C3E50';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX + 11, cabecaY - 3, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                
+                // Boca (sorriso)
+                ctx.beginPath();
+                ctx.arc(cabecaX, cabecaY + 8, 10, 0, Math.PI);
+                ctx.strokeStyle = '#CC4444';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Bochechas
+                ctx.globalAlpha = 0.3;
+                ctx.beginPath();
+                ctx.arc(cabecaX - 18, cabecaY + 5, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#FF6B6B';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cabecaX + 18, cabecaY + 5, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                
+                // Braços
+                ctx.shadowBlur = 0;
+                ctx.beginPath();
+                ctx.arc(this.x + 10, this.y + 50, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#F5C4A8';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(this.x + this.largura - 10, this.y + 50, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Brilho nos olhos (animação)
+                if (Math.random() > 0.95) {
+                    ctx.beginPath();
+                    ctx.arc(cabecaX - 9, cabecaY - 5, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(cabecaX + 11, cabecaY - 5, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+                
+                // Reset shadow
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+            }
+        };
+        
+        // ============================================================
+        //  ESTRELAS (Coletáveis)
+        // ============================================================
+        class Estrela {
+            constructor() {
+                this.x = W + 50;
+                this.y = Math.random() * (H - 250) + 100;
+                this.raio = 20 + Math.random() * 10;
+                this.velocidade = 2 + Math.random() * 2;
+                this.brilho = 1;
+                this.rotacao = Math.random() * Math.PI * 2;
+                this.coletada = false;
+                this.tipo = Math.random() > 0.7 ? 'dourada' : 'normal';
+                this.tamanho = this.tipo === 'dourada' ? 1.3 : 1;
+            }
+            
+            desenhar() {
+                if (this.coletada) return;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotacao);
+                ctx.scale(this.tamanho, this.tamanho);
+                
+                // Brilho
+                const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.raio * 1.5);
+                const cor = this.tipo === 'dourada' ? 'rgba(255,215,0,' : 'rgba(255,215,0,';
+                grad.addColorStop(0, cor + (0.3 * this.brilho) + ')');
+                grad.addColorStop(1, cor + '0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.raio * 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Estrela
+                const points = 5;
+                const outerRadius = this.raio;
+                const innerRadius = this.raio * 0.4;
+                
+                ctx.beginPath();
+                for (let i = 0; i < points * 2; i++) {
+                    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                    const angle = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                
+                const corEstrela = this.tipo === 'dourada' ? '#FFD700' : '#FFD700';
+                const gradEstrela = ctx.createRadialGradient(-5, -5, 0, 0, 0, this.raio);
+                gradEstrela.addColorStop(0, '#FFE066');
+                gradEstrela.addColorStop(0.7, '#FFD700');
+                gradEstrela.addColorStop(1, '#FFA500');
+                ctx.fillStyle = gradEstrela;
+                ctx.fill();
+                ctx.strokeStyle = '#FFA500';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Brilho nos pontos
+                if (this.brilho > 0.5) {
+                    ctx.shadowColor = 'rgba(255,215,0,0.5)';
+                    ctx.shadowBlur = 20;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+                
+                ctx.restore();
+            }
+            
+            atualizar() {
+                if (this.coletada) return;
+                this.x -= this.velocidade;
+                this.rotacao += 0.03;
+                this.brilho = 0.7 + Math.sin(frameCount * 0.05 + this.x) * 0.3;
+                
+                // Flutuação
+                this.y += Math.sin(frameCount * 0.03 + this.x * 0.01) * 0.2;
+            }
+            
+            coletar() {
+                this.coletada = true;
+                criarExplosao(this.x, this.y, '#FFD700', 20);
+                score += this.tipo === 'dourada' ? 5 : 1;
+                document.getElementById('score').textContent = score;
+            }
+        }
+        
+        // ============================================================
+        //  OBSTÁCULOS (Espinhos, Água-viva, etc)
+        // ============================================================
+        class Obstaculo {
+            constructor() {
+                this.x = W + 50;
+                this.y = H - 150 - Math.random() * 100;
+                this.largura = 40 + Math.random() * 30;
+                this.altura = 40 + Math.random() * 30;
+                this.velocidade = 3 + Math.random() * 2;
+                this.tipo = Math.random() > 0.5 ? 'espinho' : 'agua_viva';
+                this.rotacao = 0;
+                this.animOffset = Math.random() * Math.PI * 2;
+            }
+            
+            desenhar() {
+                ctx.save();
+                ctx.translate(this.x + this.largura/2, this.y + this.altura/2);
+                ctx.rotate(this.rotacao);
+                
+                if (this.tipo === 'espinho') {
+                    // Espinho (estrela do mar vermelha)
+                    const points = 5;
+                    const outerRadius = this.largura/2;
+                    const innerRadius = outerRadius * 0.3;
+                    
+                    ctx.beginPath();
+                    for (let i = 0; i < points * 2; i++) {
+                        const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                        const angle = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+                        const x = Math.cos(angle) * radius;
+                        const y = Math.sin(angle) * radius;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    
+                    const grad = ctx.createRadialGradient(-5, -5, 0, 0, 0, outerRadius);
+                    grad.addColorStop(0, '#FF6B6B');
+                    grad.addColorStop(0.5, '#DC143C');
+                    grad.addColorStop(1, '#8B0000');
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                    ctx.strokeStyle = '#8B0000';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Olhos malvados
+                    ctx.shadowBlur = 0;
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.beginPath();
+                    ctx.arc(-8, -5, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(8, -5, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#2C3E50';
+                    ctx.beginPath();
+                    ctx.arc(-7, -4, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(9, -4, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                } else {
+                    // Água-viva (transparente com tentáculos)
+                    ctx.shadowBlur = 0;
+                    
+                    // Corpo
+                    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.largura/2);
+                    grad.addColorStop(0, 'rgba(100,200,255,0.3)');
+                    grad.addColorStop(0.7, 'rgba(50,150,255,0.2)');
+                    grad.addColorStop(1, 'rgba(0,100,255,0.1)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.largura/2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(100,200,255,0.4)';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                    
+                    // Tentáculos
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (i / 6) * Math.PI * 2 + this.animOffset;
+                        const length = 20 + Math.sin(frameCount * 0.05 + i) * 10;
+                        ctx.beginPath();
+                        ctx.moveTo(Math.cos(angle) * this.largura/2 * 0.6, 
+                                  Math.sin(angle) * this.largura/2 * 0.6);
+                        ctx.quadraticCurveTo(
+                            Math.cos(angle) * (this.largura/2 + length * 0.5),
+                            Math.sin(angle) * (this.largura/2 + length * 0.5) + 10,
+                            Math.cos(angle) * (this.largura/2 + length),
+                            Math.sin(angle) * (this.largura/2 + length) + 20
+                        );
+                        ctx.strokeStyle = 'rgba(100,200,255,0.3)';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                    
+                    // Brilho interno
+                    ctx.shadowColor = 'rgba(100,200,255,0.2)';
+                    ctx.shadowBlur = 20;
+                    ctx.fillStyle = 'rgba(200,230,255,0.1)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.largura/3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+                
+                ctx.restore();
+            }
+            
+            atualizar() {
+                this.x -= this.velocidade;
+                this.rotacao += 0.02;
+                this.animOffset += 0.05;
+            }
+            
+            getBounds() {
+                return {
+                    x: this.x,
+                    y: this.y,
+                    width: this.largura,
+                    height: this.altura
+                };
+            }
+        }
+        
+        // ============================================================
+        //  PARTÍCULAS (Efeitos visuais)
+        // ============================================================
+        function criarExplosao(x, y, cor, quantidade = 15) {
+            for (let i = 0; i < quantidade; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 2 + Math.random() * 5;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 2,
+                    life: 1,
+                    decay: 0.01 + Math.random() * 0.02,
+                    radius: 3 + Math.random() * 5,
+                    cor: cor || '#FFD700',
+                    tipo: 'estrela'
+                });
+            }
+        }
+        
+        function criarSalpico(x, y) {
+            for (let i = 0; i < 10; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8 - 2,
+                    life: 1,
+                    decay: 0.015 + Math.random() * 0.02,
+                    radius: 2 + Math.random() * 4,
+                    cor: '#87CEEB',
+                    tipo: 'agua'
+                });
+            }
+        }
+        
+        function atualizarParticulas() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.1;
+                p.life -= p.decay;
+                p.radius *= 0.98;
+                
+                if (p.life <= 0 || p.radius < 0.5) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+        
+        function desenharParticulas() {
+            particles.forEach(p => {
+                ctx.globalAlpha = p.life;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.cor;
+                ctx.fill();
+                ctx.shadowColor = p.cor;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+            });
+        }
+        
+        // ============================================================
+        //  LISTAS DE OBJETOS
+        // ============================================================
+        let estrelas = [];
+        let obstaculos = [];
+        
+        // ============================================================
+        //  COLISÕES
+        // ============================================================
+        function rectCollision(a, b) {
+            return a.x < b.x + b.width &&
+                   a.x + a.width > b.x &&
+                   a.y < b.y + b.height &&
+                   a.y + a.height > b.y;
+        }
+        
+        function verificarColisoes() {
+            const perolaBounds = {
+                x: perola.x + 15,
+                y: perola.y + 15,
+                width: perola.largura - 30,
+                height: perola.altura - 30
+            };
+            
+            // Colisão com estrelas
+            for (let i = estrelas.length - 1; i >= 0; i--) {
+                const estrela = estrelas[i];
+                if (estrela.coletada) continue;
+                
+                const dx = (perola.x + perola.largura/2) - estrela.x;
+                const dy = (perola.y + perola.altura/2) - estrela.y;
+                const distancia = Math.sqrt(dx*dx + dy*dy);
+                
+                if (distancia < estrela.raio + 30) {
+                    estrela.coletar();
+                    estrelas.splice(i, 1);
+                }
+            }
+            
+            // Colisão com obstáculos
+            for (let i = obstaculos.length - 1; i >= 0; i--) {
+                const obs = obstaculos[i];
+                const obsBounds = obs.getBounds();
+                
+                if (rectCollision(perolaBounds, obsBounds)) {
+                    perderVida();
+                    obstaculos.splice(i, 1);
+                    criarExplosao(obs.x + obs.largura/2, obs.y + obs.altura/2, '#FF1744', 25);
+                    return;
+                }
+            }
+        }
+        
+        // ============================================================
+        //  GERENCIAMENTO DE VIDA
+        // ============================================================
+        function perderVida() {
+            lives--;
+            document.getElementById('lives').textContent = lives;
+            criarExplosao(perola.x + perola.largura/2, perola.y + perola.altura/2, '#FF6B6B', 30);
+            
+            if (lives <= 0) {
+                gameOver();
+            } else {
+                // Reset posição
+                perola.reset();
+                perola.y = H - 200;
+                // Efeito de piscar
+                let blinkCount = 0;
+                const blinkInterval = setInterval(() => {
+                    perola.visivel = !perola.visivel;
+                    blinkCount++;
+                    if (blinkCount > 6) {
+                        clearInterval(blinkInterval);
+                        perola.visivel = true;
+                    }
+                }, 200);
+            }
+        }
+        
+        // ============================================================
+        //  GAME OVER
+        // ============================================================
+        function gameOver() {
+            gameRunning = false;
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('game-over').style.display = 'block';
+            if (animId) {
+                cancelAnimationFrame(animId);
+                animId = null;
+            }
+        }
+        
+        function reiniciarJogo() {
+            document.getElementById('game-over').style.display = 'none';
+            startGame();
+        }
+        
+        // ============================================================
+        //  INICIAR JOGO
+        // ============================================================
+        function startGame() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('game-over').style.display = 'none';
+            
+            score = 0;
+            lives = 3;
+            frameCount = 0;
+            estrelas = [];
+            obstaculos = [];
+            particles = [];
+            
+            document.getElementById('score').textContent = '0';
+            document.getElementById('lives').textContent = '3';
+            
+            perola.reset();
+            perola.y = H - 200;
+            
+            gameRunning = true;
+            
+            if (animId) {
+                cancelAnimationFrame(animId);
+                animId = null;
+            }
+            loop();
+        }
+        
+        // ============================================================
+        //  LOOP PRINCIPAL
+        // ============================================================
+        function loop() {
+            if (!gameRunning) {
+                animId = requestAnimationFrame(loop);
+                return;
+            }
+            
+            frameCount++;
+            
+            // Atualizar
+            atualizarJogo();
+            
+            // Desenhar
+            desenharJogo();
+            
+            animId = requestAnimationFrame(loop);
+        }
+        
+        function atualizarJogo() {
+            // Pérola - Física
+            perola.velocidadeY += perola.gravidade;
+            perola.y += perola.velocidadeY;
+            
+            // Chão
+            const chao = H - 150;
+            if (perola.y + perola.altura > chao) {
+                perola.y = chao - perola.altura;
+                perola.velocidadeY = 0;
+                perola.noChao = true;
+                perola.pulando = false;
+            } else {
+                perola.noChao = false;
+            }
+            
+            // Limites laterais
+            if (perola.x < 0) perola.x = 0;
+            if (perola.x + perola.largura > W) perola.x = W - perola.largura;
+            
+            // Spawn de estrelas
+            starSpawnTimer++;
+            if (starSpawnTimer > 60 - Math.min(score / 10, 30)) {
+                starSpawnTimer = 0;
+                if (Math.random() > 0.3) {
+                    estrelas.push(new Estrela());
+                }
+            }
+            
+            // Spawn de obstáculos
+            obstacleSpawnTimer++;
+            if (obstacleSpawnTimer > 120 - Math.min(score / 5, 60)) {
+                obstacleSpawnTimer = 0;
+                if (Math.random() > 0.4) {
+                    obstaculos.push(new Obstaculo());
+                }
+            }
+            
+            // Atualizar estrelas
+            for (let i = estrelas.length - 1; i >= 0; i--) {
+                estrelas[i].atualizar();
+                if (estrelas[i].x < -50) {
+                    estrelas.splice(i, 1);
+                }
+            }
+            
+            // Atualizar obstáculos
+            for (let i = obstaculos.length - 1; i >= 0; i--) {
+                obstaculos[i].atualizar();
+                if (obstaculos[i].x < -50) {
+                    obstaculos.splice(i, 1);
+                }
+            }
+            
+            // Verificar colisões
+            verificarColisoes();
+            
+            // Atualizar partículas
+            atualizarParticulas();
+        }
+        
+        function desenharJogo() {
+            ctx.clearRect(0, 0, W, H);
+            
+            // Céu e fundo
+            const gradCeu = ctx.createLinearGradient(0, 0, 0, H);
+            gradCeu.addColorStop(0, '#87CEEB');
+            gradCeu.addColorStop(0.3, '#4A90D9');
+            gradCeu.addColorStop(0.6, '#2C5F8A');
+            gradCeu.addColorStop(1, '#1A3A5A');
+            ctx.fillStyle = gradCeu;
+            ctx.fillRect(0, 0, W, H);
+            
+            // Nuvens
+            desenharNuvens();
+            
+            // Fundo do mar (chão)
+            const chao = H - 150;
+            const gradChao = ctx.createLinearGradient(0, chao, 0, H);
+            gradChao.addColorStop(0, '#F4A460');
+            gradChao.addColorStop(0.2, '#D2691E');
+            gradChao.addColorStop(0.5, '#8B4513');
+            gradChao.addColorStop(1, '#2C1810');
+            ctx.fillStyle = gradChao;
+            ctx.fillRect(0, chao, W, H - chao);
+            
+            // Bolhas (decoração)
+            desenharBolhas();
+            
+            // Algas (decoração)
+            desenharAlgas();
+            
+            // Estrelas
+            estrelas.forEach(e => e.desenhar());
+            
+            // Obstáculos
+            obstaculos.forEach(o => o.desenhar());
+            
+            // Pérola
+            perola.desenhar();
+            
+            // Partículas
+            desenharParticulas();
+        }
+        
+        // ============================================================
+        //  DECORAÇÕES
+        // ============================================================
+        let nuvens = [];
+        for (let i = 0; i < 5; i++) {
+            nuvens.push({
+                x: Math.random() * W,
+                y: 20 + Math.random() * 100,
+                width: 100 + Math.random() * 150,
+                speed: 0.2 + Math.random() * 0.3,
+                opacity: 0.3 + Math.random() * 0.3
+            });
+        }
+        
+        function desenharNuvens() {
+            nuvens.forEach(n => {
+                n.x += n.speed;
+                if (n.x > W + n.width) n.x = -n.width;
+                
+                ctx.globalAlpha = n.opacity;
+                ctx.fillStyle = '#FFFFFF';
+                ctx.beginPath();
+                ctx.ellipse(n.x, n.y, n.width/2, 20, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(n.x - n.width/3, n.y + 10, n.width/3, 25, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(n.x + n.width/3, n.y + 10, n.width/3, 25, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            });
+        }
+        
+        let bolhas = [];
+        for (let i = 0; i < 20; i++) {
+            bolhas.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                raio: 2 + Math.random() * 4,
+                speed: 0.2 + Math.random() * 0.3,
+                offset: Math.random() * Math.PI * 2
+            });
+        }
+        
+        function desenharBolhas() {
+            bolhas.forEach(b => {
+                b.y -= b.speed;
+                b.x += Math.sin(frameCount * 0.02 + b.offset) * 0.2;
+                if (b.y < -10) {
+                    b.y = H + 10;
+                    b.x = Math.random() * W;
+                }
+                
+                ctx.globalAlpha = 0.2;
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.raio, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            });
+        }
+        
+        function desenharAlgas() {
+            const chao = H - 150;
+            const algas = [
+                { x: 50, altura: 80, offset: 0 },
+                { x: 120, altura: 60, offset: 1 },
+                { x: W - 80, altura: 90, offset: 2 },
+                { x: W - 150, altura: 70, offset: 3 },
+                { x: 200, altura: 50, offset: 4 },
+                { x: W - 250, altura: 65, offset: 5 }
+            ];
+            
+            algas.forEach(a => {
+                ctx.beginPath();
+                ctx.moveTo(a.x, chao);
+                
+                const altura = a.altura + Math.sin(frameCount * 0.03 + a.offset) * 10;
+                ctx.quadraticCurveTo(
+                    a.x - 15 + Math.sin(frameCount * 0.02 + a.offset) * 8,
+                    chao - altura * 0.5,
+                    a.x + Math.sin(frameCount * 0.03 + a.offset * 1.5) * 5,
+                    chao - altura
+                );
+                ctx.strokeStyle = 'rgba(34,139,34,0.4)';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(a.x + 20, chao);
+                ctx.quadraticCurveTo(
+                    a.x + 35 + Math.sin(frameCount * 0.025 + a.offset * 1.2) * 8,
+                    chao - altura * 0.6,
+                    a.x + 20 + Math.sin(frameCount * 0.035 + a.offset * 1.8) * 5,
+                    chao - altura * 0.9
+                );
+                ctx.strokeStyle = 'rgba(34,139,34,0.3)';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            });
+        }
+        
+        // ============================================================
+        //  CONTROLES - TECLADO E TOQUE
+        // ============================================================
+        const keys = {};
+        
+        window.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+            
+            if (e.key === 'ArrowUp' && perola.noChao && gameRunning) {
+                perola.velocidadeY = perola.pulo;
+                perola.noChao = false;
+                perola.pulando = true;
+                criarSalpico(perola.x + perola.largura/2, perola.y + perola.altura);
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+        
+        // Controles touch/mobile
+        let touchX = null;
+        
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            touchX = touch.clientX - rect.left;
+            
+            // Pular no toque
+            if (perola.noChao && gameRunning) {
+                perola.velocidadeY = perola.pulo;
+                perola.noChao = false;
+                perola.pulando = true;
+                criarSalpico(perola.x + perola.largura/2, perola.y + perola.altura);
+            }
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!gameRunning) return;
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const currentX = touch.clientX - rect.left;
+            
+            if (touchX !== null) {
+                const diff = currentX - touchX;
+                perola.x += diff * 0.8;
+                if (perola.x < 0) perola.x = 0;
+                if (perola.x + perola.largura > W) perola.x = W - perola.largura;
+                touchX = currentX;
+            }
+        });
+        
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            touchX = null;
+        });
+        
+        // Controles do teclado (loop)
+        setInterval(() => {
+            if (!gameRunning) return;
+            
+            if (keys['ArrowRight'] || keys['d'] || keys['D']) {
+                perola.x += 5;
+                if (perola.x + perola.largura > W) perola.x = W - perola.largura;
+            }
+            if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
+                perola.x -= 5;
+                if (perola.x < 0) perola.x = 0;
+            }
+        }, 16);
+        
+        // ============================================================
+        //  REDIMENSIONAMENTO
+        // ============================================================
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (perola.y + perola.altura > H - 150) {
+                perola.y = H - 150 - perola.altura;
+            }
+        });
+        
+        // ============================================================
+        //  INICIAR
+        // ============================================================
+        console.log('🌊 As Aventuras de Pérola');
+        console.log('🎮 Use as setas ou WASD para mover');
+        console.log('⬆️ Espaço ou clique para pular');
+        console.log('⭐ Colete estrelas e desvie dos obstáculos!');
+        
+        // Pré-inicialização
+        perola.y = H - 200;
+        perola.reset();
+        
+        // Desenhar tela inicial
+        function drawStartScreen() {
+            ctx.clearRect(0, 0, W, H);
+            const gradCeu = ctx.createLinearGradient(0, 0, 0, H);
+            gradCeu.addColorStop(0, '#87CEEB');
+            gradCeu.addColorStop(0.5, '#4A90D9');
+            gradCeu.addColorStop(1, '#2C5F8A');
+            ctx.fillStyle = gradCeu;
+            ctx.fillRect(0, 0, W, H);
+            perola.desenhar();
+            desenharNuvens();
+            desenharBolhas();
+        }
+        
+        // Se o jogo não estiver rodando, mostrar animação
+        if (!gameRunning) {
+            drawStartScreen();
+        }
+        
+        // Loop de fundo para animação da tela inicial
+        function backgroundLoop() {
+            if (!gameRunning) {
+                drawStartScreen();
+                requestAnimationFrame(backgroundLoop);
+            }
+        }
+        backgroundLoop();
+        
+        console.log('✅ Jogo carregado! Divirta-se! 🎉');
+    </script>
+</body>
+</html>
