@@ -14,8 +14,8 @@
         body {
             margin: 0;
             overflow: hidden;
-            background: linear-gradient(180deg, #1a0a2e, #2d1b69);
-            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            background: #0a0a1a;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             touch-action: none;
             user-select: none;
             height: 100vh;
@@ -30,14 +30,13 @@
             cursor: pointer;
         }
         
-        /* Tela Inicial */
         #start-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 10, 30, 0.88);
+            background: rgba(10, 10, 30, 0.9);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
@@ -54,9 +53,8 @@
         }
         
         #start-screen .logo {
-            font-size: 6rem;
+            font-size: 5rem;
             animation: float 3s ease-in-out infinite;
-            text-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
         }
         
         @keyframes float {
@@ -65,26 +63,23 @@
         }
         
         #start-screen h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #FFD700;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
             margin: 10px 0;
             text-align: center;
-            font-weight: 900;
-            letter-spacing: 2px;
         }
         
         #start-screen .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #87CEEB;
             margin-bottom: 25px;
             text-align: center;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         }
         
         .btn-start {
-            padding: 18px 50px;
-            font-size: 1.8rem;
+            padding: 16px 45px;
+            font-size: 1.5rem;
             border: none;
             border-radius: 30px;
             background: linear-gradient(135deg, #FF6B6B, #FF4757);
@@ -95,7 +90,6 @@
             font-family: 'Comic Sans MS', cursive;
             box-shadow: 0 8px 40px rgba(255, 71, 87, 0.4);
             margin: 8px 0;
-            letter-spacing: 1px;
         }
         
         .btn-start:hover {
@@ -103,13 +97,9 @@
             box-shadow: 0 12px 50px rgba(255, 71, 87, 0.6);
         }
         
-        .btn-start:active {
-            transform: scale(0.95);
-        }
-        
         .btn-secondary {
-            padding: 12px 35px;
-            font-size: 1.1rem;
+            padding: 10px 30px;
+            font-size: 1rem;
             border: none;
             border-radius: 25px;
             background: linear-gradient(135deg, #4A90D9, #2C5F8A);
@@ -118,55 +108,30 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Comic Sans MS', cursive;
-            box-shadow: 0 8px 30px rgba(44, 95, 138, 0.3);
             margin: 5px 0;
-        }
-        
-        .btn-secondary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 40px rgba(44, 95, 138, 0.5);
         }
         
         .controls-info {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 15px;
             text-align: center;
-            line-height: 2.2;
+            line-height: 2;
             background: rgba(0, 0, 0, 0.3);
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            max-width: 400px;
+            max-width: 380px;
         }
         
         .controls-info .key {
             display: inline-block;
             background: rgba(255, 255, 255, 0.15);
-            padding: 2px 12px;
-            border-radius: 10px;
+            padding: 2px 10px;
+            border-radius: 8px;
             font-weight: bold;
             color: #fff;
-            margin: 0 3px;
+            margin: 0 2px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.85rem;
-            min-width: 28px;
-        }
-        
-        .controls-info .highlight {
-            color: #FFD700;
-        }
-        
-        /* UI do Jogo */
-        #ui-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 50;
         }
         
         #lives-display {
@@ -174,13 +139,11 @@
             top: 15px;
             left: 15px;
             color: white;
-            font-size: 1.8rem;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            font-size: 1.5rem;
             background: rgba(0, 0, 0, 0.35);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 25px;
             backdrop-filter: blur(10px);
-            font-family: 'Comic Sans MS', cursive;
             z-index: 60;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
@@ -188,30 +151,17 @@
             gap: 8px;
         }
         
-        #lives-display .heart {
-            color: #FF4757;
-            font-size: 1.8rem;
-            animation: heartbeat 1.2s ease-in-out infinite;
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-        
         #score-display {
             position: fixed;
             top: 15px;
             right: 15px;
             color: white;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             background: rgba(0, 0, 0, 0.35);
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 25px;
             backdrop-filter: blur(10px);
-            font-family: 'Comic Sans MS', cursive;
             z-index: 60;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
@@ -221,7 +171,7 @@
         
         #score-display .star-icon {
             color: #FFD700;
-            font-size: 2.2rem;
+            font-size: 2rem;
             animation: spinStar 3s linear infinite;
         }
         
@@ -231,24 +181,20 @@
             100% { transform: rotate(360deg) scale(1); }
         }
         
-        /* Game Over */
         #game-over {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
             background: rgba(10, 10, 30, 0.95);
-            padding: 35px 45px;
+            padding: 30px 40px;
             border-radius: 40px;
             text-align: center;
-            color: white;
-            backdrop-filter: blur(30px);
             border: 3px solid #FFD700;
             box-shadow: 0 0 100px rgba(255, 215, 0, 0.15);
             z-index: 100;
-            pointer-events: all;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            min-width: 300px;
+            min-width: 280px;
         }
         
         #game-over.show {
@@ -256,36 +202,31 @@
         }
         
         #game-over .emoji-big {
-            font-size: 4.5rem;
+            font-size: 4rem;
             display: block;
             margin-bottom: 10px;
-            animation: float 2s ease-in-out infinite;
         }
         
         #game-over h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: #FFD700;
             margin: 10px 0;
-            font-family: 'Comic Sans MS', cursive;
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
         }
         
         #game-over .final-score {
-            font-size: 1.6rem;
-            margin: 18px 0;
+            font-size: 1.4rem;
+            margin: 15px 0;
             color: #87CEEB;
         }
         
         #game-over .final-score span {
             color: #FFD700;
-            font-size: 2.8rem;
-            display: inline-block;
-            animation: spinStar 2s linear infinite;
+            font-size: 2.5rem;
         }
         
         .btn-restart {
-            padding: 16px 45px;
-            font-size: 1.3rem;
+            padding: 14px 35px;
+            font-size: 1.2rem;
             border: none;
             border-radius: 25px;
             background: linear-gradient(135deg, #FFD700, #FFA500);
@@ -300,38 +241,23 @@
         
         .btn-restart:hover {
             transform: scale(1.05);
-            box-shadow: 0 12px 50px rgba(255, 215, 0, 0.5);
         }
         
-        @media (max-width: 768px) {
-            #start-screen h1 { font-size: 2.5rem; }
-            #start-screen .logo { font-size: 4.5rem; }
-            #start-screen .subtitle { font-size: 1.1rem; }
-            .btn-start { font-size: 1.2rem; padding: 14px 30px; }
-            .btn-secondary { font-size: 0.9rem; padding: 10px 20px; }
-            .controls-info { font-size: 0.7rem; padding: 10px 15px; max-width: 95%; }
-            #lives-display { font-size: 1.2rem; padding: 5px 12px; top: 10px; left: 10px; }
-            #lives-display .heart { font-size: 1.2rem; }
-            #score-display { font-size: 1.2rem; padding: 5px 12px; top: 10px; right: 10px; }
-            #score-display .star-icon { font-size: 1.5rem; }
-            #game-over { padding: 25px 20px; min-width: auto; width: 90%; }
-            #game-over .emoji-big { font-size: 3.5rem; }
-            #game-over h1 { font-size: 2.2rem; }
-            #game-over .final-score { font-size: 1.1rem; }
-            #game-over .final-score span { font-size: 2rem; }
-            .btn-restart { font-size: 1rem; padding: 12px 25px; }
-        }
-        
-        @media (max-width: 400px) {
+        @media (max-width: 600px) {
             #start-screen h1 { font-size: 2rem; }
             #start-screen .logo { font-size: 3.5rem; }
-            .btn-start { font-size: 1rem; padding: 12px 20px; }
+            .btn-start { font-size: 1.1rem; padding: 12px 25px; }
+            #lives-display { font-size: 1.1rem; padding: 5px 12px; }
+            #score-display { font-size: 1.1rem; padding: 5px 12px; }
+            #score-display .star-icon { font-size: 1.5rem; }
+            #game-over { padding: 20px; min-width: auto; width: 90%; }
+            #game-over h1 { font-size: 2rem; }
+            .controls-info { font-size: 0.7rem; padding: 10px 15px; }
         }
     </style>
 </head>
 <body>
     
-    <!-- TELA INICIAL -->
     <div id="start-screen">
         <div class="logo">🌊</div>
         <h1>As Aventuras de Pérola</h1>
@@ -339,26 +265,16 @@
         <button class="btn-start" onclick="startGame()">🎮 Começar</button>
         <button class="btn-secondary" onclick="toggleControls()">🎯 Como Jogar</button>
         <div class="controls-info" id="controls-info" style="display:none;">
-            <div>⬅️ ➡️ <span class="key">Setas</span> ou <span class="key">A</span> <span class="key">D</span> para mover</div>
+            <div>⬅️ ➡️ <span class="key">Setas</span> ou <span class="key">A</span> <span class="key">D</span></div>
             <div>⬆️ <span class="key">Espaço</span> ou <span class="key">W</span> para pular</div>
-            <div>📱 <span class="highlight">Toque</span> na tela para pular (mobile)</div>
-            <div>⭐ Colete estrelas <span class="highlight">douradas</span> valem mais pontos!</div>
+            <div>📱 Toque na tela para pular</div>
+            <div>⭐ Estrelas douradas valem +5</div>
         </div>
     </div>
     
-    <!-- UI DO JOGO -->
-    <div id="ui-overlay">
-        <div id="lives-display">
-            <span class="heart">❤️</span>
-            <span id="lives">3</span>
-        </div>
-        <div id="score-display">
-            <span class="star-icon">⭐</span>
-            <span id="score">0</span>
-        </div>
-    </div>
+    <div id="lives-display">❤️ <span id="lives">3</span></div>
+    <div id="score-display"><span class="star-icon">⭐</span> <span id="score">0</span></div>
     
-    <!-- GAME OVER -->
     <div id="game-over">
         <span class="emoji-big">💫</span>
         <h1>Fim de Jogo!</h1>
@@ -366,7 +282,6 @@
         <button class="btn-restart" onclick="reiniciarJogo()">🔄 Jogar Novamente</button>
     </div>
     
-    <!-- CANVAS -->
     <canvas id="gameCanvas"></canvas>
     
     <script>
@@ -385,7 +300,7 @@
         window.addEventListener('resize', resizeCanvas);
         
         // ============================================================
-        // ESTADO DO JOGO
+        // ESTADO
         // ============================================================
         let gameRunning = false;
         let score = 0;
@@ -395,15 +310,15 @@
         let obstacleSpawnTimer = 0;
         let particles = [];
         let animId = null;
+        let estrelas = [];
+        let obstaculos = [];
         
         // ============================================================
         // PÉROLA
         // ============================================================
         const perola = {
-            x: 100,
-            y: 0,
-            largura: 70,
-            altura: 80,
+            x: 100, y: 0,
+            largura: 60, altura: 70,
             velocidadeY: 0,
             gravidade: 0.55,
             pulo: -13,
@@ -411,8 +326,8 @@
             visivel: true,
             
             reset() {
-                this.x = 100;
-                this.y = H - 180;
+                this.x = 80;
+                this.y = H - 160;
                 this.velocidadeY = 0;
                 this.noChao = false;
                 this.visivel = true;
@@ -420,32 +335,25 @@
             
             desenhar() {
                 if (!this.visivel) return;
-                
                 ctx.save();
                 
-                // Sombra
+                // Corpo - Vestido
                 ctx.shadowColor = 'rgba(0,0,0,0.15)';
                 ctx.shadowBlur = 15;
                 ctx.shadowOffsetY = 5;
                 
-                // VESTIDO
-                const gradVestido = ctx.createRadialGradient(
-                    this.x + 20, this.y + 30, 5,
-                    this.x + 35, this.y + 50, 45
+                const grad = ctx.createRadialGradient(
+                    this.x + 15, this.y + 20, 5,
+                    this.x + 30, this.y + 40, 40
                 );
-                gradVestido.addColorStop(0, '#FF8A8A');
-                gradVestido.addColorStop(0.4, '#FF6B6B');
-                gradVestido.addColorStop(1, '#E74C6F');
+                grad.addColorStop(0, '#FF8A8A');
+                grad.addColorStop(0.5, '#FF6B6B');
+                grad.addColorStop(1, '#E74C6F');
                 
                 ctx.beginPath();
-                ctx.ellipse(
-                    this.x + this.largura/2,
-                    this.y + this.altura * 0.55,
-                    this.largura * 0.38,
-                    this.altura * 0.42,
-                    0, 0, Math.PI * 2
-                );
-                ctx.fillStyle = gradVestido;
+                ctx.ellipse(this.x + this.largura/2, this.y + this.altura * 0.55, 
+                           this.largura * 0.35, this.altura * 0.4, 0, 0, Math.PI * 2);
+                ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.strokeStyle = '#CC4466';
                 ctx.lineWidth = 2;
@@ -455,170 +363,145 @@
                 ctx.shadowBlur = 5;
                 ctx.fillStyle = '#FF6B8A';
                 ctx.beginPath();
-                ctx.ellipse(this.x + this.largura/2 - 10, this.y + 30, 8, 5, -0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.largura/2 - 8, this.y + 25, 6, 4, -0.3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(this.x + this.largura/2 + 10, this.y + 30, 8, 5, 0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.largura/2 + 8, this.y + 25, 6, 4, 0.3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.fillStyle = '#FFD700';
                 ctx.beginPath();
-                ctx.arc(this.x + this.largura/2, this.y + 30, 4, 0, Math.PI * 2);
+                ctx.arc(this.x + this.largura/2, this.y + 25, 3, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // CABEÇA
+                // Cabeça
                 ctx.shadowBlur = 8;
-                const cabecaX = this.x + this.largura/2;
-                const cabecaY = this.y + 22;
-                const raio = 25;
+                const cx = this.x + this.largura/2;
+                const cy = this.y + 18;
+                const raio = 20;
                 
-                const gradCabeca = ctx.createRadialGradient(
-                    cabecaX - 4, cabecaY - 4, 3,
-                    cabecaX, cabecaY, raio
-                );
+                const gradCabeca = ctx.createRadialGradient(cx - 3, cy - 3, 3, cx, cy, raio);
                 gradCabeca.addColorStop(0, '#FFD5C2');
                 gradCabeca.addColorStop(1, '#F5C4A8');
                 
                 ctx.beginPath();
-                ctx.arc(cabecaX, cabecaY, raio, 0, Math.PI * 2);
+                ctx.arc(cx, cy, raio, 0, Math.PI * 2);
                 ctx.fillStyle = gradCabeca;
                 ctx.fill();
                 ctx.strokeStyle = '#E8B89A';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
                 
-                // CABELO
+                // Cabelo
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#8B4513';
                 ctx.beginPath();
-                ctx.arc(cabecaX - 8, cabecaY - 16, 14, 0, Math.PI * 2);
+                ctx.arc(cx - 6, cy - 13, 11, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cabecaX + 8, cabecaY - 16, 14, 0, Math.PI * 2);
+                ctx.arc(cx + 6, cy - 13, 11, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cabecaX, cabecaY - 20, 16, 0, Math.PI * 2);
+                ctx.arc(cx, cy - 16, 13, 0, Math.PI * 2);
                 ctx.fill();
+                
                 // Rabo de cavalo
                 ctx.beginPath();
-                ctx.ellipse(cabecaX + 18, cabecaY - 8, 8, 15, 0.5, 0, Math.PI * 2);
+                ctx.ellipse(cx + 14, cy - 6, 6, 12, 0.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cabecaX + 22, cabecaY - 2, 5, 10, 0.7, 0, Math.PI * 2);
+                ctx.ellipse(cx + 17, cy, 4, 8, 0.7, 0, Math.PI * 2);
                 ctx.fill();
+                
                 // Laço no cabelo
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(cabecaX + 20, cabecaY - 14, 6, 4, 0.5, 0, Math.PI * 2);
+                ctx.ellipse(cx + 16, cy - 11, 5, 3, 0.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cabecaX + 26, cabecaY - 12, 6, 4, -0.3, 0, Math.PI * 2);
+                ctx.ellipse(cx + 21, cy - 10, 5, 3, -0.3, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // OLHOS
+                // Olhos
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.ellipse(cabecaX - 9, cabecaY - 2, 7, 8, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx - 7, cy - 1, 5, 6, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cabecaX + 9, cabecaY - 2, 7, 8, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx + 7, cy - 1, 5, 6, 0, 0, Math.PI * 2);
                 ctx.fill();
                 
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
-                ctx.arc(cabecaX - 7, cabecaY - 1, 4.5, 0, Math.PI * 2);
+                ctx.arc(cx - 5, cy, 3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cabecaX + 11, cabecaY - 1, 4.5, 0, Math.PI * 2);
+                ctx.arc(cx + 9, cy, 3, 0, Math.PI * 2);
                 ctx.fill();
                 
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.arc(cabecaX - 8, cabecaY - 4, 2, 0, Math.PI * 2);
+                ctx.arc(cx - 6, cy - 2, 1.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cabecaX + 10, cabecaY - 4, 2, 0, Math.PI * 2);
+                ctx.arc(cx + 8, cy - 2, 1.5, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // PESTANAS
-                ctx.strokeStyle = '#2C3E50';
-                ctx.lineWidth = 1.5;
-                for (let i = -2; i <= 2; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(cabecaX - 13 + i*2, cabecaY - 8 + Math.abs(i)*2);
-                    ctx.lineTo(cabecaX - 16 + i*3, cabecaY - 12 + Math.abs(i)*3);
-                    ctx.stroke();
-                    ctx.beginPath();
-                    ctx.moveTo(cabecaX + 7 + i*2, cabecaY - 8 + Math.abs(i)*2);
-                    ctx.lineTo(cabecaX + 4 + i*3, cabecaY - 12 + Math.abs(i)*3);
-                    ctx.stroke();
-                }
-                
-                // BOCA
+                // Boca
                 ctx.beginPath();
-                ctx.arc(cabecaX, cabecaY + 7, 9, 0.1, Math.PI - 0.1);
+                ctx.arc(cx, cy + 6, 7, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#CC4466';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
                 
-                // LÍNGUA
+                // Língua
                 ctx.fillStyle = '#FF6B8A';
                 ctx.beginPath();
-                ctx.arc(cabecaX, cabecaY + 10, 4, 0, Math.PI);
+                ctx.arc(cx, cy + 8, 3, 0, Math.PI);
                 ctx.fill();
                 
-                // BOCHECHAS
-                ctx.globalAlpha = 0.25;
+                // Bochechas
+                ctx.globalAlpha = 0.2;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(cabecaX - 16, cabecaY + 5, 6, 4, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx - 13, cy + 4, 5, 3, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cabecaX + 16, cabecaY + 5, 6, 4, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx + 13, cy + 4, 5, 3, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.globalAlpha = 1;
                 
-                // BRAÇOS
+                // Braços
                 ctx.shadowBlur = 4;
                 ctx.fillStyle = '#F5C4A8';
                 ctx.beginPath();
-                ctx.ellipse(this.x + 8, this.y + 45, 7, 12, 0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.x + 6, this.y + 38, 5, 10, 0.3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(this.x + this.largura - 8, this.y + 45, 7, 12, -0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.largura - 6, this.y + 38, 5, 10, -0.3, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // MÃOS
+                // Mãos
                 ctx.fillStyle = '#F5C4A8';
                 ctx.beginPath();
-                ctx.arc(this.x + 4, this.y + 52, 5, 0, Math.PI * 2);
+                ctx.arc(this.x + 3, this.y + 44, 4, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(this.x + this.largura - 4, this.y + 52, 5, 0, Math.PI * 2);
+                ctx.arc(this.x + this.largura - 3, this.y + 44, 4, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // SAPATOS
+                // Sapatos
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(this.x + 12, this.y + this.altura - 2, 12, 6, 0.2, 0, Math.PI * 2);
+                ctx.ellipse(this.x + 10, this.y + this.altura - 2, 10, 5, 0.2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(this.x + this.largura - 12, this.y + this.altura - 2, 12, 6, -0.2, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // MEIAS
-                ctx.fillStyle = '#FFFFFF';
-                ctx.beginPath();
-                ctx.ellipse(this.x + 12, this.y + this.altura - 8, 8, 6, 0.2, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.ellipse(this.x + this.largura - 12, this.y + this.altura - 8, 8, 6, -0.2, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.largura - 10, this.y + this.altura - 2, 10, 5, -0.2, 0, Math.PI * 2);
                 ctx.fill();
                 
                 ctx.restore();
                 ctx.shadowBlur = 0;
-                ctx.shadowOffsetY = 0;
             }
         };
         
@@ -627,88 +510,57 @@
         // ============================================================
         class Estrela {
             constructor() {
-                this.x = W + 50;
-                this.y = Math.random() * (H - 250) + 100;
-                this.raio = 16 + Math.random() * 10;
-                this.velocidade = 2 + Math.random() * 2.5;
+                this.x = W + 30;
+                this.y = 80 + Math.random() * (H - 220);
+                this.raio = 14 + Math.random() * 8;
+                this.velocidade = 2 + Math.random() * 2;
                 this.brilho = 1;
                 this.rotacao = Math.random() * Math.PI * 2;
                 this.coletada = false;
-                this.tipo = Math.random() > 0.75 ? 'dourada' : 'normal';
-                this.tamanho = this.tipo === 'dourada' ? 1.4 : 1;
+                this.tipo = Math.random() > 0.7 ? 'dourada' : 'normal';
+                this.tamanho = this.tipo === 'dourada' ? 1.3 : 1;
             }
             
             desenhar() {
                 if (this.coletada) return;
-                
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotacao);
                 ctx.scale(this.tamanho, this.tamanho);
                 
-                // Brilho
-                const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.raio * 2);
-                const corBase = '255,215,0';
-                grad.addColorStop(0, `rgba(${corBase},${0.2 * this.brilho})`);
-                grad.addColorStop(0.5, `rgba(${corBase},${0.1 * this.brilho})`);
-                grad.addColorStop(1, `rgba(${corBase},0)`);
-                ctx.fillStyle = grad;
-                ctx.beginPath();
-                ctx.arc(0, 0, this.raio * 2, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Estrela
                 const points = 5;
-                const outerRadius = this.raio;
-                const innerRadius = this.raio * 0.4;
+                const outer = this.raio;
+                const inner = this.raio * 0.4;
                 
                 ctx.beginPath();
                 for (let i = 0; i < points * 2; i++) {
-                    const radius = i % 2 === 0 ? outerRadius : innerRadius;
-                    const angle = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
-                    const x = Math.cos(angle) * radius;
-                    const y = Math.sin(angle) * radius;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
+                    const r = i % 2 === 0 ? outer : inner;
+                    const a = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+                    if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                    else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
                 }
                 ctx.closePath();
                 
-                const gradEstrela = ctx.createRadialGradient(-3, -3, 0, 0, 0, this.raio);
-                gradEstrela.addColorStop(0, '#FFE066');
-                gradEstrela.addColorStop(0.5, '#FFD700');
-                gradEstrela.addColorStop(1, '#FFA500');
-                ctx.fillStyle = gradEstrela;
+                const grad = ctx.createRadialGradient(-2, -2, 0, 0, 0, this.raio);
+                grad.addColorStop(0, '#FFE066');
+                grad.addColorStop(0.6, '#FFD700');
+                grad.addColorStop(1, '#FFA500');
+                ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.strokeStyle = '#FFA500';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
                 
-                // Brilho
-                if (this.brilho > 0.6) {
-                    ctx.shadowColor = 'rgba(255,215,0,0.4)';
-                    ctx.shadowBlur = 25;
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                }
-                
-                // Olhos (estrela dourada)
                 if (this.tipo === 'dourada') {
                     ctx.fillStyle = '#2C3E50';
                     ctx.beginPath();
-                    ctx.arc(-4, -3, 2.5, 0, Math.PI * 2);
+                    ctx.arc(-3, -2, 2, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(4, -3, 2.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.beginPath();
-                    ctx.arc(-3.5, -4, 1, 0, Math.PI * 2);
+                    ctx.arc(3, -2, 2, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(4.5, -4, 1, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(0, 2, 4, 0.1, Math.PI - 0.1);
+                    ctx.arc(0, 1, 3, 0.1, Math.PI - 0.1);
                     ctx.strokeStyle = '#2C3E50';
                     ctx.lineWidth = 1;
                     ctx.stroke();
@@ -721,14 +573,12 @@
                 if (this.coletada) return;
                 this.x -= this.velocidade;
                 this.rotacao += 0.04;
-                this.brilho = 0.6 + Math.sin(frameCount * 0.05 + this.x * 0.01) * 0.4;
                 this.y += Math.sin(frameCount * 0.02 + this.x * 0.005) * 0.3;
             }
             
             coletar() {
                 this.coletada = true;
-                const cor = '#FFD700';
-                criarExplosao(this.x, this.y, cor, this.tipo === 'dourada' ? 30 : 20);
+                criarExplosao(this.x, this.y, '#FFD700', this.tipo === 'dourada' ? 25 : 15);
                 score += this.tipo === 'dourada' ? 5 : 1;
                 document.getElementById('score').textContent = score;
             }
@@ -739,14 +589,14 @@
         // ============================================================
         class Obstaculo {
             constructor() {
-                this.x = W + 50;
-                this.y = H - 170 - Math.random() * 80;
-                this.largura = 35 + Math.random() * 25;
-                this.altura = 35 + Math.random() * 25;
-                this.velocidade = 2.5 + Math.random() * 2;
-                this.tipo = Math.random() > 0.5 ? 'espinho' : 'agua_viva';
+                this.x = W + 30;
+                this.y = H - 150 - Math.random() * 80;
+                this.largura = 30 + Math.random() * 20;
+                this.altura = 30 + Math.random() * 20;
+                this.velocidade = 2 + Math.random() * 2;
+                this.tipo = Math.random() > 0.5 ? 'espinho' : 'agua';
                 this.rotacao = 0;
-                this.animOffset = Math.random() * Math.PI * 2;
+                this.offset = Math.random() * Math.PI * 2;
             }
             
             desenhar() {
@@ -756,106 +606,81 @@
                 
                 if (this.tipo === 'espinho') {
                     const points = 5;
-                    const outerRadius = this.largura/2;
-                    const innerRadius = outerRadius * 0.35;
+                    const outer = this.largura/2;
+                    const inner = outer * 0.35;
                     
                     ctx.beginPath();
                     for (let i = 0; i < points * 2; i++) {
-                        const radius = i % 2 === 0 ? outerRadius : innerRadius;
-                        const angle = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
-                        const x = Math.cos(angle) * radius;
-                        const y = Math.sin(angle) * radius;
-                        if (i === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
+                        const r = i % 2 === 0 ? outer : inner;
+                        const a = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+                        if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                        else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
                     }
                     ctx.closePath();
                     
-                    const grad = ctx.createRadialGradient(-3, -3, 0, 0, 0, outerRadius);
+                    const grad = ctx.createRadialGradient(-2, -2, 0, 0, 0, outer);
                     grad.addColorStop(0, '#FF6B8A');
                     grad.addColorStop(0.5, '#FF4757');
                     grad.addColorStop(1, '#C0392B');
                     ctx.fillStyle = grad;
                     ctx.fill();
                     ctx.strokeStyle = '#A93226';
-                    ctx.lineWidth = 2;
+                    ctx.lineWidth = 1.5;
                     ctx.stroke();
                     
                     // Olhos tristes
                     ctx.fillStyle = '#FFFFFF';
                     ctx.beginPath();
-                    ctx.arc(-7, -4, 5, 0, Math.PI * 2);
+                    ctx.arc(-5, -3, 4, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(7, -4, 5, 0, Math.PI * 2);
+                    ctx.arc(5, -3, 4, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.fillStyle = '#2C3E50';
                     ctx.beginPath();
-                    ctx.arc(-6, -3, 3, 0, Math.PI * 2);
+                    ctx.arc(-4, -2, 2.5, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(8, -3, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Lágrima
-                    ctx.fillStyle = 'rgba(100,200,255,0.5)';
-                    ctx.beginPath();
-                    ctx.ellipse(-6, 3, 2, 4, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.ellipse(8, 3, 2, 4, 0, 0, Math.PI * 2);
+                    ctx.arc(6, -2, 2.5, 0, Math.PI * 2);
                     ctx.fill();
                     
                 } else {
                     // Água-viva
-                    const grad = ctx.createRadialGradient(0, -5, 0, 0, 0, this.largura/2);
-                    grad.addColorStop(0, 'rgba(200,230,255,0.4)');
-                    grad.addColorStop(0.5, 'rgba(150,200,255,0.3)');
-                    grad.addColorStop(1, 'rgba(100,150,255,0.15)');
+                    const grad = ctx.createRadialGradient(0, -3, 0, 0, 0, this.largura/2);
+                    grad.addColorStop(0, 'rgba(200,230,255,0.3)');
+                    grad.addColorStop(1, 'rgba(100,150,255,0.1)');
                     ctx.fillStyle = grad;
                     ctx.beginPath();
                     ctx.arc(0, 0, this.largura/2, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.strokeStyle = 'rgba(150,200,255,0.3)';
-                    ctx.lineWidth = 1.5;
+                    ctx.strokeStyle = 'rgba(150,200,255,0.2)';
+                    ctx.lineWidth = 1;
                     ctx.stroke();
                     
-                    // Tentáculos
-                    for (let i = 0; i < 6; i++) {
-                        const angle = (i / 6) * Math.PI * 2 + this.animOffset;
-                        const length = 18 + Math.sin(frameCount * 0.04 + i * 1.2) * 8;
+                    for (let i = 0; i < 5; i++) {
+                        const a = (i / 5) * Math.PI * 2 + this.offset;
+                        const len = 12 + Math.sin(frameCount * 0.04 + i) * 6;
                         ctx.beginPath();
-                        ctx.moveTo(Math.cos(angle) * this.largura/2 * 0.5, 
-                                  Math.sin(angle) * this.largura/2 * 0.5);
+                        ctx.moveTo(Math.cos(a) * this.largura/2 * 0.4, Math.sin(a) * this.largura/2 * 0.4);
                         ctx.quadraticCurveTo(
-                            Math.cos(angle) * (this.largura/2 + length * 0.4),
-                            Math.sin(angle) * (this.largura/2 + length * 0.4) + 8,
-                            Math.cos(angle) * (this.largura/2 + length),
-                            Math.sin(angle) * (this.largura/2 + length) + 15
+                            Math.cos(a) * (this.largura/2 + len * 0.3),
+                            Math.sin(a) * (this.largura/2 + len * 0.3) + 6,
+                            Math.cos(a) * (this.largura/2 + len),
+                            Math.sin(a) * (this.largura/2 + len) + 12
                         );
-                        ctx.strokeStyle = `rgba(150,200,255,${0.2 + Math.sin(frameCount * 0.03 + i) * 0.1})`;
-                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = 'rgba(150,200,255,0.2)';
+                        ctx.lineWidth = 1.5;
                         ctx.stroke();
                     }
                     
                     // Olhos
                     ctx.fillStyle = '#2C3E50';
                     ctx.beginPath();
-                    ctx.arc(-6, -3, 3, 0, Math.PI * 2);
+                    ctx.arc(-4, -2, 2.5, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(6, -3, 3, 0, Math.PI * 2);
+                    ctx.arc(4, -2, 2.5, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.beginPath();
-                    ctx.arc(-5, -4, 1.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(7, -4, 1.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(0, 3, 5, 0.1, Math.PI - 0.1);
-                    ctx.strokeStyle = '#2C3E50';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
                 }
                 
                 ctx.restore();
@@ -864,50 +689,29 @@
             atualizar() {
                 this.x -= this.velocidade;
                 this.rotacao += 0.02;
-                this.animOffset += 0.04;
+                this.offset += 0.04;
             }
             
             getBounds() {
-                return {
-                    x: this.x,
-                    y: this.y,
-                    width: this.largura,
-                    height: this.altura
-                };
+                return { x: this.x, y: this.y, width: this.largura, height: this.altura };
             }
         }
         
         // ============================================================
         // PARTÍCULAS
         // ============================================================
-        function criarExplosao(x, y, cor, quantidade = 15) {
-            for (let i = 0; i < quantidade; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = 1 + Math.random() * 4;
+        function criarExplosao(x, y, cor, qtd = 15) {
+            for (let i = 0; i < qtd; i++) {
+                const a = Math.random() * Math.PI * 2;
+                const s = 1 + Math.random() * 4;
                 particles.push({
-                    x: x,
-                    y: y,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - 1,
+                    x, y,
+                    vx: Math.cos(a) * s,
+                    vy: Math.sin(a) * s - 1,
                     life: 1,
-                    decay: 0.008 + Math.random() * 0.02,
-                    radius: 2 + Math.random() * 5,
-                    cor: cor || '#FFD700'
-                });
-            }
-        }
-        
-        function criarSalpico(x, y) {
-            for (let i = 0; i < 12; i++) {
-                particles.push({
-                    x: x,
-                    y: y,
-                    vx: (Math.random() - 0.5) * 6,
-                    vy: (Math.random() - 0.5) * 6 - 3,
-                    life: 1,
-                    decay: 0.015 + Math.random() * 0.02,
+                    decay: 0.01 + Math.random() * 0.02,
                     radius: 2 + Math.random() * 4,
-                    cor: '#87CEEB'
+                    cor: cor || '#FFD700'
                 });
             }
         }
@@ -920,10 +724,7 @@
                 p.vy += 0.08;
                 p.life -= p.decay;
                 p.radius *= 0.99;
-                
-                if (p.life <= 0 || p.radius < 0.3) {
-                    particles.splice(i, 1);
-                }
+                if (p.life <= 0 || p.radius < 0.3) particles.splice(i, 1);
             }
         }
         
@@ -942,92 +743,70 @@
         }
         
         // ============================================================
-        // LISTAS
-        // ============================================================
-        let estrelas = [];
-        let obstaculos = [];
-        
-        // ============================================================
         // COLISÕES
         // ============================================================
         function rectCollision(a, b) {
-            return a.x < b.x + b.width &&
-                   a.x + a.width > b.x &&
-                   a.y < b.y + b.height &&
-                   a.y + a.height > b.y;
+            return a.x < b.x + b.width && a.x + a.width > b.x &&
+                   a.y < b.y + b.height && a.y + a.height > b.y;
         }
         
         function verificarColisoes() {
-            const perolaBounds = {
-                x: perola.x + 12,
-                y: perola.y + 12,
-                width: perola.largura - 24,
-                height: perola.altura - 24
+            const pb = {
+                x: perola.x + 10,
+                y: perola.y + 10,
+                width: perola.largura - 20,
+                height: perola.altura - 20
             };
             
             for (let i = estrelas.length - 1; i >= 0; i--) {
-                const estrela = estrelas[i];
-                if (estrela.coletada) continue;
-                
-                const dx = (perola.x + perola.largura/2) - estrela.x;
-                const dy = (perola.y + perola.altura/2) - estrela.y;
-                const distancia = Math.sqrt(dx*dx + dy*dy);
-                
-                if (distancia < estrela.raio * estrela.tamanho + 25) {
-                    estrela.coletar();
+                const e = estrelas[i];
+                if (e.coletada) continue;
+                const dx = (perola.x + perola.largura/2) - e.x;
+                const dy = (perola.y + perola.altura/2) - e.y;
+                if (Math.sqrt(dx*dx + dy*dy) < e.raio * e.tamanho + 20) {
+                    e.coletar();
                     estrelas.splice(i, 1);
                 }
             }
             
             for (let i = obstaculos.length - 1; i >= 0; i--) {
-                const obs = obstaculos[i];
-                const obsBounds = obs.getBounds();
-                
-                if (rectCollision(perolaBounds, obsBounds)) {
+                const o = obstaculos[i];
+                if (rectCollision(pb, o.getBounds())) {
                     perderVida();
                     obstaculos.splice(i, 1);
-                    criarExplosao(obs.x + obs.largura/2, obs.y + obs.altura/2, '#FF4757', 20);
+                    criarExplosao(o.x + o.largura/2, o.y + o.altura/2, '#FF4757', 20);
                     return;
                 }
             }
         }
         
         // ============================================================
-        // VIDA
+        // VIDA E GAME OVER
         // ============================================================
         function perderVida() {
             lives--;
             document.getElementById('lives').textContent = lives;
-            criarExplosao(perola.x + perola.largura/2, perola.y + perola.altura/2, '#FF6B6B', 25);
+            criarExplosao(perola.x + perola.largura/2, perola.y + perola.altura/2, '#FF6B6B', 20);
             
             if (lives <= 0) {
                 gameOver();
             } else {
                 perola.reset();
-                perola.y = H - 180;
-                let blinkCount = 0;
-                const blinkInterval = setInterval(() => {
+                perola.y = H - 160;
+                let count = 0;
+                const interval = setInterval(() => {
                     perola.visivel = !perola.visivel;
-                    blinkCount++;
-                    if (blinkCount > 6) {
-                        clearInterval(blinkInterval);
-                        perola.visivel = true;
-                    }
+                    count++;
+                    if (count > 6) { clearInterval(interval); perola.visivel = true; }
                 }, 200);
             }
         }
         
-        // ============================================================
-        // GAME OVER
-        // ============================================================
         function gameOver() {
             gameRunning = false;
             document.getElementById('final-score').textContent = score;
             document.getElementById('game-over').classList.add('show');
-            if (animId) {
-                cancelAnimationFrame(animId);
-                animId = null;
-            }
+            if (animId) cancelAnimationFrame(animId);
         }
         
         function reiniciarJogo() {
@@ -1035,9 +814,6 @@
             startGame();
         }
         
-        // ============================================================
-        // CONTROLES
-        // ============================================================
         function toggleControls() {
             const info = document.getElementById('controls-info');
             info.style.display = info.style.display === 'none' ? 'block' : 'none';
@@ -1049,7 +825,6 @@
         function startGame() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('game-over').classList.remove('show');
-            document.getElementById('controls-info').style.display = 'none';
             
             score = 0;
             lives = 3;
@@ -1062,15 +837,11 @@
             document.getElementById('lives').textContent = '3';
             
             perola.reset();
-            perola.y = H - 180;
+            perola.y = H - 160;
             perola.visivel = true;
             
             gameRunning = true;
-            
-            if (animId) {
-                cancelAnimationFrame(animId);
-                animId = null;
-            }
+            if (animId) cancelAnimationFrame(animId);
             loop();
         }
         
@@ -1078,10 +849,7 @@
         // LOOP PRINCIPAL
         // ============================================================
         function loop() {
-            if (!gameRunning) {
-                animId = requestAnimationFrame(loop);
-                return;
-            }
+            if (!gameRunning) { animId = requestAnimationFrame(loop); return; }
             
             frameCount++;
             atualizarJogo();
@@ -1090,11 +858,10 @@
         }
         
         function atualizarJogo() {
-            // Física
             perola.velocidadeY += perola.gravidade;
             perola.y += perola.velocidadeY;
             
-            const chao = H - 170;
+            const chao = H - 150;
             if (perola.y + perola.altura > chao) {
                 perola.y = chao - perola.altura;
                 perola.velocidadeY = 0;
@@ -1106,24 +873,18 @@
             if (perola.x < 0) perola.x = 0;
             if (perola.x + perola.largura > W) perola.x = W - perola.largura;
             
-            // Spawn
             starSpawnTimer++;
             if (starSpawnTimer > 50 - Math.min(score / 8, 20)) {
                 starSpawnTimer = 0;
-                if (Math.random() > 0.35) {
-                    estrelas.push(new Estrela());
-                }
+                if (Math.random() > 0.35) estrelas.push(new Estrela());
             }
             
             obstacleSpawnTimer++;
             if (obstacleSpawnTimer > 100 - Math.min(score / 4, 40)) {
                 obstacleSpawnTimer = 0;
-                if (Math.random() > 0.45) {
-                    obstaculos.push(new Obstaculo());
-                }
+                if (Math.random() > 0.45) obstaculos.push(new Obstaculo());
             }
             
-            // Atualizar
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 estrelas[i].atualizar();
                 if (estrelas[i].x < -50) estrelas.splice(i, 1);
@@ -1152,10 +913,10 @@
             
             // Sol
             ctx.shadowColor = 'rgba(255,200,50,0.2)';
-            ctx.shadowBlur = 50;
+            ctx.shadowBlur = 40;
             ctx.beginPath();
-            ctx.arc(W - 80, 80, 45, 0, Math.PI * 2);
-            const gradSol = ctx.createRadialGradient(W - 80, 80, 0, W - 80, 80, 45);
+            ctx.arc(W - 70, 70, 35, 0, Math.PI * 2);
+            const gradSol = ctx.createRadialGradient(W - 70, 70, 0, W - 70, 70, 35);
             gradSol.addColorStop(0, '#FFE066');
             gradSol.addColorStop(0.5, '#FFD700');
             gradSol.addColorStop(1, '#FFA500');
@@ -1167,7 +928,7 @@
             desenharNuvens();
             
             // Chão
-            const chao = H - 170;
+            const chao = H - 150;
             const gradChao = ctx.createLinearGradient(0, chao, 0, H);
             gradChao.addColorStop(0, '#F4A460');
             gradChao.addColorStop(0.15, '#D2691E');
@@ -1177,13 +938,13 @@
             ctx.fillRect(0, chao, W, H - chao);
             
             // Grama
-            ctx.strokeStyle = 'rgba(34,139,34,0.3)';
+            ctx.strokeStyle = 'rgba(34,139,34,0.25)';
             ctx.lineWidth = 2;
             for (let i = 0; i < W; i += 8) {
-                const altura = 5 + Math.sin(i * 0.3 + frameCount * 0.02) * 3;
+                const h = 4 + Math.sin(i * 0.3 + frameCount * 0.02) * 2;
                 ctx.beginPath();
                 ctx.moveTo(i, chao);
-                ctx.lineTo(i + 2, chao - altura);
+                ctx.lineTo(i + 2, chao - h);
                 ctx.stroke();
             }
             
@@ -1203,10 +964,10 @@
         for (let i = 0; i < 6; i++) {
             nuvens.push({
                 x: Math.random() * W,
-                y: 15 + Math.random() * 80,
-                width: 80 + Math.random() * 120,
-                speed: 0.15 + Math.random() * 0.25,
-                opacity: 0.25 + Math.random() * 0.3
+                y: 15 + Math.random() * 70,
+                width: 70 + Math.random() * 100,
+                speed: 0.15 + Math.random() * 0.2,
+                opacity: 0.2 + Math.random() * 0.25
             });
         }
         
@@ -1214,34 +975,31 @@
             nuvens.forEach(n => {
                 n.x += n.speed;
                 if (n.x > W + n.width) n.x = -n.width;
-                
                 ctx.globalAlpha = n.opacity;
                 ctx.fillStyle = '#FFFFFF';
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = 'rgba(255,255,255,0.1)';
-                
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = 'rgba(255,255,255,0.05)';
                 ctx.beginPath();
-                ctx.ellipse(n.x, n.y, n.width/2.5, 18, 0, 0, Math.PI * 2);
+                ctx.ellipse(n.x, n.y, n.width/2.5, 15, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(n.x - n.width/4, n.y + 8, n.width/3.5, 22, 0, 0, Math.PI * 2);
+                ctx.ellipse(n.x - n.width/4, n.y + 7, n.width/3.5, 18, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(n.x + n.width/4, n.y + 8, n.width/3.5, 22, 0, 0, Math.PI * 2);
+                ctx.ellipse(n.x + n.width/4, n.y + 7, n.width/3.5, 18, 0, 0, Math.PI * 2);
                 ctx.fill();
-                
                 ctx.shadowBlur = 0;
                 ctx.globalAlpha = 1;
             });
         }
         
         let bolhas = [];
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 20; i++) {
             bolhas.push({
                 x: Math.random() * W,
                 y: Math.random() * H,
-                raio: 2 + Math.random() * 4,
-                speed: 0.15 + Math.random() * 0.25,
+                raio: 2 + Math.random() * 3,
+                speed: 0.15 + Math.random() * 0.2,
                 offset: Math.random() * Math.PI * 2
             });
         }
@@ -1249,14 +1007,10 @@
         function desenharBolhas() {
             bolhas.forEach(b => {
                 b.y -= b.speed;
-                b.x += Math.sin(frameCount * 0.02 + b.offset) * 0.15;
-                if (b.y < -10) {
-                    b.y = H + 10;
-                    b.x = Math.random() * W;
-                }
-                
-                ctx.globalAlpha = 0.15;
-                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                b.x += Math.sin(frameCount * 0.02 + b.offset) * 0.1;
+                if (b.y < -10) { b.y = H + 10; b.x = Math.random() * W; }
+                ctx.globalAlpha = 0.12;
+                ctx.strokeStyle = 'rgba(255,255,255,0.15)';
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, b.raio, 0, Math.PI * 2);
@@ -1266,108 +1020,88 @@
         }
         
         function desenharAlgas() {
-            const chao = H - 170;
+            const chao = H - 150;
             const algas = [
-                { x: 30, altura: 70, offset: 0 },
-                { x: 90, altura: 50, offset: 1.2 },
-                { x: W - 60, altura: 80, offset: 2.5 },
-                { x: W - 130, altura: 60, offset: 3.7 },
-                { x: 160, altura: 45, offset: 4.9 },
-                { x: W - 200, altura: 55, offset: 6.1 }
+                { x: 25, altura: 60, off: 0 },
+                { x: 75, altura: 45, off: 1.2 },
+                { x: W - 50, altura: 70, off: 2.5 },
+                { x: W - 110, altura: 50, off: 3.7 },
+                { x: 140, altura: 40, off: 4.9 }
             ];
             
             algas.forEach(a => {
+                const h = a.altura + Math.sin(frameCount * 0.025 + a.off) * 6;
                 ctx.beginPath();
                 ctx.moveTo(a.x, chao);
-                
-                const altura = a.altura + Math.sin(frameCount * 0.025 + a.offset) * 8;
                 ctx.quadraticCurveTo(
-                    a.x - 12 + Math.sin(frameCount * 0.02 + a.offset) * 6,
-                    chao - altura * 0.5,
-                    a.x + Math.sin(frameCount * 0.025 + a.offset * 1.3) * 4,
-                    chao - altura
+                    a.x - 10 + Math.sin(frameCount * 0.02 + a.off) * 5,
+                    chao - h * 0.5,
+                    a.x + Math.sin(frameCount * 0.025 + a.off * 1.3) * 3,
+                    chao - h
                 );
-                ctx.strokeStyle = 'rgba(34,139,34,0.35)';
+                ctx.strokeStyle = 'rgba(34,139,34,0.3)';
                 ctx.lineWidth = 3;
                 ctx.stroke();
                 
                 ctx.beginPath();
-                ctx.moveTo(a.x + 15, chao);
+                ctx.moveTo(a.x + 12, chao);
                 ctx.quadraticCurveTo(
-                    a.x + 28 + Math.sin(frameCount * 0.02 + a.offset * 1.1) * 6,
-                    chao - altura * 0.6,
-                    a.x + 15 + Math.sin(frameCount * 0.03 + a.offset * 1.7) * 4,
-                    chao - altura * 0.85
+                    a.x + 22 + Math.sin(frameCount * 0.02 + a.off * 1.1) * 5,
+                    chao - h * 0.6,
+                    a.x + 12 + Math.sin(frameCount * 0.03 + a.off * 1.7) * 3,
+                    chao - h * 0.8
                 );
-                ctx.strokeStyle = 'rgba(34,139,34,0.25)';
+                ctx.strokeStyle = 'rgba(34,139,34,0.2)';
                 ctx.lineWidth = 2;
                 ctx.stroke();
             });
         }
         
         // ============================================================
-        // CONTROLES - TECLADO
+        // CONTROLES
         // ============================================================
         const keys = {};
         
         window.addEventListener('keydown', (e) => {
             keys[e.key] = true;
-            
             if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w' || e.key === 'W') && 
                 perola.noChao && gameRunning) {
                 e.preventDefault();
                 perola.velocidadeY = perola.pulo;
                 perola.noChao = false;
-                criarSalpico(perola.x + perola.largura/2, perola.y + perola.altura);
             }
         });
         
-        window.addEventListener('keyup', (e) => {
-            keys[e.key] = false;
-        });
+        window.addEventListener('keyup', (e) => { keys[e.key] = false; });
         
-        // TOUCH
         let touchX = null;
-        
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            touchX = touch.clientX - rect.left;
-            
+            touchX = touch.clientX - canvas.getBoundingClientRect().left;
             if (perola.noChao && gameRunning) {
                 perola.velocidadeY = perola.pulo;
                 perola.noChao = false;
-                criarSalpico(perola.x + perola.largura/2, perola.y + perola.altura);
             }
         }, { passive: false });
         
         canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
             if (!gameRunning) return;
-            
             const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const currentX = touch.clientX - rect.left;
-            
+            const currentX = touch.clientX - canvas.getBoundingClientRect().left;
             if (touchX !== null) {
-                const diff = currentX - touchX;
-                perola.x += diff * 0.7;
+                perola.x += (currentX - touchX) * 0.7;
                 if (perola.x < 0) perola.x = 0;
                 if (perola.x + perola.largura > W) perola.x = W - perola.largura;
                 touchX = currentX;
             }
         }, { passive: false });
         
-        canvas.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            touchX = null;
-        }, { passive: false });
+        canvas.addEventListener('touchend', (e) => { e.preventDefault(); touchX = null; }, { passive: false });
         
-        // Movimento contínuo
         setInterval(() => {
             if (!gameRunning) return;
-            
             if (keys['ArrowRight'] || keys['d'] || keys['D']) {
                 perola.x += 5;
                 if (perola.x + perola.largura > W) perola.x = W - perola.largura;
@@ -1383,31 +1117,25 @@
         // ============================================================
         window.addEventListener('resize', () => {
             resizeCanvas();
-            if (perola.y + perola.altura > H - 170) {
-                perola.y = H - 170 - perola.altura;
+            if (perola.y + perola.altura > H - 150) {
+                perola.y = H - 150 - perola.altura;
             }
         });
         
         // ============================================================
         // INICIAR
         // ============================================================
-        console.log('🌊 As Aventuras de Pérola');
-        console.log('🎮 Use as setas ou WASD para mover');
-        console.log('⬆️ Espaço ou clique para pular');
-        console.log('⭐ Colete estrelas douradas e desvie dos obstáculos!');
-        
-        perola.y = H - 180;
+        perola.y = H - 160;
         perola.reset();
         
-        // Loop da tela inicial
         function startScreenLoop() {
             if (!gameRunning && document.getElementById('start-screen').style.display !== 'none') {
                 ctx.clearRect(0, 0, W, H);
-                const gradCeu = ctx.createLinearGradient(0, 0, 0, H);
-                gradCeu.addColorStop(0, '#87CEEB');
-                gradCeu.addColorStop(0.5, '#4A90D9');
-                gradCeu.addColorStop(1, '#2C5F8A');
-                ctx.fillStyle = gradCeu;
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#87CEEB');
+                grad.addColorStop(0.5, '#4A90D9');
+                grad.addColorStop(1, '#2C5F8A');
+                ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, W, H);
                 perola.desenhar();
                 desenharNuvens();
@@ -1417,7 +1145,7 @@
         }
         startScreenLoop();
         
-        console.log('✅ Jogo carregado! Divirta-se! 🎉');
+        console.log('🌊 As Aventuras de Pérola carregado!');
     </script>
 </body>
 </html>
