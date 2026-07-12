@@ -9,68 +9,61 @@
         html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a1a; touch-action: none; position: fixed; top: 0; left: 0; }
         canvas { display: block; width: 100vw; height: 100vh; background: linear-gradient(180deg, #87CEEB 0%, #4A90D9 60%, #2C5F8A 100%); touch-action: none; cursor: pointer; }
         
-        #start {
+        /* TELA DE CAPA - IMAGEM EM TELA CHEIA */
+        #capa {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.88);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.92);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 100; padding: 20px;
+            z-index: 200; padding: 20px;
+            cursor: pointer;
             animation: fadeIn 0.5s ease;
+            transition: all 0.3s ease;
         }
         
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        #capa:hover { background: rgba(0, 0, 0, 0.95); }
         
-        .capa-container {
-            max-width: 85%;
-            max-height: 55vh;
-            margin-bottom: 15px;
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .capa-imagem {
+            max-width: 90%;
+            max-height: 80vh;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 0 60px rgba(255,215,0,0.1);
+            box-shadow: 0 0 80px rgba(255,215,0,0.1);
             border: 2px solid rgba(255,215,0,0.15);
-            background: rgba(0,0,0,0.3);
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
         
-        .capa-container img {
+        .capa-imagem:hover { transform: scale(1.02); }
+        .capa-imagem:active { transform: scale(0.98); }
+        
+        .capa-imagem img {
             width: 100%;
             height: auto;
-            max-height: 55vh;
+            max-height: 80vh;
             object-fit: contain;
             display: block;
         }
         
-        .capa-container .placeholder {
-            color: rgba(255,255,255,0.3);
-            font-size: 1.5rem;
+        .capa-placeholder {
+            color: rgba(255,255,255,0.5);
+            font-size: 2rem;
             font-family: 'Comic Sans MS', cursive;
-            padding: 20px;
+            padding: 40px;
             text-align: center;
+            border: 2px dashed rgba(255,255,255,0.1);
+            border-radius: 20px;
+            max-width: 80%;
         }
         
-        #start h1 {
-            font-size: 2.5rem;
-            color: #FFD700;
-            text-shadow: 0 0 40px rgba(255,215,0,0.3);
-            margin: 5px 0;
-            text-align: center;
-            font-family: 'Comic Sans MS', cursive;
-        }
+        .capa-placeholder .emoji-big { font-size: 5rem; display: block; margin-bottom: 10px; }
         
-        #start .sub {
-            font-size: 1rem;
-            color: #87CEEB;
-            margin-bottom: 12px;
-            text-align: center;
-            font-family: 'Comic Sans MS', cursive;
-        }
-        
-        #start button {
-            padding: 15px 45px;
-            font-size: 1.4rem;
+        /* BOTÃO JOGAR - APARECE DEPOIS */
+        #btn-jogar {
+            margin-top: 20px;
+            padding: 15px 50px;
+            font-size: 1.6rem;
             border: none;
             border-radius: 50px;
             background: linear-gradient(135deg, #FF6B6B, #FF4757);
@@ -78,33 +71,31 @@
             font-weight: bold;
             cursor: pointer;
             font-family: 'Comic Sans MS', cursive;
-            margin: 5px 0;
             transition: all 0.3s ease;
             box-shadow: 0 8px 40px rgba(255,71,87,0.4);
-            min-height: 55px;
-            min-width: 180px;
+            min-height: 60px;
+            min-width: 200px;
             touch-action: manipulation;
+            animation: pulseBtn 2s ease-in-out infinite;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
         }
         
-        #start button:hover { transform: scale(1.05); }
-        #start button:active { transform: scale(0.95); }
-        
-        .controls-info {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.7rem;
-            margin-top: 10px;
-            text-align: center;
-            line-height: 2;
-            background: rgba(0,0,0,0.3);
-            padding: 8px 16px;
-            border-radius: 16px;
-            max-width: 300px;
-            font-family: 'Comic Sans MS', cursive;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.05);
+        #btn-jogar.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
         }
         
-        .controls-info .key { display: inline-block; background: rgba(255,255,255,0.1); padding: 1px 8px; border-radius: 6px; font-weight: bold; color: #fff; margin: 0 2px; border: 1px solid rgba(255,255,255,0.1); }
+        #btn-jogar:hover { transform: scale(1.05); }
+        #btn-jogar:active { transform: scale(0.95); }
+        
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 8px 40px rgba(255,71,87,0.4); }
+            50% { box-shadow: 0 8px 60px rgba(255,71,87,0.6); }
+        }
         
         #info { position: fixed; top: 12px; left: 12px; color: white; font-size: 1.3rem; background: rgba(0,0,0,0.4); padding: 6px 14px; border-radius: 25px; z-index: 50; backdrop-filter: blur(8px); font-family: 'Comic Sans MS', cursive; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.05); }
         #info .heart { color: #FF4757; font-size: 1.5rem; animation: heartbeat 1.2s ease-in-out infinite; }
@@ -166,10 +157,11 @@
         #celebracao button:active { transform: scale(0.95); }
         
         @media (max-width: 400px) {
-            #start h1 { font-size: 1.8rem; }
-            .capa-container { max-height: 35vh; }
-            .capa-container img { max-height: 35vh; }
-            #start button { font-size: 1rem; padding: 12px 25px; min-height: 45px; min-width: 140px; }
+            .capa-imagem { max-height: 60vh; }
+            .capa-imagem img { max-height: 60vh; }
+            #btn-jogar { font-size: 1.2rem; padding: 12px 30px; min-height: 50px; min-width: 160px; }
+            .capa-placeholder { font-size: 1.2rem; padding: 20px; }
+            .capa-placeholder .emoji-big { font-size: 3rem; }
             #info, #score { font-size: 1rem; padding: 4px 10px; }
             #moedas-display { font-size: 0.8rem; padding: 3px 10px; top: 55px; }
             #gameover { padding: 20px; }
@@ -182,19 +174,13 @@
 </head>
 <body>
 
-    <!-- TELA INICIAL -->
-    <div id="start">
-        <div class="capa-container">
+    <!-- TELA DE CAPA - IMAGEM EM TELA CHEIA -->
+    <div id="capa" onclick="mostrarBotaoJogar()">
+        <div class="capa-imagem">
             <img src="capa1.png" alt="Capa do Jogo" 
-                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder\'>🌊 Capa não encontrada<br>Clique em Jogar</div>'">
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'capa-placeholder\'><span class=\'emoji-big\'>🌊</span>Toque para começar</div>'">
         </div>
-        <h1>🌊 As Aventuras de Pérola</h1>
-        <div class="sub">✨ Multiverso - Colete e evolua!</div>
-        <button onclick="iniciarJogo()">🎮 Jogar</button>
-        <div class="controls-info">
-            📱 <span class="key">Toque</span> pular • <span class="key">Arraste</span> mover<br>
-            ⭐ Estrelas • 🪙 Moedas • 🏆 6 Cenários
-        </div>
+        <button id="btn-jogar" onclick="iniciarJogo()">🎮 Jogar</button>
     </div>
 
     <div id="info"><span class="heart">❤️</span> <span id="vidas">3</span></div>
@@ -222,6 +208,14 @@
     <canvas id="canvas"></canvas>
 
     <script>
+        // ============================================================
+        // FUNÇÃO PARA MOSTRAR O BOTÃO JOGAR
+        // ============================================================
+        function mostrarBotaoJogar() {
+            const btn = document.getElementById('btn-jogar');
+            btn.classList.add('show');
+        }
+
         // ============================================================
         // CANVAS
         // ============================================================
@@ -1090,7 +1084,9 @@
         // INICIAR JOGO
         // ============================================================
         function iniciarJogo() {
-            document.getElementById('start').style.display = 'none';
+            // Esconde a tela de capa
+            document.getElementById('capa').style.display = 'none';
+            
             document.getElementById('gameover').classList.remove('show');
             document.getElementById('celebracao').classList.remove('show');
 
@@ -1427,7 +1423,7 @@
         perola.noChao = true;
 
         function telaInicialLoop() {
-            if (!rodando && document.getElementById('start').style.display !== 'none') {
+            if (!rodando && document.getElementById('capa').style.display === 'none') {
                 ctx.clearRect(0, 0, W, H);
                 const g = ctx.createLinearGradient(0, 0, 0, H);
                 g.addColorStop(0, '#87CEEB');
@@ -1443,7 +1439,7 @@
         telaInicialLoop();
 
         console.log('🌊 Jogo carregado com sucesso!');
-        console.log('📸 capa1.png na tela inicial (se existir)');
+        console.log('📸 Clique na capa para aparecer o botão Jogar');
         console.log('🎮 Clique em Jogar para começar!');
     </script>
 </body>
