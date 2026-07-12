@@ -446,34 +446,41 @@
         }
 
         // ============================================================
-        // CARREGAR IMAGENS DA PÉROLA - TAMANHO AUMENTADO
+        // CARREGAR IMAGENS DA PÉROLA - ALTERADO
         // ============================================================
         const PASTA_IMAGENS = './';
         
         const imagens = {
             pulando: new Image(),
             andando: new Image(),
-            correndoesquerda: new Image(),
-            passolargo: new Image(),
+            // REMOVIDO: correndoesquerda
+            // REMOVIDO: passolargo
             escalando1: new Image(),
-            correndodireita: new Image(),
-            acelerando: new Image()
+            // REMOVIDO: correndodireita
+            acelerando: new Image(),
+            // NOVAS IMAGENS:
+            correndoparadireita: new Image(),
+            correndoparaesquerda: new Image(),
+            apressada: new Image()
         };
 
-        // 🔥 AUMENTEI AINDA MAIS O TAMANHO DA PÉROLA!
         const TAMANHO_PEROLA = {
-            largura: 120,   // ANTES: 90 → AGORA: 120 (33% maior)
-            altura: 145     // ANTES: 110 → AGORA: 145 (32% maior)
+            largura: 120,
+            altura: 145
         };
 
         const CONFIG_IMAGENS = {
             pulando: { src: PASTA_IMAGENS + 'pulando.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
             andando: { src: PASTA_IMAGENS + 'andando.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
-            correndoesquerda: { src: PASTA_IMAGENS + 'correndoesquerda.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
-            passolargo: { src: PASTA_IMAGENS + 'passolargo.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
+            // REMOVIDO: correndoesquerda
+            // REMOVIDO: passolargo
             escalando1: { src: PASTA_IMAGENS + 'escalando1.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
-            correndodireita: { src: PASTA_IMAGENS + 'correndodireita.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
-            acelerando: { src: PASTA_IMAGENS + 'acelerando.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura }
+            // REMOVIDO: correndodireita
+            acelerando: { src: PASTA_IMAGENS + 'acelerando.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
+            // NOVAS IMAGENS:
+            correndoparadireita: { src: PASTA_IMAGENS + 'correndoparadireita.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
+            correndoparaesquerda: { src: PASTA_IMAGENS + 'correndoparaesquerda.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura },
+            apressada: { src: PASTA_IMAGENS + 'apressada.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura }
         };
 
         let imagensCarregadas = 0;
@@ -556,7 +563,7 @@
         let celebrando = false;
 
         // ============================================================
-        // PÉROLA - COM PULO DUPLO E TAMANHO AUMENTADO
+        // PÉROLA - COM PULO DUPLO E IMAGENS ATUALIZADAS
         // ============================================================
         const perola = {
             x: 80,
@@ -641,13 +648,14 @@
                 if (this.estado === 'pulando') return imagens.pulando;
                 if (this.estado === 'escalando') return imagens.escalando1;
                 if (this.acelerando) return imagens.acelerando;
+                if (this.estado === 'apressada') return imagens.apressada;
                 
                 if (this.estado === 'correndo') {
-                    return this.direcao === 'direita' ? imagens.correndodireita : imagens.correndoesquerda;
+                    return this.direcao === 'direita' ? imagens.correndoparadireita : imagens.correndoparaesquerda;
                 }
 
                 if (this.estado === 'andando') {
-                    return Math.floor(this.timerAnimacao / 6) % 2 === 0 ? imagens.andando : imagens.passolargo;
+                    return imagens.andando;
                 }
 
                 return imagens.andando;
@@ -758,8 +766,8 @@
                     return;
                 }
 
-                if (velocidade > 5) {
-                    this.estado = 'correndo';
+                if (velocidade > 6) {
+                    this.estado = 'apressada';
                     this.acelerando = true;
                     return;
                 }
@@ -1568,6 +1576,14 @@
 
         console.log('🌊 Jogo carregado com PÉROLA MAIOR!');
         console.log('📏 Tamanho atual da Pérola:', TAMANHO_PEROLA.largura + 'x' + TAMANHO_PEROLA.altura);
+        console.log('📁 Imagens necessárias:');
+        console.log('   - pulando.png');
+        console.log('   - andando.png');
+        console.log('   - escalando1.png');
+        console.log('   - acelerando.png');
+        console.log('   - correndoparadireita.png (NOVA)');
+        console.log('   - correndoparaesquerda.png (NOVA)');
+        console.log('   - apressada.png (NOVA)');
         console.log('📁 Arquivos de áudio necessários:');
         console.log('   - Somdecoletar.mp3');
         console.log('   - somdeperdeu.mp3');
