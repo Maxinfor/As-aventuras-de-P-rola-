@@ -397,7 +397,7 @@
         });
 
         // ============================================================
-        // ÁUDIO - Sistema de Sons (CORRIGIDO)
+        // ÁUDIO - Sistema de Sons
         // ============================================================
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
@@ -410,13 +410,12 @@
 
         // Carrega os arquivos de áudio
         const sons = {
-            coletar: new Audio('./Somdecoletar.mp3'),  // ← CORRIGIDO: S maiúsculo
+            coletar: new Audio('./Somdecoletar.mp3'),
             perder: new Audio('./somdeperdeu.mp3'),
             fogo: new Audio('./fogo.mp3'),
             musica: new Audio('./musica.mp3')
         };
 
-        // Configura a música de fundo
         sons.musica.loop = true;
         sons.musica.volume = 0.5;
 
@@ -447,7 +446,7 @@
         }
 
         // ============================================================
-        // CARREGAR IMAGENS DA PÉROLA
+        // CARREGAR IMAGENS DA PÉROLA - TAMANHO AUMENTADO
         // ============================================================
         const PASTA_IMAGENS = './';
         
@@ -461,9 +460,10 @@
             acelerando: new Image()
         };
 
+        // 🔥 AUMENTEI AINDA MAIS O TAMANHO DA PÉROLA!
         const TAMANHO_PEROLA = {
-            largura: 90,
-            altura: 110
+            largura: 120,   // ANTES: 90 → AGORA: 120 (33% maior)
+            altura: 145     // ANTES: 110 → AGORA: 145 (32% maior)
         };
 
         const CONFIG_IMAGENS = {
@@ -486,6 +486,7 @@
                 imagensCarregadas++;
                 if (imagensCarregadas >= totalImagens) {
                     console.log('🎉 Todas as imagens carregadas!');
+                    console.log('📏 Tamanho da Pérola:', TAMANHO_PEROLA.largura + 'x' + TAMANHO_PEROLA.altura);
                 }
             };
             img.onerror = () => {
@@ -506,25 +507,25 @@
             
             ctxTemp.fillStyle = '#FF6B6B';
             ctxTemp.beginPath();
-            ctxTemp.arc(w/2, h/2 - 10, 50, 0, Math.PI * 2);
+            ctxTemp.arc(w/2, h/2 - 10, 60, 0, Math.PI * 2);
             ctxTemp.fill();
             
             ctxTemp.fillStyle = '#FFD5C2';
             ctxTemp.beginPath();
-            ctxTemp.arc(w/2, h/2 - 20, 35, 0, Math.PI * 2);
+            ctxTemp.arc(w/2, h/2 - 20, 40, 0, Math.PI * 2);
             ctxTemp.fill();
             
             ctxTemp.fillStyle = '#2C3E50';
             ctxTemp.beginPath();
-            ctxTemp.arc(w/2 - 12, h/2 - 22, 5, 0, Math.PI * 2);
+            ctxTemp.arc(w/2 - 15, h/2 - 25, 6, 0, Math.PI * 2);
             ctxTemp.fill();
             ctxTemp.beginPath();
-            ctxTemp.arc(w/2 + 12, h/2 - 22, 5, 0, Math.PI * 2);
+            ctxTemp.arc(w/2 + 15, h/2 - 25, 6, 0, Math.PI * 2);
             ctxTemp.fill();
             
             ctxTemp.fillStyle = '#FFD700';
             ctxTemp.beginPath();
-            ctxTemp.arc(w/2, h/2 + 30, 35, 0, Math.PI);
+            ctxTemp.arc(w/2, h/2 + 35, 40, 0, Math.PI);
             ctxTemp.fill();
             
             const imgFallback = new Image();
@@ -555,7 +556,7 @@
         let celebrando = false;
 
         // ============================================================
-        // PÉROLA - COM PULO DUPLO
+        // PÉROLA - COM PULO DUPLO E TAMANHO AUMENTADO
         // ============================================================
         const perola = {
             x: 80,
@@ -576,7 +577,7 @@
 
             reset() {
                 this.x = 80;
-                this.y = H - 180;
+                this.y = H - 200;
                 this.vy = 0;
                 this.noChao = false;
                 this.visivel = true;
@@ -605,8 +606,8 @@
                 if (!this.visivel) return;
 
                 ctx.shadowColor = 'rgba(0,0,0,0.15)';
-                ctx.shadowBlur = 20;
-                ctx.shadowOffsetY = 8;
+                ctx.shadowBlur = 25;
+                ctx.shadowOffsetY = 10;
 
                 let img = this.selecionarImagem();
 
@@ -660,86 +661,86 @@
                 const escala = this.w / 50;
 
                 ctx.shadowColor = 'rgba(0,0,0,0.1)';
-                ctx.shadowBlur = 15;
-                ctx.shadowOffsetY = 5;
+                ctx.shadowBlur = 20;
+                ctx.shadowOffsetY = 8;
 
                 const grad = ctx.createRadialGradient(
-                    this.x + 15*escala, this.y + 20*escala, 5*escala,
-                    this.x + 25*escala, this.y + 50*escala, 45*escala
+                    this.x + 20*escala, this.y + 25*escala, 8*escala,
+                    this.x + 30*escala, this.y + 60*escala, 55*escala
                 );
                 grad.addColorStop(0, '#FF8A8A');
                 grad.addColorStop(1, '#E74C6F');
 
                 ctx.beginPath();
                 ctx.ellipse(cx, this.y + this.h * 0.58,
-                    this.w * 0.35, this.h * 0.42, 0, 0, Math.PI * 2);
+                    this.w * 0.36, this.h * 0.43, 0, 0, Math.PI * 2);
                 ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.strokeStyle = '#CC4466';
-                ctx.lineWidth = 2*escala;
+                ctx.lineWidth = 2.5*escala;
                 ctx.stroke();
 
-                ctx.shadowBlur = 8;
-                const raio = 22*escala;
-                const cabecaY = this.y + 25*escala;
+                ctx.shadowBlur = 10;
+                const raio = 28*escala;
+                const cabecaY = this.y + 30*escala;
 
                 ctx.beginPath();
                 ctx.arc(cx, cabecaY, raio, 0, Math.PI * 2);
                 ctx.fillStyle = '#FFD5C2';
                 ctx.fill();
                 ctx.strokeStyle = '#E8B89A';
-                ctx.lineWidth = 2*escala;
+                ctx.lineWidth = 2.5*escala;
                 ctx.stroke();
 
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#8B4513';
                 ctx.beginPath();
-                ctx.arc(cx - 8*escala, cabecaY - 14*escala, 12*escala, 0, Math.PI * 2);
+                ctx.arc(cx - 10*escala, cabecaY - 17*escala, 15*escala, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx + 8*escala, cabecaY - 14*escala, 12*escala, 0, Math.PI * 2);
+                ctx.arc(cx + 10*escala, cabecaY - 17*escala, 15*escala, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx, cabecaY - 18*escala, 15*escala, 0, Math.PI * 2);
+                ctx.arc(cx, cabecaY - 22*escala, 18*escala, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.ellipse(cx - 7*escala, cabecaY + 1*escala, 5*escala, 6*escala, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx - 9*escala, cabecaY + 1*escala, 6*escala, 7*escala, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 7*escala, cabecaY + 1*escala, 5*escala, 6*escala, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx + 9*escala, cabecaY + 1*escala, 6*escala, 7*escala, 0, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
-                ctx.arc(cx - 5*escala, cabecaY + 2*escala, 3*escala, 0, Math.PI * 2);
+                ctx.arc(cx - 6*escala, cabecaY + 2*escala, 3.5*escala, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx + 9*escala, cabecaY + 2*escala, 3*escala, 0, Math.PI * 2);
+                ctx.arc(cx + 11*escala, cabecaY + 2*escala, 3.5*escala, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.arc(cx - 6*escala, cabecaY - 1*escala, 1.5*escala, 0, Math.PI * 2);
+                ctx.arc(cx - 7*escala, cabecaY - 1*escala, 2*escala, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx + 8*escala, cabecaY - 1*escala, 1.5*escala, 0, Math.PI * 2);
+                ctx.arc(cx + 10*escala, cabecaY - 1*escala, 2*escala, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.beginPath();
-                ctx.arc(cx, cabecaY + 8*escala, 8*escala, 0.1, Math.PI - 0.1);
+                ctx.arc(cx, cabecaY + 10*escala, 10*escala, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#CC4466';
-                ctx.lineWidth = 2*escala;
+                ctx.lineWidth = 2.5*escala;
                 ctx.stroke();
 
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(cx - 14*escala, cabecaY + 5*escala, 5*escala, 3.5*escala, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx - 18*escala, cabecaY + 6*escala, 6*escala, 4*escala, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 14*escala, cabecaY + 5*escala, 5*escala, 3.5*escala, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx + 18*escala, cabecaY + 6*escala, 6*escala, 4*escala, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.globalAlpha = 1;
 
@@ -874,12 +875,12 @@
             return {
                 x: W + 30,
                 y: 60 + Math.random() * (H - 220),
-                raio: 15 + Math.random() * 10,
+                raio: 18 + Math.random() * 12,
                 vel: 1.5 + Math.random() * 2,
                 rot: Math.random() * Math.PI * 2,
                 coletada: false,
                 dourada: Math.random() > 0.75,
-                tam: Math.random() > 0.75 ? 1.4 : 1
+                tam: Math.random() > 0.75 ? 1.5 : 1
             };
         }
 
@@ -890,12 +891,12 @@
             ctx.rotate(e.rot);
             ctx.scale(e.tam, e.tam);
 
-            const gradBrilho = ctx.createRadialGradient(0, 0, 0, 0, 0, e.raio * 2);
+            const gradBrilho = ctx.createRadialGradient(0, 0, 0, 0, 0, e.raio * 2.5);
             gradBrilho.addColorStop(0, 'rgba(255,215,0,0.15)');
             gradBrilho.addColorStop(1, 'rgba(255,215,0,0)');
             ctx.fillStyle = gradBrilho;
             ctx.beginPath();
-            ctx.arc(0, 0, e.raio * 2, 0, Math.PI * 2);
+            ctx.arc(0, 0, e.raio * 2.5, 0, Math.PI * 2);
             ctx.fill();
 
             const pts = 5;
@@ -918,26 +919,26 @@
             ctx.fillStyle = grad;
             ctx.fill();
             ctx.strokeStyle = '#FF8C00';
-            ctx.lineWidth = 1.5;
+            ctx.lineWidth = 2;
             ctx.stroke();
 
             ctx.shadowColor = 'rgba(255,215,0,0.3)';
-            ctx.shadowBlur = 20;
+            ctx.shadowBlur = 25;
             ctx.fill();
             ctx.shadowBlur = 0;
 
             if (e.dourada) {
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
-                ctx.arc(-3.5, -2, 2.5, 0, Math.PI * 2);
+                ctx.arc(-4, -2.5, 3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(3.5, -2, 2.5, 0, Math.PI * 2);
+                ctx.arc(4, -2.5, 3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(0, 1.5, 3.5, 0.1, Math.PI - 0.1);
+                ctx.arc(0, 2, 4, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#2C3E50';
-                ctx.lineWidth = 1;
+                ctx.lineWidth = 1.2;
                 ctx.stroke();
             }
 
@@ -950,10 +951,10 @@
         function criarObstaculo() {
             return {
                 x: W + 30,
-                y: H - 180 - Math.random() * 80,
-                w: 30 + Math.random() * 25,
-                h: 30 + Math.random() * 25,
-                vel: 2 + Math.random() * 2,
+                y: H - 200 - Math.random() * 80,
+                w: 35 + Math.random() * 30,
+                h: 35 + Math.random() * 30,
+                vel: 2 + Math.random() * 2.5,
                 tipo: Math.random() > 0.5 ? 'espinho' : 'agua',
                 rot: 0,
                 off: Math.random() * Math.PI * 2
@@ -986,22 +987,22 @@
                 ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.strokeStyle = '#A93226';
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 2;
                 ctx.stroke();
 
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.arc(-5, -3.5, 4, 0, Math.PI * 2);
+                ctx.arc(-6, -4, 5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(5, -3.5, 4, 0, Math.PI * 2);
+                ctx.arc(6, -4, 5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
-                ctx.arc(-4.5, -2.5, 2.5, 0, Math.PI * 2);
+                ctx.arc(-5.5, -3, 3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(5.5, -2.5, 2.5, 0, Math.PI * 2);
+                ctx.arc(6.5, -3, 3, 0, Math.PI * 2);
                 ctx.fill();
             } else {
                 ctx.fillStyle = 'rgba(200,230,255,0.3)';
@@ -1009,31 +1010,31 @@
                 ctx.arc(0, 0, o.w/2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.strokeStyle = 'rgba(150,200,255,0.25)';
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 2;
                 ctx.stroke();
 
                 for (let i = 0; i < 6; i++) {
                     const a = (i / 6) * Math.PI * 2 + o.off;
-                    const len = 10 + Math.sin(frame * 0.04 + i * 1.2) * 5;
+                    const len = 12 + Math.sin(frame * 0.04 + i * 1.2) * 6;
                     ctx.beginPath();
                     ctx.moveTo(Math.cos(a) * o.w/2 * 0.4, Math.sin(a) * o.w/2 * 0.4);
                     ctx.quadraticCurveTo(
                         Math.cos(a) * (o.w/2 + len * 0.3),
-                        Math.sin(a) * (o.w/2 + len * 0.3) + 5,
+                        Math.sin(a) * (o.w/2 + len * 0.3) + 6,
                         Math.cos(a) * (o.w/2 + len),
-                        Math.sin(a) * (o.w/2 + len) + 10
+                        Math.sin(a) * (o.w/2 + len) + 12
                     );
                     ctx.strokeStyle = `rgba(150,200,255,${0.15 + Math.sin(frame * 0.03 + i) * 0.1})`;
-                    ctx.lineWidth = 1.5;
+                    ctx.lineWidth = 2;
                     ctx.stroke();
                 }
 
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
-                ctx.arc(-3, -2, 2.5, 0, Math.PI * 2);
+                ctx.arc(-3.5, -2.5, 3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(3, -2, 2.5, 0, Math.PI * 2);
+                ctx.arc(3.5, -2.5, 3, 0, Math.PI * 2);
                 ctx.fill();
             }
 
@@ -1043,17 +1044,17 @@
         // ============================================================
         // PARTÍCULAS
         // ============================================================
-        function adicionarParticulas(x, y, cor, qtd = 15, tamanho = 4) {
+        function adicionarParticulas(x, y, cor, qtd = 20, tamanho = 5) {
             for (let i = 0; i < qtd; i++) {
                 const a = Math.random() * Math.PI * 2;
-                const s = 1 + Math.random() * 4;
+                const s = 1 + Math.random() * 5;
                 particulas.push({
                     x, y,
                     vx: Math.cos(a) * s,
                     vy: Math.sin(a) * s - 1,
                     life: 1,
                     decay: 0.008 + Math.random() * 0.02,
-                    raio: 1.5 + Math.random() * tamanho,
+                    raio: 2 + Math.random() * tamanho,
                     cor: cor || '#FFD700'
                 });
             }
@@ -1069,10 +1070,10 @@
 
         function verificarColisoes() {
             const pb = {
-                x: perola.x + 12,
-                y: perola.y + 12,
-                w: perola.w - 24,
-                h: perola.h - 24
+                x: perola.x + 15,
+                y: perola.y + 15,
+                w: perola.w - 30,
+                h: perola.h - 30
             };
 
             for (let i = estrelas.length - 1; i >= 0; i--) {
@@ -1080,18 +1081,16 @@
                 if (e.coletada) continue;
                 const dx = (perola.x + perola.w/2) - e.x;
                 const dy = (perola.y + perola.h/2) - e.y;
-                if (Math.sqrt(dx*dx + dy*dy) < e.raio * e.tam + 25) {
+                if (Math.sqrt(dx*dx + dy*dy) < e.raio * e.tam + 30) {
                     e.coletada = true;
-                    const qtd = e.dourada ? 30 : 20;
-                    adicionarParticulas(e.x, e.y, '#FFD700', qtd, 5);
+                    const qtd = e.dourada ? 35 : 25;
+                    adicionarParticulas(e.x, e.y, '#FFD700', qtd, 6);
                     pontos += e.dourada ? 5 : 1;
                     document.getElementById('pts').textContent = pontos;
                     estrelas.splice(i, 1);
                     
-                    // Toca som de coletar
                     tocarSom('coletar');
                     
-                    // Verifica se passou de fase
                     if (pontos >= estrelasParaProximaFase * fase) {
                         celebrarFase();
                     }
@@ -1103,7 +1102,7 @@
                 const ob = { x: o.x, y: o.y, w: o.w, h: o.h };
                 if (colisaoRetangulo(pb, ob)) {
                     perderVida();
-                    adicionarParticulas(o.x + o.w/2, o.y + o.h/2, '#FF4757', 20, 5);
+                    adicionarParticulas(o.x + o.w/2, o.y + o.h/2, '#FF4757', 25, 6);
                     obstaculos.splice(i, 1);
                     comboCount = 0;
                     return;
@@ -1117,14 +1116,14 @@
         function perderVida() {
             vidas--;
             document.getElementById('vidas').textContent = vidas;
-            adicionarParticulas(perola.x + perola.w/2, perola.y + perola.h/2, '#FF6B6B', 25, 5);
+            adicionarParticulas(perola.x + perola.w/2, perola.y + perola.h/2, '#FF6B6B', 30, 6);
             tocarSom('perder');
 
             if (vidas <= 0) {
                 gameOver();
             } else {
                 perola.reset();
-                perola.y = H - 180;
+                perola.y = H - 200;
                 let c = 0;
                 const i = setInterval(() => {
                     perola.visivel = !perola.visivel;
@@ -1142,11 +1141,9 @@
             celebrando = true;
             rodando = false;
             
-            // Toca som de fogo (celebração)
             tocarSom('fogo');
             
-            // Cria fogos de artifício
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 8; i++) {
                 setTimeout(() => {
                     fogos.push(new Fogo());
                 }, i * 300);
@@ -1161,7 +1158,6 @@
             document.getElementById('fase').textContent = fase;
             document.getElementById('celebracao').classList.remove('show');
             
-            // Reseta o jogo para a nova fase
             pontos = 0;
             document.getElementById('pts').textContent = '0';
             estrelas = [];
@@ -1169,11 +1165,10 @@
             particulas = [];
             fogos = [];
             perola.reset();
-            perola.y = H - 180;
+            perola.y = H - 200;
             celebrando = false;
             rodando = true;
             
-            // Aumenta a dificuldade
             timerEstrelas = 0;
             timerObstaculos = 0;
             
@@ -1209,7 +1204,6 @@
             document.getElementById('gameover').classList.remove('show');
             document.getElementById('celebracao').classList.remove('show');
 
-            // Inicia áudio
             initAudio();
             
             pontos = 0;
@@ -1231,10 +1225,9 @@
             document.getElementById('fase').textContent = '1';
 
             perola.reset();
-            perola.y = H - 180;
+            perola.y = H - 200;
             perola.visivel = true;
 
-            // Inicia música de fundo
             iniciarMusica();
 
             rodando = true;
@@ -1247,7 +1240,6 @@
         // ============================================================
         function loop() {
             if (!rodando) {
-                // Continua desenhando fogos mesmo se não estiver rodando
                 if (fogos.length > 0) {
                     atualizarFogos();
                     desenharFogos();
@@ -1279,7 +1271,7 @@
             perola.vy += perola.gravidade;
             perola.y += perola.vy;
 
-            const chao = H - 170;
+            const chao = H - 190;
             if (perola.y + perola.h > chao) {
                 perola.y = chao - perola.h;
                 perola.vy = 0;
@@ -1331,16 +1323,13 @@
                 if (p.life <= 0 || p.raio < 0.3) particulas.splice(i, 1);
             }
 
-            // Atualiza fogos
             atualizarFogos();
-
             verificarColisoes();
         }
 
         function desenhar() {
             ctx.clearRect(0, 0, W, H);
 
-            // Céu
             const g = ctx.createLinearGradient(0, 0, 0, H);
             g.addColorStop(0, '#87CEEB');
             g.addColorStop(0.3, '#4A90D9');
@@ -1349,7 +1338,6 @@
             ctx.fillStyle = g;
             ctx.fillRect(0, 0, W, H);
 
-            // Sol
             ctx.shadowColor = 'rgba(255,200,50,0.2)';
             ctx.shadowBlur = 40;
             ctx.beginPath();
@@ -1362,8 +1350,7 @@
             ctx.fill();
             ctx.shadowBlur = 0;
 
-            // Chão
-            const chao = H - 170;
+            const chao = H - 190;
             const gc = ctx.createLinearGradient(0, chao, 0, H);
             gc.addColorStop(0, '#F4A460');
             gc.addColorStop(0.15, '#D2691E');
@@ -1372,7 +1359,6 @@
             ctx.fillStyle = gc;
             ctx.fillRect(0, chao, W, H - chao);
 
-            // Grama
             ctx.strokeStyle = 'rgba(34,139,34,0.25)';
             ctx.lineWidth = 2;
             for (let i = 0; i < W; i += 10) {
@@ -1397,7 +1383,7 @@
                 ctx.arc(p.x, p.y, p.raio, 0, Math.PI * 2);
                 ctx.fillStyle = p.cor;
                 ctx.shadowColor = p.cor;
-                ctx.shadowBlur = 12;
+                ctx.shadowBlur = 15;
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 ctx.globalAlpha = 1;
@@ -1478,7 +1464,7 @@
             toqueX = t.clientX - rect.left;
 
             if (rodando && perola.pular()) {
-                adicionarParticulas(perola.x + perola.w/2, perola.y + perola.h, '#87CEEB', 8, 3);
+                adicionarParticulas(perola.x + perola.w/2, perola.y + perola.h, '#87CEEB', 10, 4);
             }
         }, { passive: false });
 
@@ -1522,7 +1508,7 @@
             if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') && rodando) {
                 e.preventDefault();
                 if (perola.pular()) {
-                    adicionarParticulas(perola.x + perola.w/2, perola.y + perola.h, '#87CEEB', 8, 3);
+                    adicionarParticulas(perola.x + perola.w/2, perola.y + perola.h, '#87CEEB', 10, 4);
                 }
             }
         });
@@ -1552,15 +1538,15 @@
         // ============================================================
         window.addEventListener('resize', () => {
             redimensionar();
-            if (perola.y + perola.h > H - 170) {
-                perola.y = H - 170 - perola.h;
+            if (perola.y + perola.h > H - 190) {
+                perola.y = H - 190 - perola.h;
             }
         });
 
         // ============================================================
         // INICIAR
         // ============================================================
-        perola.y = H - 180;
+        perola.y = H - 200;
         perola.reset();
 
         function telaInicialLoop() {
@@ -1580,9 +1566,10 @@
         }
         telaInicialLoop();
 
-        console.log('🌊 Jogo carregado com SONS e FASES!');
+        console.log('🌊 Jogo carregado com PÉROLA MAIOR!');
+        console.log('📏 Tamanho atual da Pérola:', TAMANHO_PEROLA.largura + 'x' + TAMANHO_PEROLA.altura);
         console.log('📁 Arquivos de áudio necessários:');
-        console.log('   - Somdecoletar.mp3 (S maiúsculo)');
+        console.log('   - Somdecoletar.mp3');
         console.log('   - somdeperdeu.mp3');
         console.log('   - fogo.mp3');
         console.log('   - musica.mp3');
