@@ -2,147 +2,139 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>🌊 As Aventuras de Pérola</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌊 Pérola - Jogo</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a1a; touch-action: none; position: fixed; top: 0; left: 0; }
-        canvas { display: block; width: 100vw; height: 100vh; touch-action: none; cursor: pointer; background: linear-gradient(180deg, #87CEEB 0%, #4A90D9 60%, #2C5F8A 100%); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            overflow: hidden; 
+            background: #0a0a1a;
+            touch-action: none;
+            user-select: none;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #87CEEB 0%, #4A90D9 50%, #2C5F8A 100%);
+        }
         
         #start {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 100; padding: 20px; animation: fadeIn 0.5s ease;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        #start .logo { font-size: 4rem; animation: float 2s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
-        #start h1 { font-size: 2.5rem; color: #FFD700; text-shadow: 0 0 40px rgba(255,215,0,0.3); margin: 8px 0; text-align: center; font-family: 'Comic Sans MS', cursive; }
-        #start .sub { font-size: 1rem; color: #87CEEB; margin-bottom: 15px; text-align: center; font-family: 'Comic Sans MS', cursive; }
+        #start h1 {
+            font-size: 3rem;
+            color: #FFD700;
+            text-shadow: 0 0 30px rgba(255,215,0,0.3);
+            margin: 10px 0;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        #start .sub {
+            font-size: 1.2rem;
+            color: #87CEEB;
+            margin-bottom: 20px;
+            font-family: 'Comic Sans MS', cursive;
+        }
         #start button {
-            padding: 15px 45px; font-size: 1.4rem; border: none; border-radius: 50px;
-            background: linear-gradient(135deg, #FF6B6B, #FF4757); color: white; font-weight: bold;
-            cursor: pointer; font-family: 'Comic Sans MS', cursive; margin: 6px 0;
-            transition: all 0.3s ease; box-shadow: 0 8px 40px rgba(255,71,87,0.4);
-            min-height: 55px; min-width: 180px; touch-action: manipulation;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 30px;
+            background: #FF6B6B;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            box-shadow: 0 8px 30px rgba(255,71,87,0.4);
         }
-        #start button:hover { transform: scale(1.05); }
         #start button:active { transform: scale(0.95); }
-        .controls-info {
-            color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-top: 12px; text-align: center; line-height: 2;
-            background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 20px; max-width: 320px;
-            font-family: 'Comic Sans MS', cursive; backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.05);
+        
+        #info {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            color: white;
+            font-size: 1.5rem;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            z-index: 50;
+            font-family: 'Comic Sans MS', cursive;
         }
-        .controls-info .key { display: inline-block; background: rgba(255,255,255,0.1); padding: 1px 8px; border-radius: 6px; font-weight: bold; color: #fff; margin: 0 2px; border: 1px solid rgba(255,255,255,0.1); }
-        
-        #info { position: fixed; top: 12px; left: 12px; color: white; font-size: 1.3rem; background: rgba(0,0,0,0.4); padding: 6px 14px; border-radius: 25px; z-index: 50; backdrop-filter: blur(8px); font-family: 'Comic Sans MS', cursive; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.05); }
-        #info .heart { color: #FF4757; font-size: 1.5rem; animation: heartbeat 1.2s ease-in-out infinite; }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        
-        #score { position: fixed; top: 12px; right: 12px; color: white; font-size: 1.3rem; background: rgba(0,0,0,0.4); padding: 6px 14px; border-radius: 25px; z-index: 50; backdrop-filter: blur(8px); font-family: 'Comic Sans MS', cursive; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.05); }
-        #score .star-icon { color: #FFD700; font-size: 1.8rem; animation: spinStar 4s linear infinite; }
-        @keyframes spinStar { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } 100% { transform: rotate(360deg) scale(1); } }
-        
-        #moedas-display { position: fixed; top: 60px; right: 12px; color: white; font-size: 1rem; background: rgba(0,0,0,0.4); padding: 4px 12px; border-radius: 20px; z-index: 50; backdrop-filter: blur(8px); font-family: 'Comic Sans MS', cursive; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 4px; }
-        #moedas-display .moeda-icon { color: #FFD700; font-size: 1.3rem; }
-        
-        #fase-display { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); color: white; font-size: 0.9rem; background: rgba(0,0,0,0.4); padding: 4px 16px; border-radius: 20px; z-index: 50; backdrop-filter: blur(5px); font-family: 'Comic Sans MS', cursive; border: 1px solid rgba(255,255,255,0.05); text-align: center; white-space: nowrap; }
-        #fase-display .fase-num { color: #FFD700; font-weight: bold; }
-        #fase-display .cenario-nome { color: #87CEEB; font-size: 0.8em; }
+        #score {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            z-index: 50;
+            font-family: 'Comic Sans MS', cursive;
+        }
         
         #gameover {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            background: rgba(0,0,0,0.92); padding: 30px 25px; border-radius: 30px; text-align: center;
-            border: 3px solid #FFD700; z-index: 100; transition: transform 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);
-            width: 85%; max-width: 350px; backdrop-filter: blur(30px); box-shadow: 0 0 80px rgba(255,215,0,0.15);
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(0,0,0,0.9);
+            padding: 30px;
+            border-radius: 30px;
+            text-align: center;
+            border: 3px solid #FFD700;
+            z-index: 100;
+            transition: transform 0.5s ease;
+            width: 85%;
+            max-width: 350px;
         }
         #gameover.show { transform: translate(-50%, -50%) scale(1); }
-        #gameover .emoji { font-size: 3.5rem; display: block; animation: float 2s ease-in-out infinite; }
-        #gameover h1 { color: #FFD700; font-size: 2rem; margin: 6px 0; font-family: 'Comic Sans MS', cursive; }
-        #gameover .fscore { color: #87CEEB; font-size: 1.1rem; margin: 8px 0; font-family: 'Comic Sans MS', cursive; }
-        #gameover .fscore span { color: #FFD700; font-size: 1.8rem; }
+        #gameover h1 { color: #FFD700; font-size: 2.5rem; font-family: 'Comic Sans MS', cursive; }
+        #gameover .fscore { color: #87CEEB; font-size: 1.2rem; margin: 10px 0; font-family: 'Comic Sans MS', cursive; }
+        #gameover .fscore span { color: #FFD700; font-size: 2rem; }
         #gameover button {
-            padding: 12px 35px; font-size: 1.1rem; border: none; border-radius: 25px;
-            background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; font-weight: bold;
-            cursor: pointer; font-family: 'Comic Sans MS', cursive; transition: all 0.3s ease;
-            min-height: 45px; min-width: 140px; touch-action: manipulation; box-shadow: 0 8px 40px rgba(255,215,0,0.3);
-        }
-        #gameover button:hover { transform: scale(1.05); }
-        #gameover button:active { transform: scale(0.95); }
-        
-        #celebracao {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 200; animation: fadeIn 0.5s ease; padding: 20px;
-        }
-        #celebracao.show { display: flex; }
-        #celebracao .emoji-big { font-size: 5rem; animation: float 1.5s ease-in-out infinite; }
-        #celebracao h1 { font-size: 2.8rem; color: #FFD700; text-shadow: 0 0 60px rgba(255,215,0,0.3); margin: 10px 0; font-family: 'Comic Sans MS', cursive; text-align: center; }
-        #celebracao .sub { font-size: 1.2rem; color: #87CEEB; font-family: 'Comic Sans MS', cursive; text-align: center; }
-        #celebracao .premios { display: flex; gap: 15px; margin: 10px 0; flex-wrap: wrap; justify-content: center; }
-        #celebracao .premio-item { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(255,215,0,0.2); text-align: center; }
-        #celebracao .premio-item .icone { font-size: 2.5rem; display: block; }
-        #celebracao .premio-item .nome { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
-        #celebracao button {
-            padding: 15px 40px; font-size: 1.2rem; border: none; border-radius: 25px;
-            background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; font-weight: bold;
-            cursor: pointer; font-family: 'Comic Sans MS', cursive; margin-top: 10px;
-            transition: all 0.3s ease; box-shadow: 0 8px 40px rgba(255,215,0,0.3);
-            touch-action: manipulation;
-        }
-        #celebracao button:hover { transform: scale(1.05); }
-        #celebracao button:active { transform: scale(0.95); }
-        
-        @media (max-width: 400px) {
-            #start h1 { font-size: 1.8rem; }
-            #start .logo { font-size: 3rem; }
-            #start button { font-size: 1rem; padding: 12px 25px; min-height: 45px; min-width: 140px; }
-            #info, #score { font-size: 1rem; padding: 4px 10px; }
-            #moedas-display { font-size: 0.8rem; padding: 3px 10px; top: 55px; }
-            #gameover { padding: 20px; }
-            #gameover h1 { font-size: 1.6rem; }
-            #fase-display { font-size: 0.7rem; padding: 3px 12px; }
-            #celebracao h1 { font-size: 2rem; }
-            #celebracao .emoji-big { font-size: 3.5rem; }
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 25px;
+            background: #FFD700;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
         }
     </style>
 </head>
 <body>
 
     <div id="start">
-        <div class="logo">🌊</div>
-        <h1>As Aventuras de Pérola</h1>
-        <div class="sub">✨ Multiverso - Colete e evolua!</div>
+        <h1>🌊 As Aventuras de Pérola</h1>
+        <div class="sub">🐚 Ajude a Pérola a coletar estrelas!</div>
         <button onclick="iniciarJogo()">🎮 Começar</button>
-        <div class="controls-info">
-            📱 <span class="key">Toque</span> pular • <span class="key">Arraste</span> mover<br>
-            ⭐ Estrelas • 🪙 Moedas • 🏆 6 Cenários
-        </div>
     </div>
 
-    <div id="info"><span class="heart">❤️</span> <span id="vidas">3</span></div>
-    <div id="score"><span class="star-icon">⭐</span> <span id="pts">0</span></div>
-    <div id="moedas-display"><span class="moeda-icon">🪙</span> <span id="moedas">0</span></div>
-    <div id="fase-display">🌍 Fase <span class="fase-num" id="fase">1</span> - <span class="cenario-nome" id="cenarioNome">Praia</span></div>
+    <div id="info">❤️ <span id="vidas">3</span></div>
+    <div id="score">⭐ <span id="pts">0</span></div>
 
     <div id="gameover">
-        <span class="emoji">💫</span>
-        <h1>Fim de Jogo!</h1>
+        <h1>💫 Fim de Jogo!</h1>
         <div class="fscore">⭐ Estrelas: <span id="final">0</span></div>
-        <div class="fscore">🪙 Moedas: <span id="final-moedas">0</span></div>
-        <div class="fscore">🏆 Fase: <span id="final-fase">1</span></div>
         <button onclick="reiniciar()">🔄 Jogar Novamente</button>
-    </div>
-
-    <div id="celebracao">
-        <span class="emoji-big">🎉</span>
-        <h1>Parabéns!</h1>
-        <div class="sub">⭐ Você passou de fase!</div>
-        <div class="premios" id="premiosContainer"></div>
-        <button onclick="proximaFase()">🚀 Próxima Fase</button>
     </div>
 
     <canvas id="canvas"></canvas>
@@ -155,174 +147,12 @@
         const ctx = canvas.getContext('2d');
         let W, H;
 
-        function redimensionar() {
+        function resize() {
             W = canvas.width = window.innerWidth;
             H = canvas.height = window.innerHeight;
-            if (perola) {
-                const chao = getChaoAltura();
-                const size = getPerolaSize();
-                perola.w = size.w;
-                perola.h = size.h;
-                if (perola.y + perola.h > H - chao) {
-                    perola.y = H - chao - perola.h;
-                }
-                if (perola.x + perola.w > W) perola.x = W - perola.w;
-            }
         }
-        redimensionar();
-
-        function getChaoAltura() {
-            return Math.max(130, Math.min(190, H * 0.25));
-        }
-
-        function getPerolaSize() {
-            const base = Math.min(W, H);
-            const size = Math.max(45, Math.min(75, base * 0.085));
-            return { w: size, h: size * 1.25 };
-        }
-
-        window.addEventListener('resize', redimensionar);
-        window.addEventListener('orientationchange', () => {
-            setTimeout(redimensionar, 300);
-        });
-
-        // ============================================================
-        // ÁUDIO
-        // ============================================================
-        let audioCtx = null;
-        let musicaInterval = null;
-        let oscAtual = null;
-
-        function initAudio() {
-            if (!audioCtx) {
-                try {
-                    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {}
-            }
-        }
-
-        function tocarSom(tipo) {
-            try {
-                initAudio();
-                if (!audioCtx) return;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                const now = audioCtx.currentTime;
-
-                if (tipo === 'coletar') {
-                    osc.frequency.setValueAtTime(880, now);
-                    osc.frequency.exponentialRampToValueAtTime(1320, now + 0.1);
-                    gain.gain.setValueAtTime(0.12, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-                    osc.start(now);
-                    osc.stop(now + 0.15);
-                } else if (tipo === 'moeda') {
-                    osc.frequency.setValueAtTime(660, now);
-                    osc.frequency.exponentialRampToValueAtTime(990, now + 0.08);
-                    osc.frequency.exponentialRampToValueAtTime(1320, now + 0.16);
-                    gain.gain.setValueAtTime(0.1, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-                    osc.start(now);
-                    osc.stop(now + 0.2);
-                } else if (tipo === 'perder') {
-                    osc.frequency.setValueAtTime(440, now);
-                    osc.frequency.exponentialRampToValueAtTime(220, now + 0.3);
-                    gain.gain.setValueAtTime(0.12, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-                    osc.start(now);
-                    osc.stop(now + 0.35);
-                } else if (tipo === 'fogo') {
-                    for (let i = 0; i < 3; i++) {
-                        const o = audioCtx.createOscillator();
-                        const g = audioCtx.createGain();
-                        o.connect(g);
-                        g.connect(audioCtx.destination);
-                        const t = now + i * 0.15;
-                        o.frequency.setValueAtTime(400 + Math.random() * 400, t);
-                        o.frequency.exponentialRampToValueAtTime(800 + Math.random() * 400, t + 0.3);
-                        g.gain.setValueAtTime(0.06, t);
-                        g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
-                        o.start(t);
-                        o.stop(t + 0.35);
-                    }
-                }
-            } catch (e) {}
-        }
-
-        function iniciarMusica() {
-            try {
-                initAudio();
-                if (!audioCtx) return;
-                pararMusica();
-
-                const notas = [523, 587, 659, 784, 880, 988, 1047];
-                let i = 0;
-                const tocarNota = () => {
-                    if (!rodando) { clearInterval(musicaInterval); return; }
-                    try {
-                        if (oscAtual) {
-                            oscAtual.stop();
-                            oscAtual.disconnect();
-                        }
-                        oscAtual = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        oscAtual.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        gain.gain.value = 0.05;
-                        oscAtual.frequency.value = notas[i];
-                        oscAtual.type = 'sine';
-                        oscAtual.start();
-                        setTimeout(() => {
-                            try { if (oscAtual) { oscAtual.stop();
-                                    oscAtual.disconnect(); } } catch (e) {}
-                        }, 350);
-                        i = (i + 1) % notas.length;
-                    } catch (e) {}
-                };
-                tocarNota();
-                musicaInterval = setInterval(tocarNota, 400);
-            } catch (e) {}
-        }
-
-        function pararMusica() {
-            try {
-                if (musicaInterval) { clearInterval(musicaInterval);
-                    musicaInterval = null; }
-                if (oscAtual) { oscAtual.stop();
-                    oscAtual.disconnect();
-                    oscAtual = null; }
-            } catch (e) {}
-        }
-
-        // ============================================================
-        // CENÁRIOS
-        // ============================================================
-        const CENARIOS = [
-            { id: 0, nome: '🏖️ Praia', corCeu1: '#87CEEB', corCeu2: '#4A90D9', corChao1: '#F4A460', corChao2: '#D2691E', elementos: ['🌴', '⛱️', '🏄'] },
-            { id: 1, nome: '🌲 Floresta', corCeu1: '#90EE90', corCeu2: '#228B22', corChao1: '#8B4513', corChao2: '#654321', elementos: ['🌳', '🍄', '🦋'] },
-            { id: 2, nome: '🏔️ Montanha', corCeu1: '#87CEEB', corCeu2: '#4682B4', corChao1: '#8B8682', corChao2: '#696969', elementos: ['⛰️', '🌨️', '🏔️'] },
-            { id: 3, nome: '🌃 Cidade', corCeu1: '#2C3E50', corCeu2: '#1a1a2e', corChao1: '#4a4a4a', corChao2: '#2d2d2d', elementos: ['🏙️', '🚗', '🌃'] },
-            { id: 4, nome: '🌺 Jardim', corCeu1: '#FFB6C1', corCeu2: '#FF69B4', corChao1: '#98FB98', corChao2: '#228B22', elementos: ['🌸', '🌷', '🌻'] },
-            { id: 5, nome: '🌊 Fundo do Mar', corCeu1: '#006994', corCeu2: '#003366', corChao1: '#2E8B57', corChao2: '#1a4a2a', elementos: ['🐠', '🐙', '🪸'] }
-        ];
-
-        // ============================================================
-        // PREMIOS
-        // ============================================================
-        const PREMIOS = [
-            { fase: 1, icone: '👗', nome: 'Vestido de Praia' },
-            { fase: 2, icone: '👒', nome: 'Chapéu de Sol' },
-            { fase: 3, icone: '👑', nome: 'Coroa de Flores' },
-            { fase: 4, icone: '🧥', nome: 'Casaco de Inverno' },
-            { fase: 5, icone: '👠', nome: 'Sapatos Mágicos' },
-            { fase: 6, icone: '🪄', nome: 'Varinha Mágica' },
-            { fase: 7, icone: '🌟', nome: 'Capa de Estrelas' },
-            { fase: 8, icone: '🌈', nome: 'Arco-Íris' },
-            { fase: 9, icone: '💎', nome: 'Colar de Diamantes' },
-            { fase: 10, icone: '👸', nome: 'Traje Real' }
-        ];
+        resize();
+        window.addEventListener('resize', resize);
 
         // ============================================================
         // JOGO
@@ -330,334 +160,198 @@
         let rodando = false;
         let pontos = 0;
         let vidas = 3;
-        let fase = 1;
-        let moedas = 0;
-        let estrelasParaProximaFase = 8;
         let frame = 0;
         let estrelas = [];
-        let moedasList = [];
         let obstaculos = [];
         let particulas = [];
-        let fogos = [];
         let animId = null;
-        let timerEstrelas = 0;
-        let timerMoedas = 0;
-        let timerObstaculos = 0;
-        let toqueX = null;
-        let pulosRestantes = 2;
-        let celebrando = false;
 
         // ============================================================
-        // PÉROLA - DESENHADA COM CANVAS (SEM IMAGENS)
+        // PÉROLA
         // ============================================================
         const perola = {
             x: 80,
             y: 0,
-            w: 60,
-            h: 75,
+            w: 50,
+            h: 60,
             vy: 0,
-            gravidade: 0.55,
-            pulo: -13,
-            puloDuplo: -11,
+            gravidade: 0.5,
+            pulo: -12,
             noChao: false,
             visivel: true,
-            direcao: 'direita',
-            estado: 'parada',
-            velocidadeX: 0,
-            timerAnimacao: 0,
 
             reset() {
-                const chao = H - getChaoAltura();
-                const size = getPerolaSize();
-                this.w = size.w;
-                this.h = size.h;
-                this.x = Math.min(80, W * 0.15);
-                this.y = chao - this.h;
+                this.x = 80;
+                this.y = H - 140;
                 this.vy = 0;
-                this.noChao = true;
+                this.noChao = false;
                 this.visivel = true;
-                this.direcao = 'direita';
-                this.estado = 'parada';
-                this.velocidadeX = 0;
-                pulosRestantes = 2;
             },
 
-            pular() {
-                if (this.noChao) {
-                    this.vy = this.pulo;
-                    this.noChao = false;
-                    pulosRestantes = 1;
-                    return true;
-                } else if (pulosRestantes > 0) {
-                    this.vy = this.puloDuplo;
-                    pulosRestantes--;
-                    return true;
-                }
-                return false;
-            },
-
-            // ============================================================
-            // DESENHO DA PÉROLA - 100% CANVAS
-            // ============================================================
             desenhar() {
                 if (!this.visivel) return;
                 ctx.save();
 
-                const s = this.w / 50;
-                const cx = this.x + this.w / 2;
-                const cy = this.y + this.h / 2;
-
                 // Sombra
-                ctx.shadowColor = 'rgba(0,0,0,0.15)';
-                ctx.shadowBlur = 15 * s;
-                ctx.shadowOffsetY = 5 * s;
+                ctx.shadowColor = 'rgba(0,0,0,0.1)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 5;
 
-                // ============================================
-                // VESTIDO
-                // ============================================
+                // Vestido
                 const grad = ctx.createRadialGradient(
-                    this.x + 10 * s, this.y + 15 * s, 5 * s,
-                    this.x + 20 * s, this.y + 35 * s, 30 * s
+                    this.x + 10, this.y + 15, 3,
+                    this.x + 25, this.y + 35, 30
                 );
                 grad.addColorStop(0, '#FF8A8A');
                 grad.addColorStop(0.5, '#FF6B6B');
                 grad.addColorStop(1, '#E74C6F');
 
                 ctx.beginPath();
-                ctx.ellipse(cx, this.y + this.h * 0.58, this.w * 0.35, this.h * 0.42, 0, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.w/2, this.y + this.h * 0.55,
+                    this.w * 0.32, this.h * 0.38, 0, 0, Math.PI * 2);
                 ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.strokeStyle = '#CC4466';
-                ctx.lineWidth = 1.5 * s;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Laço no vestido
-                ctx.shadowBlur = 5 * s;
+                // Laço
+                ctx.shadowBlur = 5;
                 ctx.fillStyle = '#FF6B8A';
                 ctx.beginPath();
-                ctx.ellipse(cx - 8 * s, this.y + 30 * s, 6 * s, 4 * s, -0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.w/2 - 8, this.y + 25, 6, 4, -0.3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 8 * s, this.y + 30 * s, 6 * s, 4 * s, 0.3, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.w/2 + 8, this.y + 25, 6, 4, 0.3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.fillStyle = '#FFD700';
                 ctx.beginPath();
-                ctx.arc(cx, this.y + 30 * s, 3 * s, 0, Math.PI * 2);
+                ctx.arc(this.x + this.w/2, this.y + 25, 3, 0, Math.PI * 2);
                 ctx.fill();
 
-                // ============================================
-                // CABEÇA
-                // ============================================
-                ctx.shadowBlur = 8 * s;
-                const raio = 18 * s;
-                const cabecaY = this.y + 18 * s;
+                // Cabeça
+                ctx.shadowBlur = 8;
+                const cx = this.x + this.w/2;
+                const cy = this.y + 16;
+                const raio = 18;
 
-                const gradCabeca = ctx.createRadialGradient(
-                    cx - 4 * s, cabecaY - 4 * s, 3 * s,
-                    cx, cabecaY, raio
-                );
+                const gradCabeca = ctx.createRadialGradient(cx - 3, cy - 3, 3, cx, cy, raio);
                 gradCabeca.addColorStop(0, '#FFD5C2');
                 gradCabeca.addColorStop(1, '#F5C4A8');
 
                 ctx.beginPath();
-                ctx.arc(cx, cabecaY, raio, 0, Math.PI * 2);
+                ctx.arc(cx, cy, raio, 0, Math.PI * 2);
                 ctx.fillStyle = gradCabeca;
                 ctx.fill();
                 ctx.strokeStyle = '#E8B89A';
-                ctx.lineWidth = 1.5 * s;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // ============================================
-                // CABELO
-                // ============================================
+                // Cabelo
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#8B4513';
-                // Cabelo topo
                 ctx.beginPath();
-                ctx.arc(cx - 7 * s, cabecaY - 12 * s, 10 * s, 0, Math.PI * 2);
+                ctx.arc(cx - 6, cy - 11, 10, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx + 7 * s, cabecaY - 12 * s, 10 * s, 0, Math.PI * 2);
+                ctx.arc(cx + 6, cy - 11, 10, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx, cabecaY - 15 * s, 12 * s, 0, Math.PI * 2);
+                ctx.arc(cx, cy - 14, 12, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Rabo de cavalo
                 ctx.beginPath();
-                ctx.ellipse(cx + 12 * s, cabecaY - 5 * s, 5 * s, 10 * s, 0.5, 0, Math.PI * 2);
+                ctx.ellipse(cx + 12, cy - 4, 4, 9, 0.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 16 * s, cabecaY + 1 * s, 3 * s, 7 * s, 0.7, 0, Math.PI * 2);
+                ctx.ellipse(cx + 15, cy + 1, 3, 6, 0.7, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Laço no cabelo
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(cx + 14 * s, cabecaY - 10 * s, 5 * s, 3 * s, 0.5, 0, Math.PI * 2);
+                ctx.ellipse(cx + 13, cy - 9, 5, 3, 0.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 18 * s, cabecaY - 9 * s, 5 * s, 3 * s, -0.3, 0, Math.PI * 2);
+                ctx.ellipse(cx + 17, cy - 8, 5, 3, -0.3, 0, Math.PI * 2);
                 ctx.fill();
 
-                // ============================================
-                // OLHOS
-                // ============================================
+                // Olhos
                 ctx.shadowBlur = 0;
-                // Branco dos olhos
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.ellipse(cx - 6 * s, cabecaY + 0.5 * s, 4 * s, 5 * s, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx - 5, cy, 3.5, 4.5, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 6 * s, cabecaY + 0.5 * s, 4 * s, 5 * s, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx + 5, cy, 3.5, 4.5, 0, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Íris
                 ctx.fillStyle = '#2C3E50';
                 ctx.beginPath();
-                ctx.arc(cx - 4.5 * s, cabecaY + 1.5 * s, 2.5 * s, 0, Math.PI * 2);
+                ctx.arc(cx - 3.5, cy + 1, 2.5, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx + 7.5 * s, cabecaY + 1.5 * s, 2.5 * s, 0, Math.PI * 2);
+                ctx.arc(cx + 6.5, cy + 1, 2.5, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Brilho nos olhos
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
-                ctx.arc(cx - 5.5 * s, cabecaY - 1 * s, 1.2 * s, 0, Math.PI * 2);
+                ctx.arc(cx - 4.5, cy - 1, 1.2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(cx + 6.5 * s, cabecaY - 1 * s, 1.2 * s, 0, Math.PI * 2);
+                ctx.arc(cx + 5.5, cy - 1, 1.2, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Pestanas
-                ctx.strokeStyle = '#2C3E50';
-                ctx.lineWidth = 1.2 * s;
-                for (let i = -1; i <= 1; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(cx - 9 * s + i * 2 * s, cabecaY - 2 * s + Math.abs(i) * 2 * s);
-                    ctx.lineTo(cx - 11 * s + i * 3 * s, cabecaY - 5 * s + Math.abs(i) * 3 * s);
-                    ctx.stroke();
-                    ctx.beginPath();
-                    ctx.moveTo(cx + 5 * s + i * 2 * s, cabecaY - 2 * s + Math.abs(i) * 2 * s);
-                    ctx.lineTo(cx + 3 * s + i * 3 * s, cabecaY - 5 * s + Math.abs(i) * 3 * s);
-                    ctx.stroke();
-                }
-
-                // ============================================
-                // BOCA (Sorriso)
-                // ============================================
+                // Boca
                 ctx.beginPath();
-                ctx.arc(cx, cabecaY + 5 * s, 6 * s, 0.1, Math.PI - 0.1);
+                ctx.arc(cx, cy + 5, 5, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#CC4466';
-                ctx.lineWidth = 1.8 * s;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Língua
-                ctx.fillStyle = '#FF6B8A';
-                ctx.beginPath();
-                ctx.arc(cx, cabecaY + 7 * s, 2.5 * s, 0, Math.PI);
-                ctx.fill();
-
-                // ============================================
-                // BOCHECHAS
-                // ============================================
+                // Bochechas
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(cx - 11 * s, cabecaY + 3 * s, 4 * s, 2.5 * s, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx - 10, cy + 3, 3.5, 2.5, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(cx + 11 * s, cabecaY + 3 * s, 4 * s, 2.5 * s, 0, 0, Math.PI * 2);
+                ctx.ellipse(cx + 10, cy + 3, 3.5, 2.5, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.globalAlpha = 1;
 
-                // ============================================
-                // BRAÇOS
-                // ============================================
-                ctx.shadowBlur = 4 * s;
-                ctx.fillStyle = '#F5C4A8';
-                // Braço esquerdo
-                ctx.beginPath();
-                ctx.ellipse(this.x + 5 * s, this.y + 32 * s, 4 * s, 8 * s, 0.3, 0, Math.PI * 2);
-                ctx.fill();
-                // Braço direito
-                ctx.beginPath();
-                ctx.ellipse(this.x + this.w - 5 * s, this.y + 32 * s, 4 * s, 8 * s, -0.3, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Mãos
+                // Braços
                 ctx.fillStyle = '#F5C4A8';
                 ctx.beginPath();
-                ctx.arc(this.x + 3 * s, this.y + 38 * s, 3 * s, 0, Math.PI * 2);
+                ctx.ellipse(this.x + 4, this.y + 28, 3, 7, 0.3, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.arc(this.x + this.w - 3 * s, this.y + 38 * s, 3 * s, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.w - 4, this.y + 28, 3, 7, -0.3, 0, Math.PI * 2);
                 ctx.fill();
 
-                // ============================================
-                // SAPATOS
-                // ============================================
-                ctx.shadowBlur = 0;
+                // Sapatos
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
-                ctx.ellipse(this.x + 8 * s, this.y + this.h - 2 * s, 7 * s, 4 * s, 0.2, 0, Math.PI * 2);
+                ctx.ellipse(this.x + 7, this.y + this.h - 2, 6, 3.5, 0.2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
-                ctx.ellipse(this.x + this.w - 8 * s, this.y + this.h - 2 * s, 7 * s, 4 * s, -0.2, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Meias
-                ctx.fillStyle = '#FFFFFF';
-                ctx.beginPath();
-                ctx.ellipse(this.x + 8 * s, this.y + this.h - 6 * s, 5 * s, 4 * s, 0.2, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.ellipse(this.x + this.w - 8 * s, this.y + this.h - 6 * s, 5 * s, 4 * s, -0.2, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.w - 7, this.y + this.h - 2, 6, 3.5, -0.2, 0, Math.PI * 2);
                 ctx.fill();
 
                 ctx.restore();
                 ctx.shadowBlur = 0;
-                ctx.shadowOffsetY = 0;
-
-                this.timerAnimacao++;
-                if (this.timerAnimacao > 6) this.timerAnimacao = 0;
-            },
-
-            atualizarEstado() {
-                const v = Math.abs(this.velocidadeX);
-                if (!this.noChao) { this.estado = 'pulando'; return; }
-                if (v > 4) { this.estado = 'correndo'; return; }
-                if (v > 1.5) { this.estado = 'andando'; return; }
-                this.estado = 'parada';
             }
         };
 
         // ============================================================
-        // OBJETOS
+        // ESTRELAS
         // ============================================================
-        function getEstrelaSize() {
-            const base = Math.min(W, H);
-            return Math.max(12, Math.min(25, base * 0.035));
-        }
-
-        function getMoedaSize() {
-            const base = Math.min(W, H);
-            return Math.max(10, Math.min(18, base * 0.025));
-        }
-
-        function getObstaculoSize() {
-            const base = Math.min(W, H);
-            return Math.max(20, Math.min(40, base * 0.045));
-        }
-
         function criarEstrela() {
-            const r = getEstrelaSize();
             return {
                 x: W + 30,
-                y: 60 + Math.random() * (H - 120 - getChaoAltura()),
-                raio: r * (0.8 + Math.random() * 0.4),
+                y: 60 + Math.random() * (H - 180),
+                raio: 12 + Math.random() * 8,
                 vel: 1.5 + Math.random() * 1.5,
                 rot: Math.random() * Math.PI * 2,
                 coletada: false,
@@ -665,45 +359,16 @@
             };
         }
 
-        function criarMoeda() {
-            const r = getMoedaSize();
-            return {
-                x: W + 30,
-                y: 60 + Math.random() * (H - 120 - getChaoAltura()),
-                raio: r,
-                vel: 1.5 + Math.random() * 1.5,
-                rot: 0,
-                coletada: false
-            };
-        }
-
-        function criarObstaculo() {
-            const s = getObstaculoSize();
-            const chao = H - getChaoAltura();
-            return {
-                x: W + 30,
-                y: chao - 60 - Math.random() * (chao * 0.4),
-                w: s * (0.7 + Math.random() * 0.5),
-                h: s * (0.7 + Math.random() * 0.5),
-                vel: 2 + Math.random() * 2,
-                tipo: Math.random() > 0.5 ? 'espinho' : 'agua',
-                rot: 0,
-                off: Math.random() * Math.PI * 2
-            };
-        }
-
-        // ============================================================
-        // DESENHO DOS OBJETOS
-        // ============================================================
         function desenharEstrela(e) {
             if (e.coletada) return;
             ctx.save();
             ctx.translate(e.x, e.y);
             ctx.rotate(e.rot);
 
-            const pts = 5,
-                outer = e.raio,
-                inner = e.raio * 0.4;
+            const pts = 5;
+            const outer = e.raio;
+            const inner = e.raio * 0.4;
+
             ctx.beginPath();
             for (let i = 0; i < pts * 2; i++) {
                 const r = i % 2 === 0 ? outer : inner;
@@ -736,42 +401,32 @@
             ctx.restore();
         }
 
-        function desenharMoeda(m) {
-            if (m.coletada) return;
-            ctx.save();
-            ctx.translate(m.x, m.y);
-            ctx.rotate(m.rot);
-
-            const grad = ctx.createRadialGradient(-2, -2, 0, 0, 0, m.raio);
-            grad.addColorStop(0, '#FFE066');
-            grad.addColorStop(0.5, '#FFD700');
-            grad.addColorStop(1, '#FFA500');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(0, 0, m.raio, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = '#DAA520';
-            ctx.lineWidth = 1.2;
-            ctx.stroke();
-
-            ctx.fillStyle = '#B8860B';
-            ctx.font = `${m.raio * 0.8}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('$', 0, 1);
-
-            ctx.restore();
+        // ============================================================
+        // OBSTÁCULOS
+        // ============================================================
+        function criarObstaculo() {
+            return {
+                x: W + 30,
+                y: H - 140 - Math.random() * 80,
+                w: 25 + Math.random() * 20,
+                h: 25 + Math.random() * 20,
+                vel: 2 + Math.random() * 2,
+                tipo: Math.random() > 0.5 ? 'espinho' : 'agua',
+                rot: 0,
+                off: Math.random() * Math.PI * 2
+            };
         }
 
         function desenharObstaculo(o) {
             ctx.save();
-            ctx.translate(o.x + o.w / 2, o.y + o.h / 2);
+            ctx.translate(o.x + o.w/2, o.y + o.h/2);
             ctx.rotate(o.rot);
 
             if (o.tipo === 'espinho') {
-                const pts = 5,
-                    outer = o.w / 2,
-                    inner = outer * 0.35;
+                const pts = 5;
+                const outer = o.w/2;
+                const inner = outer * 0.35;
+
                 ctx.beginPath();
                 for (let i = 0; i < pts * 2; i++) {
                     const r = i % 2 === 0 ? outer : inner;
@@ -808,7 +463,7 @@
             } else {
                 ctx.fillStyle = 'rgba(200,230,255,0.2)';
                 ctx.beginPath();
-                ctx.arc(0, 0, o.w / 2, 0, Math.PI * 2);
+                ctx.arc(0, 0, o.w/2, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.strokeStyle = 'rgba(150,200,255,0.2)';
                 ctx.lineWidth = 1;
@@ -818,12 +473,12 @@
                     const a = (i / 5) * Math.PI * 2 + o.off;
                     const len = 8 + Math.sin(frame * 0.04 + i) * 4;
                     ctx.beginPath();
-                    ctx.moveTo(Math.cos(a) * o.w / 2 * 0.4, Math.sin(a) * o.w / 2 * 0.4);
+                    ctx.moveTo(Math.cos(a) * o.w/2 * 0.4, Math.sin(a) * o.w/2 * 0.4);
                     ctx.quadraticCurveTo(
-                        Math.cos(a) * (o.w / 2 + len * 0.3),
-                        Math.sin(a) * (o.w / 2 + len * 0.3) + 3,
-                        Math.cos(a) * (o.w / 2 + len),
-                        Math.sin(a) * (o.w / 2 + len) + 6
+                        Math.cos(a) * (o.w/2 + len * 0.3),
+                        Math.sin(a) * (o.w/2 + len * 0.3) + 3,
+                        Math.cos(a) * (o.w/2 + len),
+                        Math.sin(a) * (o.w/2 + len) + 6
                     );
                     ctx.strokeStyle = 'rgba(150,200,255,0.15)';
                     ctx.lineWidth = 1.2;
@@ -845,139 +500,49 @@
         // ============================================================
         // PARTÍCULAS
         // ============================================================
-        function adicionarParticulas(x, y, cor, qtd = 12, tamanho = 4) {
+        function adicionarParticulas(x, y, cor, qtd = 12) {
             for (let i = 0; i < qtd; i++) {
-                const a = Math.random() * Math.PI * 2,
-                    s = 1 + Math.random() * 4;
+                const a = Math.random() * Math.PI * 2;
+                const s = 1 + Math.random() * 4;
                 particulas.push({
-                    x,
-                    y,
+                    x, y,
                     vx: Math.cos(a) * s,
                     vy: Math.sin(a) * s - 1,
                     life: 1,
                     decay: 0.01 + Math.random() * 0.02,
-                    raio: 1.5 + Math.random() * tamanho,
-                    cor
+                    raio: 2 + Math.random() * 3,
+                    cor: cor || '#FFD700'
                 });
             }
-        }
-
-        // ============================================================
-        // FOGOS
-        // ============================================================
-        class Fogo {
-            constructor() {
-                this.x = Math.random() * W;
-                this.y = H;
-                this.vy = -7 - Math.random() * 4;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.alturaMax = 80 + Math.random() * (H * 0.35);
-                this.explodiu = false;
-                this.particulas = [];
-                this.cor = ['#FF6B6B', '#FFD700', '#00E676', '#4A90D9', '#FF4757', '#FFA502', '#7C4DFF'][Math.floor(Math.random() * 7)];
-            }
-
-            atualizar() {
-                if (!this.explodiu) {
-                    this.y += this.vy;
-                    this.x += this.vx;
-                    this.vy += 0.05;
-                    if (this.y <= this.alturaMax) { this.explodiu = true;
-                        this.explodir(); }
-                }
-                for (let i = this.particulas.length - 1; i >= 0; i--) {
-                    const p = this.particulas[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.05;
-                    p.life -= 0.015;
-                    p.radius *= 0.99;
-                    if (p.life <= 0 || p.radius < 0.3) this.particulas.splice(i, 1);
-                }
-            }
-
-            explodir() {
-                const qtd = 15 + Math.random() * 15;
-                for (let i = 0; i < qtd; i++) {
-                    const a = Math.random() * Math.PI * 2,
-                        s = 2 + Math.random() * 4;
-                    this.particulas.push({
-                        x: this.x,
-                        y: this.y,
-                        vx: Math.cos(a) * s,
-                        vy: Math.sin(a) * s - 1,
-                        life: 1,
-                        radius: 2 + Math.random() * 3,
-                        cor: this.cor
-                    });
-                }
-            }
-
-            desenhar() {
-                if (!this.explodiu) {
-                    ctx.save();
-                    ctx.shadowColor = 'rgba(255,200,50,0.2)';
-                    ctx.shadowBlur = 15;
-                    ctx.fillStyle = '#FFD700';
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                }
-                this.particulas.forEach(p => {
-                    ctx.save();
-                    ctx.globalAlpha = p.life;
-                    ctx.shadowColor = p.cor;
-                    ctx.shadowBlur = 10;
-                    ctx.fillStyle = p.cor;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                });
-            }
-
-            isDead() { return this.explodiu && this.particulas.length === 0; }
         }
 
         // ============================================================
         // COLISÕES
         // ============================================================
         function colisaoRetangulo(a, b) {
-            return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+            return a.x < b.x + b.w && a.x + a.w > b.x &&
+                   a.y < b.y + b.h && a.y + a.h > b.y;
         }
 
         function verificarColisoes() {
-            const pb = { x: perola.x + 8, y: perola.y + 8, w: perola.w - 16, h: perola.h - 16 };
+            const pb = {
+                x: perola.x + 8,
+                y: perola.y + 8,
+                w: perola.w - 16,
+                h: perola.h - 16
+            };
 
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 const e = estrelas[i];
                 if (e.coletada) continue;
-                const dx = (perola.x + perola.w / 2) - e.x,
-                    dy = (perola.y + perola.h / 2) - e.y;
-                if (Math.sqrt(dx * dx + dy * dy) < e.raio + 20) {
+                const dx = (perola.x + perola.w/2) - e.x;
+                const dy = (perola.y + perola.h/2) - e.y;
+                if (Math.sqrt(dx*dx + dy*dy) < e.raio + 18) {
                     e.coletada = true;
                     pontos += e.dourada ? 5 : 1;
                     document.getElementById('pts').textContent = pontos;
                     estrelas.splice(i, 1);
-                    tocarSom('coletar');
                     adicionarParticulas(e.x, e.y, '#FFD700', e.dourada ? 20 : 12);
-                    if (pontos >= estrelasParaProximaFase * fase) celebrarFase();
-                }
-            }
-
-            for (let i = moedasList.length - 1; i >= 0; i--) {
-                const m = moedasList[i];
-                if (m.coletada) continue;
-                const dx = (perola.x + perola.w / 2) - m.x,
-                    dy = (perola.y + perola.h / 2) - m.y;
-                if (Math.sqrt(dx * dx + dy * dy) < m.raio + 18) {
-                    m.coletada = true;
-                    moedas++;
-                    document.getElementById('moedas').textContent = moedas;
-                    moedasList.splice(i, 1);
-                    tocarSom('moeda');
-                    adicionarParticulas(m.x, m.y, '#FFD700', 10);
                 }
             }
 
@@ -986,7 +551,7 @@
                 if (colisaoRetangulo(pb, { x: o.x, y: o.y, w: o.w, h: o.h })) {
                     perderVida();
                     obstaculos.splice(i, 1);
-                    adicionarParticulas(o.x + o.w / 2, o.y + o.h / 2, '#FF4757', 15);
+                    adicionarParticulas(o.x + o.w/2, o.y + o.h/2, '#FF4757', 15);
                     return;
                 }
             }
@@ -998,62 +563,19 @@
         function perderVida() {
             vidas--;
             document.getElementById('vidas').textContent = vidas;
-            tocarSom('perder');
 
-            if (vidas <= 0) { gameOver(); } else {
-                const chao = H - getChaoAltura();
-                const size = getPerolaSize();
-                perola.y = chao - size.h;
-                perola.visivel = true;
+            if (vidas <= 0) {
+                gameOver();
+            } else {
+                perola.reset();
+                perola.y = H - 140;
                 let c = 0;
-                const i = setInterval(() => {
+                const interval = setInterval(() => {
                     perola.visivel = !perola.visivel;
                     c++;
-                    if (c > 6) { clearInterval(i);
-                        perola.visivel = true; }
+                    if (c > 6) { clearInterval(interval); perola.visivel = true; }
                 }, 150);
             }
-        }
-
-        // ============================================================
-        // FASES
-        // ============================================================
-        function celebrarFase() {
-            if (celebrando) return;
-            celebrando = true;
-            rodando = false;
-            tocarSom('fogo');
-
-            for (let i = 0; i < 6; i++) setTimeout(() => fogos.push(new Fogo()), i * 250);
-
-            const premio = PREMIOS.find(p => p.fase === fase);
-            document.getElementById('premiosContainer').innerHTML = premio ? `
-                <div class="premio-item"><span class="icone">${premio.icone}</span><span class="nome">${premio.nome}</span></div>
-            ` : `<div class="premio-item"><span class="icone">🎊</span><span class="nome">Fase ${fase}</span></div>`;
-
-            document.getElementById('nova-fase').textContent = fase + 1;
-            document.getElementById('celebracao').classList.add('show');
-        }
-
-        function proximaFase() {
-            fase++;
-            const cenario = CENARIOS[(fase - 1) % CENARIOS.length];
-            document.getElementById('fase').textContent = fase;
-            document.getElementById('cenarioNome').textContent = cenario.nome;
-            document.getElementById('celebracao').classList.remove('show');
-
-            pontos = 0;
-            document.getElementById('pts').textContent = '0';
-            estrelas = [];
-            moedasList = [];
-            obstaculos = [];
-            particulas = [];
-            fogos = [];
-            perola.reset();
-            celebrando = false;
-            rodando = true;
-            if (animId) cancelAnimationFrame(animId);
-            loop();
         }
 
         // ============================================================
@@ -1062,77 +584,46 @@
         function gameOver() {
             rodando = false;
             document.getElementById('final').textContent = pontos;
-            document.getElementById('final-moedas').textContent = moedas;
-            document.getElementById('final-fase').textContent = fase;
             document.getElementById('gameover').classList.add('show');
             if (animId) cancelAnimationFrame(animId);
-            pararMusica();
         }
 
         function reiniciar() {
             document.getElementById('gameover').classList.remove('show');
-            fase = 1;
-            moedas = 0;
-            document.getElementById('fase').textContent = '1';
-            document.getElementById('moedas').textContent = '0';
-            document.getElementById('cenarioNome').textContent = CENARIOS[0].nome;
             iniciarJogo();
         }
 
         // ============================================================
-        // INICIAR JOGO
+        // INICIAR
         // ============================================================
         function iniciarJogo() {
             document.getElementById('start').style.display = 'none';
             document.getElementById('gameover').classList.remove('show');
-            document.getElementById('celebracao').classList.remove('show');
 
-            initAudio();
             pontos = 0;
             vidas = 3;
-            fase = 1;
-            moedas = 0;
             frame = 0;
             estrelas = [];
-            moedasList = [];
             obstaculos = [];
             particulas = [];
-            fogos = [];
-            timerEstrelas = 0;
-            timerMoedas = 0;
-            timerObstaculos = 0;
-            celebrando = false;
-            pulosRestantes = 2;
 
             document.getElementById('pts').textContent = '0';
             document.getElementById('vidas').textContent = '3';
-            document.getElementById('fase').textContent = '1';
-            document.getElementById('moedas').textContent = '0';
-            document.getElementById('cenarioNome').textContent = CENARIOS[0].nome;
 
-            const chao = H - getChaoAltura();
-            const size = getPerolaSize();
-            perola.w = size.w;
-            perola.h = size.h;
-            perola.x = Math.min(80, W * 0.15);
-            perola.y = chao - perola.h;
-            perola.vy = 0;
+            perola.reset();
+            perola.y = H - 140;
             perola.visivel = true;
-            perola.noChao = true;
 
-            iniciarMusica();
             rodando = true;
             if (animId) cancelAnimationFrame(animId);
             loop();
         }
 
         // ============================================================
-        // LOOP PRINCIPAL
+        // LOOP
         // ============================================================
         function loop() {
             if (!rodando) {
-                if (fogos.length > 0) { atualizarFogos();
-                    desenharFogos(); }
                 animId = requestAnimationFrame(loop);
                 return;
             }
@@ -1143,52 +634,30 @@
             animId = requestAnimationFrame(loop);
         }
 
-        function atualizarFogos() {
-            for (let i = fogos.length - 1; i >= 0; i--) {
-                fogos[i].atualizar();
-                if (fogos[i].isDead()) fogos.splice(i, 1);
-            }
-        }
-
-        function desenharFogos() { fogos.forEach(f => f.desenhar()); }
-
         function atualizar() {
-            const chao = H - getChaoAltura();
-
             perola.vy += perola.gravidade;
             perola.y += perola.vy;
 
+            const chao = H - 130;
             if (perola.y + perola.h > chao) {
                 perola.y = chao - perola.h;
                 perola.vy = 0;
                 perola.noChao = true;
-                pulosRestantes = 2;
             } else {
                 perola.noChao = false;
             }
 
             if (perola.x < 0) perola.x = 0;
             if (perola.x + perola.w > W) perola.x = W - perola.w;
-            perola.atualizarEstado();
 
-            const spawnRate = Math.max(20, Math.min(45, 35 - Math.min(fase * 2, 15)));
-
-            timerEstrelas++;
-            if (timerEstrelas > spawnRate) {
-                timerEstrelas = 0;
-                if (Math.random() > 0.3) estrelas.push(criarEstrela());
+            // Spawn estrelas
+            if (Math.random() < 0.02 + pontos * 0.0005) {
+                estrelas.push(criarEstrela());
             }
 
-            timerMoedas++;
-            if (timerMoedas > spawnRate * 1.6) {
-                timerMoedas = 0;
-                if (Math.random() > 0.5) moedasList.push(criarMoeda());
-            }
-
-            timerObstaculos++;
-            if (timerObstaculos > spawnRate * 1.8 - Math.min(fase * 3, 20)) {
-                timerObstaculos = 0;
-                if (Math.random() > 0.4) obstaculos.push(criarObstaculo());
+            // Spawn obstáculos
+            if (Math.random() < 0.015 + pontos * 0.0003) {
+                obstaculos.push(criarObstaculo());
             }
 
             for (let i = estrelas.length - 1; i >= 0; i--) {
@@ -1196,13 +665,6 @@
                 e.x -= e.vel;
                 e.rot += 0.04;
                 if (e.x < -40) estrelas.splice(i, 1);
-            }
-
-            for (let i = moedasList.length - 1; i >= 0; i--) {
-                const m = moedasList[i];
-                m.x -= m.vel;
-                m.rot += 0.03;
-                if (m.x < -40) moedasList.splice(i, 1);
             }
 
             for (let i = obstaculos.length - 1; i >= 0; i--) {
@@ -1223,67 +685,48 @@
                 if (p.life <= 0 || p.raio < 0.3) particulas.splice(i, 1);
             }
 
-            atualizarFogos();
             verificarColisoes();
         }
 
         function desenhar() {
             ctx.clearRect(0, 0, W, H);
 
-            const cenario = CENARIOS[(fase - 1) % CENARIOS.length];
-            const chao = H - getChaoAltura();
-
             // Céu
-            const g = ctx.createLinearGradient(0, 0, 0, H);
-            g.addColorStop(0, cenario.corCeu1);
-            g.addColorStop(0.5, cenario.corCeu2);
-            g.addColorStop(1, '#1A3A5A');
-            ctx.fillStyle = g;
+            const grad = ctx.createLinearGradient(0, 0, 0, H);
+            grad.addColorStop(0, '#87CEEB');
+            grad.addColorStop(0.4, '#4A90D9');
+            grad.addColorStop(0.7, '#2C5F8A');
+            grad.addColorStop(1, '#1A3A5A');
+            ctx.fillStyle = grad;
             ctx.fillRect(0, 0, W, H);
 
-            // Elementos do cenário
-            if (cenario.elementos) {
-                const fontSize = Math.min(W, H) * 0.04;
-                ctx.font = `${fontSize}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.globalAlpha = 0.15;
-                cenario.elementos.forEach((el, i) => {
-                    const spacing = W / 4;
-                    const x = spacing * (i + 0.5) + Math.sin(frame * 0.01 + i) * 20;
-                    const y = 30 + Math.sin(frame * 0.015 + i * 2) * 8;
-                    ctx.fillText(el, x, y);
-                });
-                ctx.globalAlpha = 1;
-            }
-
             // Sol
-            const celestialSize = Math.min(W, H) * 0.05;
             ctx.shadowColor = 'rgba(255,200,50,0.15)';
             ctx.shadowBlur = 30;
             ctx.beginPath();
-            ctx.arc(W - 50, 50, celestialSize, 0, Math.PI * 2);
-            const gs = ctx.createRadialGradient(W - 50, 50, 0, W - 50, 50, celestialSize);
-            gs.addColorStop(0, '#FFE066');
-            gs.addColorStop(0.6, '#FFD700');
-            gs.addColorStop(1, '#FFA500');
-            ctx.fillStyle = gs;
+            ctx.arc(W - 60, 60, 30, 0, Math.PI * 2);
+            const gradSol = ctx.createRadialGradient(W - 60, 60, 0, W - 60, 60, 30);
+            gradSol.addColorStop(0, '#FFE066');
+            gradSol.addColorStop(0.6, '#FFD700');
+            gradSol.addColorStop(1, '#FFA500');
+            ctx.fillStyle = gradSol;
             ctx.fill();
             ctx.shadowBlur = 0;
 
             // Chão
-            const gc = ctx.createLinearGradient(0, chao, 0, H);
-            gc.addColorStop(0, cenario.corChao1);
-            gc.addColorStop(0.3, cenario.corChao2);
-            gc.addColorStop(0.7, '#2C1810');
-            gc.addColorStop(1, '#0a0a0a');
-            ctx.fillStyle = gc;
+            const chao = H - 130;
+            const gradChao = ctx.createLinearGradient(0, chao, 0, H);
+            gradChao.addColorStop(0, '#F4A460');
+            gradChao.addColorStop(0.2, '#D2691E');
+            gradChao.addColorStop(0.5, '#8B4513');
+            gradChao.addColorStop(1, '#2C1810');
+            ctx.fillStyle = gradChao;
             ctx.fillRect(0, chao, W, H - chao);
 
             // Grama
-            ctx.strokeStyle = 'rgba(34,139,34,0.15)';
-            ctx.lineWidth = 1.5;
-            const grassSpacing = Math.max(6, Math.min(15, W * 0.015));
-            for (let i = 0; i < W; i += grassSpacing) {
+            ctx.strokeStyle = 'rgba(34,139,34,0.2)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < W; i += 10) {
                 const h = 3 + Math.sin(i * 0.3 + frame * 0.02) * 2;
                 ctx.beginPath();
                 ctx.moveTo(i, chao);
@@ -1291,13 +734,9 @@
                 ctx.stroke();
             }
 
-            desenharBolhas();
-
             estrelas.forEach(e => desenharEstrela(e));
-            moedasList.forEach(m => desenharMoeda(m));
             obstaculos.forEach(o => desenharObstaculo(o));
             perola.desenhar();
-            desenharFogos();
 
             particulas.forEach(p => {
                 ctx.globalAlpha = p.life * 0.8;
@@ -1313,52 +752,34 @@
         }
 
         // ============================================================
-        // BOLHAS
-        // ============================================================
-        let bolhas = [];
-
-        function initBolhas() {
-            bolhas = [];
-            const count = Math.max(8, Math.min(20, W * H / 30000));
-            for (let i = 0; i < count; i++) {
-                bolhas.push({
-                    x: Math.random() * W,
-                    y: Math.random() * H,
-                    r: 2 + Math.random() * 3,
-                    vel: 0.1 + Math.random() * 0.12,
-                    off: Math.random() * Math.PI * 2
-                });
-            }
-        }
-        initBolhas();
-
-        function desenharBolhas() {
-            bolhas.forEach(b => {
-                b.y -= b.vel;
-                b.x += Math.sin(frame * 0.02 + b.off) * 0.08;
-                if (b.y < -10) { b.y = H + 10;
-                    b.x = Math.random() * W; }
-                ctx.globalAlpha = 0.1;
-                ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-                ctx.stroke();
-                ctx.globalAlpha = 1;
-            });
-        }
-
-        // ============================================================
         // CONTROLES
         // ============================================================
+        const teclas = {};
+
+        window.addEventListener('keydown', (e) => {
+            teclas[e.key] = true;
+            if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') &&
+                perola.noChao && rodando) {
+                e.preventDefault();
+                perola.vy = perola.pulo;
+                perola.noChao = false;
+            }
+        });
+
+        window.addEventListener('keyup', (e) => { teclas[e.key] = false; });
+
+        // TOUCH
+        let touchX = null;
+
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            initAudio();
             const t = e.touches[0];
             const rect = canvas.getBoundingClientRect();
-            toqueX = t.clientX - rect.left;
-            if (rodando && perola.pular()) {
-                adicionarParticulas(perola.x + perola.w / 2, perola.y + perola.h, '#87CEEB', 6);
+            touchX = t.clientX - rect.left;
+
+            if (perola.noChao && rodando) {
+                perola.vy = perola.pulo;
+                perola.noChao = false;
             }
         }, { passive: false });
 
@@ -1368,85 +789,56 @@
             const t = e.touches[0];
             const rect = canvas.getBoundingClientRect();
             const x = t.clientX - rect.left;
-            if (toqueX !== null) {
-                const diff = x - toqueX;
-                perola.x += diff * 0.5;
-                perola.velocidadeX = diff * 0.5;
-                if (diff > 0.5) perola.direcao = 'direita';
-                else if (diff < -0.5) perola.direcao = 'esquerda';
+            if (touchX !== null) {
+                const diff = x - touchX;
+                perola.x += diff * 0.6;
                 if (perola.x < 0) perola.x = 0;
                 if (perola.x + perola.w > W) perola.x = W - perola.w;
-                toqueX = x;
+                touchX = x;
             }
         }, { passive: false });
 
         canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
-            toqueX = null;
-            perola.velocidadeX = 0;
+            touchX = null;
         }, { passive: false });
-
-        const teclas = {};
-        window.addEventListener('keydown', (e) => {
-            initAudio();
-            teclas[e.key] = true;
-            if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') && rodando) {
-                e.preventDefault();
-                if (perola.pular()) {
-                    adicionarParticulas(perola.x + perola.w / 2, perola.y + perola.h, '#87CEEB', 6);
-                }
-            }
-        });
-        window.addEventListener('keyup', (e) => { teclas[e.key] = false; });
 
         setInterval(() => {
             if (!rodando) return;
-            let dx = 0;
-            if (teclas['ArrowRight'] || teclas['d']) dx = Math.min(5, W * 0.008);
-            else if (teclas['ArrowLeft'] || teclas['a']) dx = -Math.min(5, W * 0.008);
-            if (dx !== 0) {
-                perola.x += dx;
-                perola.velocidadeX = dx;
-                perola.direcao = dx > 0 ? 'direita' : 'esquerda';
-                if (perola.x < 0) perola.x = 0;
+            if (teclas['ArrowRight'] || teclas['d']) {
+                perola.x += 4;
                 if (perola.x + perola.w > W) perola.x = W - perola.w;
-            } else {
-                perola.velocidadeX = 0;
+            }
+            if (teclas['ArrowLeft'] || teclas['a']) {
+                perola.x -= 4;
+                if (perola.x < 0) perola.x = 0;
             }
         }, 16);
 
         // ============================================================
-        // TELA INICIAL
+        // INICIAR
         // ============================================================
-        const chaoInicial = H - getChaoAltura();
-        const sizeInicial = getPerolaSize();
-        perola.w = sizeInicial.w;
-        perola.h = sizeInicial.h;
-        perola.x = Math.min(80, W * 0.15);
-        perola.y = chaoInicial - perola.h;
-        perola.noChao = true;
+        perola.y = H - 140;
+        perola.reset();
 
         function telaInicialLoop() {
             if (!rodando && document.getElementById('start').style.display !== 'none') {
                 ctx.clearRect(0, 0, W, H);
-                const g = ctx.createLinearGradient(0, 0, 0, H);
-                g.addColorStop(0, '#87CEEB');
-                g.addColorStop(0.5, '#4A90D9');
-                g.addColorStop(1, '#2C5F8A');
-                ctx.fillStyle = g;
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#87CEEB');
+                grad.addColorStop(0.5, '#4A90D9');
+                grad.addColorStop(1, '#2C5F8A');
+                ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, W, H);
                 perola.desenhar();
-                desenharBolhas();
                 requestAnimationFrame(telaInicialLoop);
             }
         }
         telaInicialLoop();
 
         console.log('🌊 Jogo carregado!');
-        console.log('🎨 Pérola 100% desenhada com canvas (sem imagens!)');
-        console.log('📱 Gire o celular para horizontal/vertical');
-        console.log('🏆 6 cenários • Moedas • Prêmios');
-        console.log('🎵 Música ativada ao iniciar o jogo!');
+        console.log('🎮 Use as setas ou WASD para mover');
+        console.log('⬆️ Espaço ou clique para pular');
     </script>
 </body>
 </html>
