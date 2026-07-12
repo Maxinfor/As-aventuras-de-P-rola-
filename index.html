@@ -9,10 +9,10 @@
         html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a1a; touch-action: none; position: fixed; top: 0; left: 0; }
         canvas { display: block; width: 100vw; height: 100vh; background: linear-gradient(180deg, #87CEEB 0%, #4A90D9 60%, #2C5F8A 100%); touch-action: none; cursor: pointer; }
         
-        /* TELA INICIAL COM IMAGEM */
         #start {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(10px);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 100; padding: 20px;
             animation: fadeIn 0.5s ease;
@@ -20,30 +20,42 @@
         
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         
-        /* CONTAINER DA IMAGEM */
         .capa-container {
-            max-width: 90%;
-            max-height: 60vh;
-            margin-bottom: 20px;
+            max-width: 85%;
+            max-height: 55vh;
+            margin-bottom: 15px;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 0 60px rgba(255,215,0,0.1);
-            border: 2px solid rgba(255,215,0,0.2);
+            border: 2px solid rgba(255,215,0,0.15);
+            background: rgba(0,0,0,0.3);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .capa-container img {
             width: 100%;
             height: auto;
-            max-height: 60vh;
+            max-height: 55vh;
             object-fit: contain;
             display: block;
+        }
+        
+        .capa-container .placeholder {
+            color: rgba(255,255,255,0.3);
+            font-size: 1.5rem;
+            font-family: 'Comic Sans MS', cursive;
+            padding: 20px;
+            text-align: center;
         }
         
         #start h1 {
             font-size: 2.5rem;
             color: #FFD700;
             text-shadow: 0 0 40px rgba(255,215,0,0.3);
-            margin: 8px 0;
+            margin: 5px 0;
             text-align: center;
             font-family: 'Comic Sans MS', cursive;
         }
@@ -51,7 +63,7 @@
         #start .sub {
             font-size: 1rem;
             color: #87CEEB;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: center;
             font-family: 'Comic Sans MS', cursive;
         }
@@ -66,7 +78,7 @@
             font-weight: bold;
             cursor: pointer;
             font-family: 'Comic Sans MS', cursive;
-            margin: 6px 0;
+            margin: 5px 0;
             transition: all 0.3s ease;
             box-shadow: 0 8px 40px rgba(255,71,87,0.4);
             min-height: 55px;
@@ -79,14 +91,14 @@
         
         .controls-info {
             color: rgba(255,255,255,0.5);
-            font-size: 0.75rem;
-            margin-top: 12px;
+            font-size: 0.7rem;
+            margin-top: 10px;
             text-align: center;
             line-height: 2;
             background: rgba(0,0,0,0.3);
-            padding: 10px 20px;
-            border-radius: 20px;
-            max-width: 320px;
+            padding: 8px 16px;
+            border-radius: 16px;
+            max-width: 300px;
             font-family: 'Comic Sans MS', cursive;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.05);
@@ -155,8 +167,8 @@
         
         @media (max-width: 400px) {
             #start h1 { font-size: 1.8rem; }
-            .capa-container { max-height: 40vh; }
-            .capa-container img { max-height: 40vh; }
+            .capa-container { max-height: 35vh; }
+            .capa-container img { max-height: 35vh; }
             #start button { font-size: 1rem; padding: 12px 25px; min-height: 45px; min-width: 140px; }
             #info, #score { font-size: 1rem; padding: 4px 10px; }
             #moedas-display { font-size: 0.8rem; padding: 3px 10px; top: 55px; }
@@ -170,10 +182,11 @@
 </head>
 <body>
 
-    <!-- TELA INICIAL COM IMAGEM capa1.png -->
+    <!-- TELA INICIAL -->
     <div id="start">
         <div class="capa-container">
-            <img src="capa1.png" alt="Capa do Jogo" onerror="this.style.display='none'">
+            <img src="capa1.png" alt="Capa do Jogo" 
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder\'>🌊 Capa não encontrada<br>Clique em Jogar</div>'">
         </div>
         <h1>🌊 As Aventuras de Pérola</h1>
         <div class="sub">✨ Multiverso - Colete e evolua!</div>
@@ -457,7 +470,6 @@
                 ctx.shadowBlur = 15 * s;
                 ctx.shadowOffsetY = 5 * s;
 
-                // Vestido
                 const grad = ctx.createRadialGradient(
                     this.x + 10 * s, this.y + 15 * s, 5 * s,
                     this.x + 20 * s, this.y + 35 * s, 30 * s
@@ -474,7 +486,6 @@
                 ctx.lineWidth = 1.5 * s;
                 ctx.stroke();
 
-                // Laço no vestido
                 ctx.shadowBlur = 5 * s;
                 ctx.fillStyle = '#FF6B8A';
                 ctx.beginPath();
@@ -488,7 +499,6 @@
                 ctx.arc(cx, this.y + 30 * s, 3 * s, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Cabeça
                 ctx.shadowBlur = 8 * s;
                 const raio = 18 * s;
                 const cabecaY = this.y + 18 * s;
@@ -508,7 +518,6 @@
                 ctx.lineWidth = 1.5 * s;
                 ctx.stroke();
 
-                // Cabelo
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#8B4513';
                 ctx.beginPath();
@@ -521,7 +530,6 @@
                 ctx.arc(cx, cabecaY - 15 * s, 12 * s, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Rabo de cavalo
                 ctx.beginPath();
                 ctx.ellipse(cx + 12 * s, cabecaY - 5 * s, 5 * s, 10 * s, 0.5, 0, Math.PI * 2);
                 ctx.fill();
@@ -529,7 +537,6 @@
                 ctx.ellipse(cx + 16 * s, cabecaY + 1 * s, 3 * s, 7 * s, 0.7, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Laço no cabelo
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
                 ctx.ellipse(cx + 14 * s, cabecaY - 10 * s, 5 * s, 3 * s, 0.5, 0, Math.PI * 2);
@@ -538,7 +545,6 @@
                 ctx.ellipse(cx + 18 * s, cabecaY - 9 * s, 5 * s, 3 * s, -0.3, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Olhos
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
@@ -564,20 +570,17 @@
                 ctx.arc(cx + 6.5 * s, cabecaY - 1 * s, 1.2 * s, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Boca
                 ctx.beginPath();
                 ctx.arc(cx, cabecaY + 5 * s, 6 * s, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#CC4466';
                 ctx.lineWidth = 1.8 * s;
                 ctx.stroke();
 
-                // Língua
                 ctx.fillStyle = '#FF6B8A';
                 ctx.beginPath();
                 ctx.arc(cx, cabecaY + 7 * s, 2.5 * s, 0, Math.PI);
                 ctx.fill();
 
-                // Bochechas
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
@@ -588,7 +591,6 @@
                 ctx.fill();
                 ctx.globalAlpha = 1;
 
-                // Braços
                 ctx.shadowBlur = 4 * s;
                 ctx.fillStyle = '#F5C4A8';
                 ctx.beginPath();
@@ -598,7 +600,6 @@
                 ctx.ellipse(this.x + this.w - 5 * s, this.y + 32 * s, 4 * s, 8 * s, -0.3, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Mãos
                 ctx.fillStyle = '#F5C4A8';
                 ctx.beginPath();
                 ctx.arc(this.x + 3 * s, this.y + 38 * s, 3 * s, 0, Math.PI * 2);
@@ -607,7 +608,6 @@
                 ctx.arc(this.x + this.w - 3 * s, this.y + 38 * s, 3 * s, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Sapatos
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
@@ -617,7 +617,6 @@
                 ctx.ellipse(this.x + this.w - 8 * s, this.y + this.h - 2 * s, 7 * s, 4 * s, -0.2, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Meias
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
                 ctx.ellipse(this.x + 8 * s, this.y + this.h - 6 * s, 5 * s, 4 * s, 0.2, 0, Math.PI * 2);
@@ -1240,7 +1239,6 @@
             const cenario = CENARIOS[(fase - 1) % CENARIOS.length];
             const chao = H - getChaoAltura();
 
-            // Céu
             const g = ctx.createLinearGradient(0, 0, 0, H);
             g.addColorStop(0, cenario.corCeu1);
             g.addColorStop(0.5, cenario.corCeu2);
@@ -1248,7 +1246,6 @@
             ctx.fillStyle = g;
             ctx.fillRect(0, 0, W, H);
 
-            // Elementos do cenário
             if (cenario.elementos) {
                 const fontSize = Math.min(W, H) * 0.04;
                 ctx.font = `${fontSize}px Arial`;
@@ -1263,7 +1260,6 @@
                 ctx.globalAlpha = 1;
             }
 
-            // Sol
             const celestialSize = Math.min(W, H) * 0.05;
             ctx.shadowColor = 'rgba(255,200,50,0.15)';
             ctx.shadowBlur = 30;
@@ -1277,7 +1273,6 @@
             ctx.fill();
             ctx.shadowBlur = 0;
 
-            // Chão
             const gc = ctx.createLinearGradient(0, chao, 0, H);
             gc.addColorStop(0, cenario.corChao1);
             gc.addColorStop(0.3, cenario.corChao2);
@@ -1286,7 +1281,6 @@
             ctx.fillStyle = gc;
             ctx.fillRect(0, chao, W, H - chao);
 
-            // Grama
             ctx.strokeStyle = 'rgba(34,139,34,0.15)';
             ctx.lineWidth = 1.5;
             const grassSpacing = Math.max(6, Math.min(15, W * 0.015));
@@ -1449,7 +1443,7 @@
         telaInicialLoop();
 
         console.log('🌊 Jogo carregado com sucesso!');
-        console.log('📸 Imagem capa1.png na tela inicial!');
+        console.log('📸 capa1.png na tela inicial (se existir)');
         console.log('🎮 Clique em Jogar para começar!');
     </script>
 </body>
