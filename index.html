@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>🌊 As Aventuras de Pérola - Power Ups</title>
+    <title>🌊 As Aventuras de Pérola</title>
     <style>
         * {
             margin: 0;
@@ -187,38 +187,6 @@
             100% { transform: rotate(360deg) scale(1); }
         }
         
-        #powerups-display {
-            position: fixed;
-            top: 75px;
-            right: 15px;
-            color: white;
-            font-size: 1rem;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 6px 14px;
-            border-radius: 20px;
-            z-index: 50;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            border: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            text-align: center;
-        }
-        
-        #powerups-display .power-icon {
-            font-size: 1.5rem;
-        }
-        #powerups-display .power-label {
-            font-size: 0.6rem;
-            color: #888;
-        }
-        #powerups-display .power-timer {
-            font-size: 0.7rem;
-            color: #FFD700;
-        }
-        
         #fase-display {
             position: fixed;
             bottom: 20px;
@@ -349,7 +317,6 @@
             #info, #score { font-size: 1.1rem; padding: 5px 12px; top: 10px; }
             #info .heart { font-size: 1.3rem; }
             #score .star-icon { font-size: 1.5rem; }
-            #powerups-display { font-size: 0.8rem; padding: 4px 10px; top: 60px; }
             #gameover { padding: 25px 20px; width: 92%; }
             #gameover h1 { font-size: 1.8rem; }
             #fase-display { font-size: 0.9rem; padding: 4px 14px; bottom: 10px; }
@@ -363,7 +330,6 @@
             #start button { font-size: 1rem; padding: 10px 25px; min-height: 40px; min-width: 120px; }
             .controls-info { font-size: 0.65rem; padding: 8px 15px; }
             #info, #score { font-size: 0.9rem; padding: 4px 10px; top: 8px; }
-            #powerups-display { font-size: 0.7rem; padding: 3px 8px; top: 50px; }
             #fase-display { font-size: 0.7rem; padding: 3px 10px; bottom: 5px; }
             #gameover { padding: 15px 20px; }
             #gameover h1 { font-size: 1.5rem; }
@@ -379,27 +345,19 @@
     <div id="start">
         <div class="logo">🌊</div>
         <h1>As Aventuras de Pérola</h1>
-        <div class="sub">🐚 Com Power-Ups e Super Poderes!</div>
+        <div class="sub">🐚 Com imagens e sons!</div>
         <button onclick="iniciarJogo()">🎮 Começar</button>
         <div class="controls-info">
             📱 <span class="key">Toque</span> para pular (pulo duplo!)<br>
             👆 <span class="key">Arraste</span> para mover<br>
-            ❤️ <span class="key">Coração</span> = +1 Vida • 🦸 <span class="key">Asa</span> = Voar!<br>
-            ⚡ <span class="key">Raio</span> = Velocidade • 🛡️ <span class="key">Escudo</span> = Proteção
+            ⭐ Colete estrelas para avançar de fase!
         </div>
     </div>
 
     <!-- UI -->
     <div id="info"><span class="heart">❤️</span> <span id="vidas">3</span></div>
     <div id="score"><span class="star-icon">⭐</span> <span id="pts">0</span></div>
-    <div id="powerups-display">
-        <div>
-            <span class="power-icon" id="powerIcon">🦸</span>
-            <span class="power-label" id="powerLabel">Nenhum</span>
-        </div>
-        <div class="power-timer" id="powerTimer">--</div>
-    </div>
-    <div id="fase-display">🌍 Fase <span class="fase-num" id="fase">1</span> - <span class="cenario-nome" id="cenarioNome">🌴 Praia</span></div>
+    <div id="fase-display">🌍 Fase <span class="fase-num" id="fase">1</span> - <span class="cenario-nome" id="cenarioNome">🌊 Praia</span></div>
 
     <!-- GAME OVER -->
     <div id="gameover">
@@ -441,7 +399,7 @@
         });
 
         // ============================================================
-        // ÁUDIO
+        // ÁUDIO - COM SONS CORRIGIDOS
         // ============================================================
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
@@ -452,12 +410,12 @@
             }
         }
 
+        // Carrega os arquivos de áudio com os nomes corretos
         const sons = {
-            coletar: new Audio('./Somdecoletar.mp3'),
+            coletar: new Audio('./somcoletar.mp3'), // CORRIGIDO: somcoletar.mp3
             perder: new Audio('./somdeperdeu.mp3'),
-            fogo: new Audio('./fogo.mp3'),
-            musica: new Audio('./musica.mp3'),
-            powerup: new Audio('./powerup.mp3')
+            fogos: new Audio('./fogos.mp3'), // CORRIGIDO: fogos.mp3
+            musica: new Audio('./musica.mp3')
         };
 
         sons.musica.loop = true;
@@ -493,7 +451,7 @@
         // CENÁRIOS
         // ============================================================
         const CENARIOS = [
-            { id: 0, nome: '🌴 Praia', corCeu1: '#87CEEB', corCeu2: '#4A90D9', corChao1: '#F4A460', corChao2: '#D2691E',
+            { id: 0, nome: '🌊 Praia', corCeu1: '#87CEEB', corCeu2: '#4A90D9', corChao1: '#F4A460', corChao2: '#D2691E',
                 elementos: ['🌴', '⛱️', '🏄'] },
             { id: 1, nome: '🌲 Floresta', corCeu1: '#90EE90', corCeu2: '#228B22', corChao1: '#8B4513', corChao2: '#654321',
                 elementos: ['🌳', '🍄', '🦋'] },
@@ -523,8 +481,7 @@
             acelerando: new Image(),
             correndoparadireita: new Image(),
             correndoparaesquerda: new Image(),
-            apressada: new Image(),
-            voando: new Image()
+            apressada: new Image()
         };
 
         const TAMANHO_PEROLA = {
@@ -546,8 +503,7 @@
             correndoparaesquerda: { src: PASTA_IMAGENS + 'correndoparaesquerda.png', largura: TAMANHO_PEROLA.largura,
                 altura: TAMANHO_PEROLA.altura },
             apressada: { src: PASTA_IMAGENS + 'apressada.png', largura: TAMANHO_PEROLA.largura,
-            altura: TAMANHO_PEROLA.altura },
-            voando: { src: PASTA_IMAGENS + 'voando.png', largura: TAMANHO_PEROLA.largura, altura: TAMANHO_PEROLA.altura }
+            altura: TAMANHO_PEROLA.altura }
         };
 
         let imagensCarregadas = 0;
@@ -607,83 +563,6 @@
         }
 
         // ============================================================
-        // POWER-UPS
-        // ============================================================
-        const POWERUPS = [
-            { tipo: 'vida', icone: '❤️', cor: '#FF4757', nome: 'Vida Extra', duracao: 0, efeito: 'vida' },
-            { tipo: 'voar', icone: '🦸', cor: '#6C63FF', nome: 'Super Voo', duracao: 300, efeito: 'voar' },
-            { tipo: 'velocidade', icone: '⚡', cor: '#FFD93D', nome: 'Velocidade', duracao: 200, efeito: 'velocidade' },
-            { tipo: 'escudo', icone: '🛡️', cor: '#00E676', nome: 'Escudo', duracao: 250, efeito: 'escudo' },
-            { tipo: 'ima', icone: '🧲', cor: '#FF6B6B', nome: 'Ímã', duracao: 180, efeito: 'ima' }
-        ];
-
-        let powerupAtivo = null;
-        let powerupTimer = 0;
-
-        function criarPowerup() {
-            const p = POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
-            return {
-                tipo: p.tipo,
-                icone: p.icone,
-                cor: p.cor,
-                nome: p.nome,
-                duracao: p.duracao,
-                efeito: p.efeito,
-                x: W + 30,
-                y: 60 + Math.random() * (H - 220),
-                raio: 25,
-                vel: 1.5 + Math.random() * 1.5,
-                rot: 0,
-                coletado: false,
-                brilho: 0
-            };
-        }
-
-        function desenharPowerup(p) {
-            if (p.coletado) return;
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rot);
-
-            // Brilho
-            const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, p.raio * 1.5);
-            grad.addColorStop(0, p.cor + '33');
-            grad.addColorStop(1, p.cor + '00');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(0, 0, p.raio * 1.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Fundo
-            ctx.shadowColor = p.cor;
-            ctx.shadowBlur = 30;
-            ctx.beginPath();
-            ctx.arc(0, 0, p.raio, 0, Math.PI * 2);
-            const grad2 = ctx.createRadialGradient(-3, -3, 0, 0, 0, p.raio);
-            grad2.addColorStop(0, '#FFFFFF');
-            grad2.addColorStop(0.5, p.cor);
-            grad2.addColorStop(1, p.cor + '88');
-            ctx.fillStyle = grad2;
-            ctx.fill();
-            ctx.shadowBlur = 0;
-            ctx.strokeStyle = p.cor;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            // Ícone
-            ctx.font = `${p.raio}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#FFFFFF';
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 10;
-            ctx.fillText(p.icone, 0, 2);
-            ctx.shadowBlur = 0;
-
-            ctx.restore();
-        }
-
-        // ============================================================
         // JOGO
         // ============================================================
         let rodando = false;
@@ -693,22 +572,73 @@
         let estrelasParaProximaFase = 8;
         let frame = 0;
         let estrelas = [];
-        let powerups = [];
         let obstaculos = [];
         let particulas = [];
         let fogos = [];
+        let bolhasRespirar = [];
         let animId = null;
         let timerEstrelas = 0;
-        let timerPowerups = 0;
         let timerObstaculos = 0;
         let toqueX = null;
+        let comboCount = 0;
         let pulosRestantes = 2;
         let celebrando = false;
-        let estaVoando = false;
-        let tempoVoo = 0;
-        let temEscudo = false;
-        let temVelocidade = false;
-        let temIma = false;
+        let velocidadeBase = 1;
+
+        // ============================================================
+        // BOLHAS DE RESPIRAÇÃO (no primeiro cenário)
+        // ============================================================
+        function criarBolhaRespirar() {
+            return {
+                x: perola.x + perola.w / 2 + (Math.random() - 0.5) * 20,
+                y: perola.y + perola.h / 2 + (Math.random() - 0.5) * 20,
+                raio: 3 + Math.random() * 4,
+                vida: 1,
+                velocidadeY: -0.3 - Math.random() * 0.5,
+                velocidadeX: (Math.random() - 0.5) * 0.3,
+                cor: 'rgba(135,206,250,'
+            };
+        }
+
+        function atualizarBolhasRespirar() {
+            // Cria bolhas apenas na fase 1 (Praia)
+            if (fase === 1 && rodando && perola.noChao && Math.random() < 0.02) {
+                bolhasRespirar.push(criarBolhaRespirar());
+            }
+
+            for (let i = bolhasRespirar.length - 1; i >= 0; i--) {
+                const b = bolhasRespirar[i];
+                b.x += b.velocidadeX;
+                b.y += b.velocidadeY;
+                b.vida -= 0.005;
+                b.raio *= 0.998;
+
+                // Acompanha a Pérola
+                b.x += (perola.x + perola.w / 2 - b.x) * 0.01;
+
+                if (b.vida <= 0 || b.raio < 0.5 || b.y < perola.y - 20) {
+                    bolhasRespirar.splice(i, 1);
+                }
+            }
+        }
+
+        function desenharBolhasRespirar() {
+            bolhasRespirar.forEach(b => {
+                ctx.globalAlpha = b.vida * 0.6;
+                ctx.strokeStyle = b.cor + (b.vida * 0.6) + ')';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.raio, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Brilho interno
+                ctx.fillStyle = 'rgba(135,206,250,0.05)';
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.raio * 0.6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            });
+        }
 
         // ============================================================
         // PÉROLA
@@ -729,7 +659,6 @@
             velocidadeX: 0,
             timerAnimacao: 0,
             acelerando: false,
-            voando: false,
 
             reset() {
                 this.x = 80;
@@ -741,18 +670,10 @@
                 this.estado = 'parada';
                 this.velocidadeX = 0;
                 this.acelerando = false;
-                this.voando = false;
                 pulosRestantes = 2;
-                estaVoando = false;
-                tempoVoo = 0;
             },
 
             pular() {
-                if (this.voando) {
-                    // Se estiver voando, sobe
-                    this.vy = -8;
-                    return true;
-                }
                 if (this.noChao) {
                     this.vy = this.pulo;
                     this.noChao = false;
@@ -782,35 +703,6 @@
 
                 ctx.save();
 
-                // Efeito de voo
-                if (this.voando) {
-                    ctx.shadowColor = 'rgba(108,99,255,0.3)';
-                    ctx.shadowBlur = 40;
-                    // Brilho ao redor
-                    const grad = ctx.createRadialGradient(
-                        this.x + this.w / 2, this.y + this.h / 2, 0,
-                        this.x + this.w / 2, this.y + this.h / 2, this.w
-                    );
-                    grad.addColorStop(0, 'rgba(108,99,255,0.05)');
-                    grad.addColorStop(1, 'rgba(108,99,255,0)');
-                    ctx.fillStyle = grad;
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.w / 2, this.y + this.h / 2, this.w, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                // Efeito de escudo
-                if (temEscudo) {
-                    ctx.shadowColor = 'rgba(0,230,118,0.3)';
-                    ctx.shadowBlur = 30;
-                    ctx.strokeStyle = 'rgba(0,230,118,0.3)';
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-                    ctx.arc(this.x + this.w / 2, this.y + this.h / 2, this.w * 0.6, 0, Math.PI * 2);
-                    ctx.stroke();
-                    ctx.shadowBlur = 0;
-                }
-
                 if (this.direcao === 'esquerda' &&
                     (this.estado === 'andando' || this.estado === 'parada' || this.estado === 'pulando')) {
                     ctx.translate(this.x + this.w, this.y);
@@ -831,7 +723,6 @@
             },
 
             selecionarImagem() {
-                if (this.voando || estaVoando) return imagens.voando;
                 if (this.estado === 'pulando') return imagens.pulando;
                 if (this.estado === 'escalando') return imagens.escalando1;
                 if (this.acelerando) return imagens.acelerando;
@@ -839,6 +730,10 @@
 
                 if (this.estado === 'correndo') {
                     return this.direcao === 'direita' ? imagens.correndoparadireita : imagens.correndoparaesquerda;
+                }
+
+                if (this.estado === 'andando') {
+                    return imagens.andando;
                 }
 
                 return imagens.andando;
@@ -943,31 +838,19 @@
             atualizarEstado() {
                 const velocidade = Math.abs(this.velocidadeX);
 
-                if (this.voando || estaVoando) {
-                    this.estado = 'voando';
-                    this.acelerando = false;
-                    return;
-                }
-
                 if (!this.noChao) {
                     this.estado = 'pulando';
                     this.acelerando = false;
                     return;
                 }
 
-                if (temVelocidade && velocidade > 4) {
-                    this.estado = 'apressada';
+                if (velocidade > 4) {
+                    this.estado = 'correndo';
                     this.acelerando = true;
                     return;
                 }
 
-                if (velocidade > 3) {
-                    this.estado = 'correndo';
-                    this.acelerando = false;
-                    return;
-                }
-
-                if (velocidade > 0.5) {
+                if (velocidade > 1.5) {
                     this.estado = 'andando';
                     this.acelerando = false;
                     return;
@@ -981,45 +864,32 @@
         // ============================================================
         // OBSTÁCULOS
         // ============================================================
-        const TIPOS_OBSTACULOS = [
-            'espinho', 'agua_viva', 'pedra', 'cacto', 'lava', 'gelo', 'carro', 'tronco'
-        ];
-
         function criarObstaculo() {
             const s = 30 + Math.random() * 25;
             const chao = H - 190;
-            const tiposDisponiveis = fase <= 2 ? ['espinho', 'agua_viva'] :
-                fase <= 4 ? ['espinho', 'agua_viva', 'pedra', 'cacto'] :
-                ['espinho', 'agua_viva', 'pedra', 'cacto', 'lava', 'gelo', 'carro', 'tronco'];
+            const tipos = ['espinho', 'agua_viva', 'pedra', 'cacto', 'lava', 'gelo', 'carro', 'tronco'];
+            const tipo = tipos[Math.floor(Math.random() * tipos.length)];
 
-            const tipo = tiposDisponiveis[Math.floor(Math.random() * tiposDisponiveis.length)];
+            // Velocidade aumenta com a fase
+            const velBase = 1.5 + (fase - 1) * 0.3;
+            const velVariacao = Math.random() * 1.5;
 
             return {
                 x: W + 30,
                 y: chao - 60 - Math.random() * (chao * 0.3),
                 w: s * (0.7 + Math.random() * 0.5),
                 h: s * (0.7 + Math.random() * 0.5),
-                vel: 2 + Math.random() * (2 + fase * 0.2),
+                vel: Math.min(velBase + velVariacao, 6),
                 tipo: tipo,
                 rot: 0,
-                off: Math.random() * Math.PI * 2,
-                cor: ['#FF6B6B', '#4A90D9', '#8B8682', '#2E8B57', '#FF4500', '#87CEEB', '#FFD700', '#8B4513'][Math.floor(Math
-                    .random() * 8)]
+                off: Math.random() * Math.PI * 2
             };
         }
 
         function desenharObstaculo(o) {
-            if (temEscudo) {
-                // Obstáculo brilha quando tem escudo (indicando que pode passar)
-                ctx.shadowColor = 'rgba(0,230,118,0.1)';
-                ctx.shadowBlur = 20;
-            }
-
             ctx.save();
             ctx.translate(o.x + o.w / 2, o.y + o.h / 2);
             ctx.rotate(o.rot);
-
-            const cor = o.cor || '#FF4757';
 
             if (o.tipo === 'espinho') {
                 const pts = 5,
@@ -1056,7 +926,6 @@
                 ctx.beginPath();
                 ctx.arc(4.5, -2, 1.8, 0, Math.PI * 2);
                 ctx.fill();
-
             } else if (o.tipo === 'agua_viva') {
                 ctx.fillStyle = 'rgba(200,230,255,0.3)';
                 ctx.beginPath();
@@ -1087,7 +956,6 @@
                 ctx.beginPath();
                 ctx.arc(3, -2, 2, 0, Math.PI * 2);
                 ctx.fill();
-
             } else if (o.tipo === 'pedra') {
                 ctx.beginPath();
                 ctx.ellipse(0, 0, o.w / 2, o.h / 2, 0, 0, Math.PI * 2);
@@ -1114,7 +982,6 @@
                 ctx.beginPath();
                 ctx.arc(6, -2, 1.8, 0, Math.PI * 2);
                 ctx.fill();
-
             } else if (o.tipo === 'cacto') {
                 ctx.fillStyle = '#2E8B57';
                 ctx.fillRect(-o.w / 4, -o.h / 2, o.w / 2, o.h);
@@ -1134,7 +1001,6 @@
                     ctx.lineTo(o.w / 2 + 5, y - 3);
                     ctx.stroke();
                 }
-
             } else if (o.tipo === 'lava') {
                 ctx.shadowColor = 'rgba(255,69,0,0.3)';
                 ctx.shadowBlur = 30;
@@ -1155,7 +1021,6 @@
                     ctx.fillStyle = 'rgba(255,200,50,0.3)';
                     ctx.fill();
                 }
-
             } else if (o.tipo === 'gelo') {
                 ctx.shadowColor = 'rgba(135,206,235,0.2)';
                 ctx.shadowBlur = 20;
@@ -1180,7 +1045,6 @@
                     ctx.lineWidth = 1;
                     ctx.stroke();
                 }
-
             } else if (o.tipo === 'carro') {
                 ctx.fillStyle = '#FFD700';
                 ctx.fillRect(-o.w / 2, -o.h / 3, o.w, o.h * 0.4);
@@ -1203,7 +1067,6 @@
                 ctx.arc(o.w / 2 - 3, -o.h / 6, 4, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.shadowBlur = 0;
-
             } else if (o.tipo === 'tronco') {
                 ctx.fillStyle = '#8B4513';
                 ctx.fillRect(-o.w / 2, -o.h / 2, o.w, o.h);
@@ -1225,11 +1088,10 @@
             }
 
             ctx.restore();
-            ctx.shadowBlur = 0;
         }
 
         // ============================================================
-        // FOGOS
+        // FOGOS DE ARTIFÍCIO
         // ============================================================
         class Fogo {
             constructor() {
@@ -1425,22 +1287,9 @@
                 h: perola.h - 30
             };
 
-            // Estrelas
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 const e = estrelas[i];
                 if (e.coletada) continue;
-
-                // Ímã atrai estrelas
-                if (temIma) {
-                    const dx = (perola.x + perola.w / 2) - e.x;
-                    const dy = (perola.y + perola.h / 2) - e.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 200) {
-                        e.x += dx / dist * 3;
-                        e.y += dy / dist * 3;
-                    }
-                }
-
                 const dx = (perola.x + perola.w / 2) - e.x;
                 const dy = (perola.y + perola.h / 2) - e.y;
                 if (Math.sqrt(dx * dx + dy * dy) < e.raio * e.tam + 30) {
@@ -1450,6 +1299,8 @@
                     pontos += e.dourada ? 5 : 1;
                     document.getElementById('pts').textContent = pontos;
                     estrelas.splice(i, 1);
+
+                    // Toca som de coletar
                     tocarSom('coletar');
 
                     if (pontos >= estrelasParaProximaFase * fase) {
@@ -1458,139 +1309,16 @@
                 }
             }
 
-            // Power-ups
-            for (let i = powerups.length - 1; i >= 0; i--) {
-                const p = powerups[i];
-                if (p.coletado) continue;
-                const dx = (perola.x + perola.w / 2) - p.x;
-                const dy = (perola.y + perola.h / 2) - p.y;
-                if (Math.sqrt(dx * dx + dy * dy) < p.raio + 30) {
-                    p.coletado = true;
-                    aplicarPowerup(p);
-                    adicionarParticulas(p.x, p.y, p.cor, 30, 6);
-                    tocarSom('powerup');
-                    powerups.splice(i, 1);
-                }
-            }
-
-            // Obstáculos
             for (let i = obstaculos.length - 1; i >= 0; i--) {
                 const o = obstaculos[i];
                 const ob = { x: o.x, y: o.y, w: o.w, h: o.h };
-
-                // Escudo protege
-                if (temEscudo && colisaoRetangulo(pb, ob)) {
-                    adicionarParticulas(o.x + o.w / 2, o.y + o.h / 2, '#00E676', 20, 4);
-                    obstaculos.splice(i, 1);
-                    temEscudo = false;
-                    document.getElementById('powerIcon').textContent = '🛡️';
-                    document.getElementById('powerLabel').textContent = 'Escudo Quebrado!';
-                    document.getElementById('powerTimer').textContent = '💥';
-                    setTimeout(() => {
-                        if (powerupAtivo === 'escudo') {
-                            powerupAtivo = null;
-                            document.getElementById('powerIcon').textContent = '🦸';
-                            document.getElementById('powerLabel').textContent = 'Nenhum';
-                            document.getElementById('powerTimer').textContent = '--';
-                        }
-                    }, 1000);
-                    continue;
-                }
-
                 if (colisaoRetangulo(pb, ob)) {
-                    if (temEscudo) {
-                        adicionarParticulas(o.x + o.w / 2, o.y + o.h / 2, '#00E676', 20, 4);
-                        obstaculos.splice(i, 1);
-                        temEscudo = false;
-                        continue;
-                    }
                     perderVida();
                     adicionarParticulas(o.x + o.w / 2, o.y + o.h / 2, '#FF4757', 25, 6);
                     obstaculos.splice(i, 1);
+                    comboCount = 0;
                     return;
                 }
-            }
-        }
-
-        // ============================================================
-        // POWER-UPS
-        // ============================================================
-        function aplicarPowerup(p) {
-            powerupAtivo = p.tipo;
-
-            switch (p.efeito) {
-                case 'vida':
-                    vidas = Math.min(5, vidas + 1);
-                    document.getElementById('vidas').textContent = vidas;
-                    document.getElementById('powerIcon').textContent = '❤️';
-                    document.getElementById('powerLabel').textContent = 'Vida Extra!';
-                    document.getElementById('powerTimer').textContent = '❤️ +1';
-                    setTimeout(() => {
-                        if (powerupAtivo === 'vida') {
-                            powerupAtivo = null;
-                            document.getElementById('powerIcon').textContent = '🦸';
-                            document.getElementById('powerLabel').textContent = 'Nenhum';
-                            document.getElementById('powerTimer').textContent = '--';
-                        }
-                    }, 1500);
-                    break;
-
-                case 'voar':
-                    estaVoando = true;
-                    perola.voando = true;
-                    tempoVoo = p.duracao;
-                    document.getElementById('powerIcon').textContent = '🦸';
-                    document.getElementById('powerLabel').textContent = 'Super Voo!';
-                    document.getElementById('powerTimer').textContent = `${Math.floor(tempoVoo/60)}s`;
-                    break;
-
-                case 'velocidade':
-                    temVelocidade = true;
-                    document.getElementById('powerIcon').textContent = '⚡';
-                    document.getElementById('powerLabel').textContent = 'Velocidade!';
-                    document.getElementById('powerTimer').textContent = `${Math.floor(p.duracao/60)}s`;
-                    setTimeout(() => {
-                        temVelocidade = false;
-                        if (powerupAtivo === 'velocidade') {
-                            powerupAtivo = null;
-                            document.getElementById('powerIcon').textContent = '🦸';
-                            document.getElementById('powerLabel').textContent = 'Nenhum';
-                            document.getElementById('powerTimer').textContent = '--';
-                        }
-                    }, p.duracao * 1000);
-                    break;
-
-                case 'escudo':
-                    temEscudo = true;
-                    document.getElementById('powerIcon').textContent = '🛡️';
-                    document.getElementById('powerLabel').textContent = 'Escudo Ativo!';
-                    document.getElementById('powerTimer').textContent = `${Math.floor(p.duracao/60)}s`;
-                    setTimeout(() => {
-                        temEscudo = false;
-                        if (powerupAtivo === 'escudo') {
-                            powerupAtivo = null;
-                            document.getElementById('powerIcon').textContent = '🦸';
-                            document.getElementById('powerLabel').textContent = 'Nenhum';
-                            document.getElementById('powerTimer').textContent = '--';
-                        }
-                    }, p.duracao * 1000);
-                    break;
-
-                case 'ima':
-                    temIma = true;
-                    document.getElementById('powerIcon').textContent = '🧲';
-                    document.getElementById('powerLabel').textContent = 'Ímã Ativo!';
-                    document.getElementById('powerTimer').textContent = `${Math.floor(p.duracao/60)}s`;
-                    setTimeout(() => {
-                        temIma = false;
-                        if (powerupAtivo === 'ima') {
-                            powerupAtivo = null;
-                            document.getElementById('powerIcon').textContent = '🦸';
-                            document.getElementById('powerLabel').textContent = 'Nenhum';
-                            document.getElementById('powerTimer').textContent = '--';
-                        }
-                    }, p.duracao * 1000);
-                    break;
             }
         }
 
@@ -1598,22 +1326,6 @@
         // VIDA
         // ============================================================
         function perderVida() {
-            if (temEscudo) {
-                temEscudo = false;
-                document.getElementById('powerIcon').textContent = '🛡️';
-                document.getElementById('powerLabel').textContent = 'Escudo Quebrado!';
-                document.getElementById('powerTimer').textContent = '💥';
-                setTimeout(() => {
-                    if (powerupAtivo === 'escudo') {
-                        powerupAtivo = null;
-                        document.getElementById('powerIcon').textContent = '🦸';
-                        document.getElementById('powerLabel').textContent = 'Nenhum';
-                        document.getElementById('powerTimer').textContent = '--';
-                    }
-                }, 1000);
-                return;
-            }
-
             vidas--;
             document.getElementById('vidas').textContent = vidas;
             adicionarParticulas(perola.x + perola.w / 2, perola.y + perola.h / 2, '#FF6B6B', 30, 6);
@@ -1635,14 +1347,15 @@
         }
 
         // ============================================================
-        // FASES
+        // FASES E CELEBRAÇÃO
         // ============================================================
         function celebrarFase() {
             if (celebrando) return;
             celebrando = true;
             rodando = false;
 
-            tocarSom('fogo');
+            // Toca som de fogos
+            tocarSom('fogos');
 
             for (let i = 0; i < 8; i++) {
                 setTimeout(() => {
@@ -1664,28 +1377,16 @@
             pontos = 0;
             document.getElementById('pts').textContent = '0';
             estrelas = [];
-            powerups = [];
             obstaculos = [];
             particulas = [];
             fogos = [];
+            bolhasRespirar = [];
             perola.reset();
             perola.y = H - 200;
             celebrando = false;
             rodando = true;
 
-            // Reseta power-ups
-            temEscudo = false;
-            temVelocidade = false;
-            temIma = false;
-            estaVoando = false;
-            perola.voando = false;
-            powerupAtivo = null;
-            document.getElementById('powerIcon').textContent = '🦸';
-            document.getElementById('powerLabel').textContent = 'Nenhum';
-            document.getElementById('powerTimer').textContent = '--';
-
             timerEstrelas = 0;
-            timerPowerups = 0;
             timerObstaculos = 0;
 
             if (animId) cancelAnimationFrame(animId);
@@ -1728,30 +1429,20 @@
             fase = 1;
             frame = 0;
             estrelas = [];
-            powerups = [];
             obstaculos = [];
             particulas = [];
             fogos = [];
+            bolhasRespirar = [];
             timerEstrelas = 0;
-            timerPowerups = 0;
             timerObstaculos = 0;
+            comboCount = 0;
             celebrando = false;
             pulosRestantes = 2;
-
-            temEscudo = false;
-            temVelocidade = false;
-            temIma = false;
-            estaVoando = false;
-            perola.voando = false;
-            powerupAtivo = null;
 
             document.getElementById('pts').textContent = '0';
             document.getElementById('vidas').textContent = '3';
             document.getElementById('fase').textContent = '1';
             document.getElementById('cenarioNome').textContent = CENARIOS[0].nome;
-            document.getElementById('powerIcon').textContent = '🦸';
-            document.getElementById('powerLabel').textContent = 'Nenhum';
-            document.getElementById('powerTimer').textContent = '--';
 
             perola.reset();
             perola.y = H - 200;
@@ -1799,49 +1490,15 @@
         function atualizar() {
             const chao = H - 190;
 
-            // Voo
-            if (estaVoando) {
-                tempoVoo--;
-                perola.vy = -2;
-                perola.noChao = false;
-                perola.voando = true;
-
-                // Efeito de partículas de voo
-                if (frame % 3 === 0) {
-                    adicionarParticulas(
-                        perola.x + perola.w / 2 + (Math.random() - 0.5) * 20,
-                        perola.y + perola.h,
-                        '#6C63FF', 2, 2
-                    );
-                }
-
-                if (tempoVoo <= 0) {
-                    estaVoando = false;
-                    perola.voando = false;
-                    powerupAtivo = null;
-                    document.getElementById('powerIcon').textContent = '🦸';
-                    document.getElementById('powerLabel').textContent = 'Nenhum';
-                    document.getElementById('powerTimer').textContent = '--';
-                } else {
-                    document.getElementById('powerTimer').textContent = `${Math.floor(tempoVoo/60)}s`;
-                }
-                document.getElementById('powerIcon').textContent = '🦸';
-                document.getElementById('powerLabel').textContent = 'Super Voo!';
-            }
-
             // Física da Pérola
-            if (!estaVoando) {
-                perola.vy += perola.gravidade;
-            }
+            perola.vy += perola.gravidade;
             perola.y += perola.vy;
 
             if (perola.y + perola.h > chao) {
                 perola.y = chao - perola.h;
                 perola.vy = 0;
                 perola.noChao = true;
-                if (!estaVoando) {
-                    pulosRestantes = 2;
-                }
+                pulosRestantes = 2;
             } else {
                 perola.noChao = false;
             }
@@ -1849,30 +1506,23 @@
             if (perola.x < 0) perola.x = 0;
             if (perola.x + perola.w > W) perola.x = W - perola.w;
 
-            // Velocidade extra
-            let velocidadeExtra = 1;
-            if (temVelocidade) velocidadeExtra = 1.5;
-
             perola.atualizarEstado();
 
-            // Spawns
-            const spawnRateEstrelas = Math.max(20, 35 - Math.min(fase * 2, 15));
+            // Velocidade aumenta com a fase
+            const velocidadeBase = 1 + (fase - 1) * 0.15;
+
+            // Spawn de estrelas
+            const spawnRateEstrelas = Math.max(20, 40 - Math.min(fase * 2, 20));
             timerEstrelas++;
-            if (timerEstrelas > spawnRateEstrelas / velocidadeExtra) {
+            if (timerEstrelas > spawnRateEstrelas / velocidadeBase) {
                 timerEstrelas = 0;
                 if (Math.random() > 0.3) estrelas.push(criarEstrela());
             }
 
-            const spawnRatePowerups = 200 - Math.min(fase * 10, 80);
-            timerPowerups++;
-            if (timerPowerups > spawnRatePowerups && powerups.length < 2) {
-                timerPowerups = 0;
-                if (Math.random() > 0.6) powerups.push(criarPowerup());
-            }
-
-            const spawnRateObstaculos = Math.max(25, 50 - Math.min(fase * 3, 25));
+            // Spawn de obstáculos (fica mais rápido com as fases)
+            const spawnRateObstaculos = Math.max(25, 55 - Math.min(fase * 3, 30));
             timerObstaculos++;
-            if (timerObstaculos > spawnRateObstaculos / velocidadeExtra) {
+            if (timerObstaculos > spawnRateObstaculos / velocidadeBase) {
                 timerObstaculos = 0;
                 if (Math.random() > 0.4) obstaculos.push(criarObstaculo());
             }
@@ -1880,24 +1530,15 @@
             // Atualizar estrelas
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 const e = estrelas[i];
-                e.x -= e.vel;
+                e.x -= e.vel * velocidadeBase;
                 e.rot += 0.04;
                 if (e.x < -40) estrelas.splice(i, 1);
-            }
-
-            // Atualizar power-ups
-            for (let i = powerups.length - 1; i >= 0; i--) {
-                const p = powerups[i];
-                p.x -= p.vel;
-                p.rot += 0.03;
-                p.brilho = 0.5 + Math.sin(frame * 0.05 + p.x) * 0.5;
-                if (p.x < -40) powerups.splice(i, 1);
             }
 
             // Atualizar obstáculos
             for (let i = obstaculos.length - 1; i >= 0; i--) {
                 const o = obstaculos[i];
-                o.x -= o.vel;
+                o.x -= o.vel * velocidadeBase;
                 o.rot += 0.02;
                 o.off += 0.04;
                 if (o.x < -40) obstaculos.splice(i, 1);
@@ -1913,6 +1554,9 @@
                 p.raio *= 0.99;
                 if (p.life <= 0 || p.raio < 0.3) particulas.splice(i, 1);
             }
+
+            // Atualizar bolhas de respiração (fase 1)
+            atualizarBolhasRespirar();
 
             atualizarFogos();
             verificarColisoes();
@@ -1996,12 +1640,16 @@
                 ctx.stroke();
             }
 
-            // Bolhas
+            // Bolhas de respiração (fase 1)
+            if (fase === 1) {
+                desenharBolhasRespirar();
+            }
+
+            // Bolhas decorativas
             desenharBolhas();
 
             // Objetos
             estrelas.forEach(e => desenharEstrela(e));
-            powerups.forEach(p => desenharPowerup(p));
             obstaculos.forEach(o => desenharObstaculo(o));
             perola.desenhar();
             desenharFogos();
@@ -2150,9 +1798,8 @@
             if (!rodando) return;
 
             let dx = 0;
-            let velocidadeBase = temVelocidade ? 7 : 5;
-            if (teclas['ArrowRight'] || teclas['d']) dx = velocidadeBase;
-            else if (teclas['ArrowLeft'] || teclas['a']) dx = -velocidadeBase;
+            if (teclas['ArrowRight'] || teclas['d']) dx = 5;
+            else if (teclas['ArrowLeft'] || teclas['a']) dx = -5;
 
             if (dx !== 0) {
                 perola.x += dx;
@@ -2198,12 +1845,11 @@
         }
         telaInicialLoop();
 
-        console.log('🌊 Jogo com POWER-UPS!');
-        console.log('❤️ Coração = +1 Vida');
-        console.log('🦸 Asa = Super Voo!');
-        console.log('⚡ Raio = Velocidade Extra');
-        console.log('🛡️ Escudo = Proteção');
-        console.log('🧲 Ímã = Atrai Estrelas');
+        console.log('🌊 Jogo carregado com SONS CORRIGIDOS!');
+        console.log('📁 Sons: somcoletar.mp3, fogos.mp3');
+        console.log('🌊 Bolhas de respiração na fase 1');
+        console.log('⚡ Velocidade aumenta a cada fase!');
+        console.log('📏 Tamanho da Pérola:', TAMANHO_PEROLA.largura + 'x' + TAMANHO_PEROLA.altura);
         console.log('🎮 Pulo duplo: toque 2x no ar!');
         console.log('🏆 Colete estrelas para passar de fase!');
     </script>
