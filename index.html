@@ -9,7 +9,7 @@
         html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a1a; touch-action: none; position: fixed; top: 0; left: 0; }
         canvas { display: block; width: 100vw; height: 100vh; background: linear-gradient(180deg, #87CEEB 0%, #4A90D9 60%, #2C5F8A 100%); touch-action: none; cursor: pointer; }
         
-        /* TELA DE CAPA - IMAGEM EM TELA CHEIA */
+        /* TELA DE CAPA */
         #capa {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.92);
@@ -17,16 +17,19 @@
             z-index: 200; padding: 20px;
             cursor: pointer;
             animation: fadeIn 0.5s ease;
-            transition: all 0.3s ease;
+            transition: opacity 0.5s ease;
         }
         
-        #capa:hover { background: rgba(0, 0, 0, 0.95); }
+        #capa.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         .capa-imagem {
             max-width: 90%;
-            max-height: 80vh;
+            max-height: 70vh;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 0 80px rgba(255,215,0,0.1);
@@ -41,7 +44,7 @@
         .capa-imagem img {
             width: 100%;
             height: auto;
-            max-height: 80vh;
+            max-height: 70vh;
             object-fit: contain;
             display: block;
         }
@@ -59,7 +62,6 @@
         
         .capa-placeholder .emoji-big { font-size: 5rem; display: block; margin-bottom: 10px; }
         
-        /* BOTÃO JOGAR - APARECE DEPOIS */
         #btn-jogar {
             margin-top: 20px;
             padding: 15px 50px;
@@ -136,7 +138,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 200; animation: fadeIn 0.5s ease; padding: 20px;
+            z-index: 201; animation: fadeIn 0.5s ease; padding: 20px;
         }
         #celebracao.show { display: flex; }
         #celebracao .emoji-big { font-size: 5rem; animation: float 1.5s ease-in-out infinite; }
@@ -157,8 +159,8 @@
         #celebracao button:active { transform: scale(0.95); }
         
         @media (max-width: 400px) {
-            .capa-imagem { max-height: 60vh; }
-            .capa-imagem img { max-height: 60vh; }
+            .capa-imagem { max-height: 55vh; }
+            .capa-imagem img { max-height: 55vh; }
             #btn-jogar { font-size: 1.2rem; padding: 12px 30px; min-height: 50px; min-width: 160px; }
             .capa-placeholder { font-size: 1.2rem; padding: 20px; }
             .capa-placeholder .emoji-big { font-size: 3rem; }
@@ -174,11 +176,11 @@
 </head>
 <body>
 
-    <!-- TELA DE CAPA - IMAGEM EM TELA CHEIA -->
-    <div id="capa" onclick="mostrarBotaoJogar()">
-        <div class="capa-imagem">
+    <!-- TELA DE CAPA -->
+    <div id="capa">
+        <div class="capa-imagem" onclick="mostrarBotaoJogar()">
             <img src="capa1.png" alt="Capa do Jogo" 
-                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'capa-placeholder\'><span class=\'emoji-big\'>🌊</span>Toque para começar</div>'">
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'capa-placeholder\' onclick=\'mostrarBotaoJogar()\'><span class=\'emoji-big\'>🌊</span>Toque para começar</div>'">
         </div>
         <button id="btn-jogar" onclick="iniciarJogo()">🎮 Jogar</button>
     </div>
@@ -209,7 +211,7 @@
 
     <script>
         // ============================================================
-        // FUNÇÃO PARA MOSTRAR O BOTÃO JOGAR
+        // FUNÇÕES DA CAPA
         // ============================================================
         function mostrarBotaoJogar() {
             const btn = document.getElementById('btn-jogar');
@@ -1081,51 +1083,57 @@
         }
 
         // ============================================================
-        // INICIAR JOGO
+        // INICIAR JOGO - AGORA CARREGA RÁPIDO!
         // ============================================================
         function iniciarJogo() {
-            // Esconde a tela de capa
-            document.getElementById('capa').style.display = 'none';
+            // Esconde a capa com transição
+            const capa = document.getElementById('capa');
+            capa.classList.add('hidden');
             
-            document.getElementById('gameover').classList.remove('show');
-            document.getElementById('celebracao').classList.remove('show');
+            // Aguarda a transição e inicia o jogo
+            setTimeout(() => {
+                capa.style.display = 'none';
+                
+                document.getElementById('gameover').classList.remove('show');
+                document.getElementById('celebracao').classList.remove('show');
 
-            initAudio();
-            pontos = 0;
-            vidas = 3;
-            fase = 1;
-            moedas = 0;
-            frame = 0;
-            estrelas = [];
-            moedasList = [];
-            obstaculos = [];
-            particulas = [];
-            fogos = [];
-            timerEstrelas = 0;
-            timerMoedas = 0;
-            timerObstaculos = 0;
-            celebrando = false;
-            pulosRestantes = 2;
+                initAudio();
+                pontos = 0;
+                vidas = 3;
+                fase = 1;
+                moedas = 0;
+                frame = 0;
+                estrelas = [];
+                moedasList = [];
+                obstaculos = [];
+                particulas = [];
+                fogos = [];
+                timerEstrelas = 0;
+                timerMoedas = 0;
+                timerObstaculos = 0;
+                celebrando = false;
+                pulosRestantes = 2;
 
-            document.getElementById('pts').textContent = '0';
-            document.getElementById('vidas').textContent = '3';
-            document.getElementById('fase').textContent = '1';
-            document.getElementById('moedas').textContent = '0';
-            document.getElementById('cenarioNome').textContent = CENARIOS[0].nome;
+                document.getElementById('pts').textContent = '0';
+                document.getElementById('vidas').textContent = '3';
+                document.getElementById('fase').textContent = '1';
+                document.getElementById('moedas').textContent = '0';
+                document.getElementById('cenarioNome').textContent = CENARIOS[0].nome;
 
-            const chao = H - getChaoAltura();
-            perola.w = 60;
-            perola.h = 75;
-            perola.x = Math.min(80, W * 0.15);
-            perola.y = chao - perola.h;
-            perola.vy = 0;
-            perola.visivel = true;
-            perola.noChao = true;
+                const chao = H - getChaoAltura();
+                perola.w = 60;
+                perola.h = 75;
+                perola.x = Math.min(80, W * 0.15);
+                perola.y = chao - perola.h;
+                perola.vy = 0;
+                perola.visivel = true;
+                perola.noChao = true;
 
-            iniciarMusica();
-            rodando = true;
-            if (animId) cancelAnimationFrame(animId);
-            loop();
+                iniciarMusica();
+                rodando = true;
+                if (animId) cancelAnimationFrame(animId);
+                loop();
+            }, 500);
         }
 
         // ============================================================
@@ -1439,8 +1447,8 @@
         telaInicialLoop();
 
         console.log('🌊 Jogo carregado com sucesso!');
-        console.log('📸 Clique na capa para aparecer o botão Jogar');
-        console.log('🎮 Clique em Jogar para começar!');
+        console.log('📸 Clique na capa → botão Jogar');
+        console.log('🎮 Jogo carrega rapidamente!');
     </script>
 </body>
 </html>
