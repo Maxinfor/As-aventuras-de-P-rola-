@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🌊 As Aventuras de Pérola</title>
+    <title>🌊 As Aventuras de Pérola - Com Imagens</title>
     <style>
         * {
             margin: 0;
@@ -34,7 +34,6 @@
             cursor: pointer;
         }
         
-        /* TELA INICIAL - MOBILE FIRST */
         #start {
             position: fixed;
             top: 0;
@@ -58,11 +57,7 @@
             to { opacity: 1; transform: scale(1); }
         }
         
-        #start .logo {
-            font-size: 4.5rem;
-            animation: float 2s ease-in-out infinite;
-        }
-        
+        #start .logo { font-size: 4.5rem; animation: float 2s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(-2deg); }
             50% { transform: translateY(-15px) rotate(2deg); }
@@ -78,7 +73,7 @@
         }
         
         #start .sub {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #87CEEB;
             margin-bottom: 20px;
             text-align: center;
@@ -103,11 +98,9 @@
             touch-action: manipulation;
         }
         
-        #start button:active {
-            transform: scale(0.95);
-        }
+        #start button:active { transform: scale(0.95); }
         
-        #start .controls-info {
+        .controls-info {
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.75rem;
             margin-top: 15px;
@@ -120,7 +113,7 @@
             font-family: 'Comic Sans MS', cursive, sans-serif;
         }
         
-        #start .controls-info .key {
+        .controls-info .key {
             display: inline-block;
             background: rgba(255, 255, 255, 0.1);
             padding: 2px 10px;
@@ -131,7 +124,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* UI DO JOGO */
         #info {
             position: fixed;
             top: 12px;
@@ -168,7 +160,6 @@
             gap: 4px;
         }
         
-        /* GAME OVER */
         #gameover {
             position: fixed;
             top: 50%;
@@ -187,35 +178,11 @@
             -webkit-backdrop-filter: blur(20px);
         }
         
-        #gameover.show {
-            transform: translate(-50%, -50%) scale(1);
-        }
-        
-        #gameover .emoji {
-            font-size: 3.5rem;
-            display: block;
-            animation: float 2s ease-in-out infinite;
-        }
-        
-        #gameover h1 {
-            color: #FFD700;
-            font-size: 2rem;
-            margin: 8px 0;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-        
-        #gameover .fscore {
-            color: #87CEEB;
-            font-size: 1.2rem;
-            margin: 12px 0;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-        
-        #gameover .fscore span {
-            color: #FFD700;
-            font-size: 2rem;
-        }
-        
+        #gameover.show { transform: translate(-50%, -50%) scale(1); }
+        #gameover .emoji { font-size: 3.5rem; display: block; animation: float 2s ease-in-out infinite; }
+        #gameover h1 { color: #FFD700; font-size: 2rem; margin: 8px 0; font-family: 'Comic Sans MS', cursive, sans-serif; }
+        #gameover .fscore { color: #87CEEB; font-size: 1.2rem; margin: 12px 0; font-family: 'Comic Sans MS', cursive, sans-serif; }
+        #gameover .fscore span { color: #FFD700; font-size: 2rem; }
         #gameover button {
             padding: 14px 35px;
             font-size: 1.1rem;
@@ -231,12 +198,8 @@
             min-width: 150px;
             touch-action: manipulation;
         }
+        #gameover button:active { transform: scale(0.95); }
         
-        #gameover button:active {
-            transform: scale(0.95);
-        }
-        
-        /* RESPONSIVO */
         @media (max-width: 400px) {
             #start h1 { font-size: 2rem; }
             #start .logo { font-size: 3.5rem; }
@@ -244,13 +207,6 @@
             #info, #score { font-size: 1rem; padding: 4px 10px; top: 8px; }
             #gameover { padding: 20px; width: 90%; }
             #gameover h1 { font-size: 1.6rem; }
-        }
-        
-        @media (min-width: 768px) {
-            #start h1 { font-size: 3.5rem; }
-            #start .logo { font-size: 6rem; }
-            #start button { font-size: 2rem; padding: 20px 60px; min-height: 70px; }
-            #info, #score { font-size: 2rem; padding: 10px 20px; }
         }
     </style>
 </head>
@@ -260,7 +216,7 @@
     <div id="start">
         <div class="logo">🌊</div>
         <h1>As Aventuras de Pérola</h1>
-        <div class="sub">🐚 Ajude a Pérola a coletar estrelas!</div>
+        <div class="sub">🐚 Com imagens personalizadas!</div>
         <button onclick="iniciarJogo()">🎮 Começar</button>
         <div class="controls-info">
             📱 <span class="key">Toque</span> para pular<br>
@@ -300,6 +256,115 @@
         window.addEventListener('resize', redimensionar);
 
         // ============================================================
+        // CARREGAR IMAGENS DA PÉROLA
+        // ============================================================
+        // ⚠️ ALTERE AQUI O CAMINHO DAS SUAS IMAGENS
+        const PASTA_IMAGENS = './'; // ou './imagens/' se estiver em uma pasta
+        
+        const imagens = {
+            pulando: new Image(),
+            andando: new Image(),
+            correndoesquerda: new Image(),
+            passolargo: new Image(),
+            escalando: new Image(),
+            correndodireita: new Image()
+        };
+
+        // Configuração de cada imagem
+        const CONFIG_IMAGENS = {
+            pulando: {
+                src: PASTA_IMAGENS + 'pulando.png',
+                largura: 50,
+                altura: 60
+            },
+            andando: {
+                src: PASTA_IMAGENS + 'andando.png',
+                largura: 50,
+                altura: 60
+            },
+            correndoesquerda: {
+                src: PASTA_IMAGENS + 'correndoesquerda.png',
+                largura: 50,
+                altura: 60
+            },
+            passolargo: {
+                src: PASTA_IMAGENS + 'passolargo.png',
+                largura: 50,
+                altura: 60
+            },
+            escalando: {
+                src: PASTA_IMAGENS + 'escalando.png',
+                largura: 50,
+                altura: 60
+            },
+            correndodireita: {
+                src: PASTA_IMAGENS + 'correndodireita.png',
+                largura: 50,
+                altura: 60
+            }
+        };
+
+        // Carrega as imagens
+        let imagensCarregadas = 0;
+        const totalImagens = Object.keys(imagens).length;
+
+        for (const [nome, img] of Object.entries(imagens)) {
+            const config = CONFIG_IMAGENS[nome];
+            img.src = config.src;
+            img.onload = () => {
+                imagensCarregadas++;
+                console.log(`✅ Imagem "${nome}" carregada!`);
+                if (imagensCarregadas >= totalImagens) {
+                    console.log('🎉 Todas as imagens carregadas!');
+                }
+            };
+            img.onerror = () => {
+                console.warn(`⚠️ Erro ao carregar "${nome}" - usando fallback`);
+                imagensCarregadas++;
+                // Cria imagem fallback (personagem simples)
+                criarFallback(nome);
+            };
+        }
+
+        // ============================================================
+        // FALLBACK (se a imagem não carregar)
+        // ============================================================
+        function criarFallback(nome) {
+            const canvasTemp = document.createElement('canvas');
+            canvasTemp.width = 100;
+            canvasTemp.height = 120;
+            const ctxTemp = canvasTemp.getContext('2d');
+            
+            // Desenha um personagem simples
+            ctxTemp.fillStyle = '#FF6B6B';
+            ctxTemp.beginPath();
+            ctxTemp.arc(50, 40, 30, 0, Math.PI * 2);
+            ctxTemp.fill();
+            
+            ctxTemp.fillStyle = '#FFD5C2';
+            ctxTemp.beginPath();
+            ctxTemp.arc(50, 35, 20, 0, Math.PI * 2);
+            ctxTemp.fill();
+            
+            ctxTemp.fillStyle = '#2C3E50';
+            ctxTemp.beginPath();
+            ctxTemp.arc(40, 33, 3, 0, Math.PI * 2);
+            ctxTemp.fill();
+            ctxTemp.beginPath();
+            ctxTemp.arc(60, 33, 3, 0, Math.PI * 2);
+            ctxTemp.fill();
+            
+            ctxTemp.fillStyle = '#FFD700';
+            ctxTemp.beginPath();
+            ctxTemp.arc(50, 70, 20, 0, Math.PI);
+            ctxTemp.fill();
+            
+            const imgFallback = new Image();
+            imgFallback.src = canvasTemp.toDataURL();
+            imagens[nome] = imgFallback;
+        }
+
+        // ============================================================
         // JOGO
         // ============================================================
         let rodando = false;
@@ -313,22 +378,24 @@
         let timerEstrelas = 0;
         let timerObstaculos = 0;
         let toqueX = null;
-        let toqueY = null;
-        let ultimoToque = 0;
 
         // ============================================================
-        // PÉROLA
+        // PÉROLA COM IMAGENS
         // ============================================================
         const perola = {
             x: 80,
             y: 0,
-            w: 45,
-            h: 55,
+            w: 50,
+            h: 60,
             vy: 0,
             gravidade: 0.5,
             pulo: -11,
             noChao: false,
             visivel: true,
+            direcao: 'direita', // 'direita' ou 'esquerda'
+            estado: 'parada', // 'parada', 'andando', 'correndo', 'pulando', 'escalando'
+            velocidadeX: 0,
+            timerAnimacao: 0,
 
             reset() {
                 this.x = 80;
@@ -336,10 +403,83 @@
                 this.vy = 0;
                 this.noChao = false;
                 this.visivel = true;
+                this.direcao = 'direita';
+                this.estado = 'parada';
+                this.velocidadeX = 0;
             },
 
+            // === FUNÇÃO PRINCIPAL PARA DESENHAR ===
             desenhar() {
                 if (!this.visivel) return;
+
+                // Define qual imagem usar baseado no estado e direção
+                let img = this.selecionarImagem();
+
+                // Se a imagem não estiver pronta, usa fallback
+                if (!img || !img.complete || img.naturalWidth === 0) {
+                    this.desenharFallback();
+                    return;
+                }
+
+                // Desenha a imagem
+                ctx.save();
+
+                // Vira a imagem se estiver indo para esquerda
+                if (this.direcao === 'esquerda' && 
+                    (this.estado === 'andando' || this.estado === 'parada' || this.estado === 'pulando')) {
+                    ctx.translate(this.x + this.w, this.y);
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(img, 0, 0, this.w, this.h);
+                } else {
+                    ctx.drawImage(img, this.x, this.y, this.w, this.h);
+                }
+
+                ctx.restore();
+
+                // Anima o personagem (troca de quadros se a imagem tiver múltiplos)
+                this.timerAnimacao++;
+                if (this.timerAnimacao > 10) {
+                    this.timerAnimacao = 0;
+                }
+            },
+
+            // === SELECIONA A IMAGEM CORRETA ===
+            selecionarImagem() {
+                // Se estiver pulando
+                if (this.estado === 'pulando') {
+                    return imagens.pulando;
+                }
+
+                // Se estiver escalando
+                if (this.estado === 'escalando') {
+                    return imagens.escalando;
+                }
+
+                // Se estiver correndo
+                if (this.estado === 'correndo') {
+                    if (this.direcao === 'direita') {
+                        return imagens.correndodireita;
+                    } else {
+                        return imagens.correndoesquerda;
+                    }
+                }
+
+                // Se estiver andando
+                if (this.estado === 'andando') {
+                    // Alterna entre andando e passolargo para dar efeito de caminhada
+                    if (Math.floor(this.timerAnimacao / 5) % 2 === 0) {
+                        return imagens.andando;
+                    } else {
+                        return imagens.passolargo;
+                    }
+                }
+
+                // Parado - usa imagem padrão
+                return imagens.andando;
+            },
+
+            // === FALLBACK: Desenha com canvas ===
+            desenharFallback() {
                 ctx.save();
 
                 // Vestido
@@ -387,11 +527,6 @@
                 ctx.fill();
                 ctx.beginPath();
                 ctx.arc(cx, cy - 13, 11, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Rabo de cavalo
-                ctx.beginPath();
-                ctx.ellipse(cx + 11, cy - 3, 4, 9, 0.5, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Olhos
@@ -457,6 +592,32 @@
 
                 ctx.restore();
                 ctx.shadowBlur = 0;
+            },
+
+            // === ATUALIZA O ESTADO BASEADO NA AÇÃO ===
+            atualizarEstado() {
+                const velocidade = Math.abs(this.velocidadeX);
+
+                // Se estiver pulando
+                if (!this.noChao) {
+                    this.estado = 'pulando';
+                    return;
+                }
+
+                // Se estiver se movendo rápido (correndo)
+                if (velocidade > 3) {
+                    this.estado = 'correndo';
+                    return;
+                }
+
+                // Se estiver se movendo devagar (andando)
+                if (velocidade > 0.5) {
+                    this.estado = 'andando';
+                    return;
+                }
+
+                // Parado
+                this.estado = 'parada';
             }
         };
 
@@ -761,6 +922,7 @@
         }
 
         function atualizar() {
+            // Física
             perola.vy += perola.gravidade;
             perola.y += perola.vy;
 
@@ -776,6 +938,10 @@
             if (perola.x < 0) perola.x = 0;
             if (perola.x + perola.w > W) perola.x = W - perola.w;
 
+            // Atualiza o estado da Pérola baseado na velocidade
+            perola.atualizarEstado();
+
+            // Spawns
             timerEstrelas++;
             if (timerEstrelas > 35 - Math.min(pontos / 10, 12)) {
                 timerEstrelas = 0;
@@ -788,6 +954,7 @@
                 if (Math.random() > 0.4) obstaculos.push(criarObstaculo());
             }
 
+            // Atualizar objetos
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 const e = estrelas[i];
                 e.x -= e.vel;
@@ -953,9 +1120,7 @@
             const t = e.touches[0];
             const rect = canvas.getBoundingClientRect();
             toqueX = t.clientX - rect.left;
-            toqueY = t.clientY - rect.top;
 
-            // Pular no toque
             if (perola.noChao && rodando) {
                 perola.vy = perola.pulo;
                 perola.noChao = false;
@@ -972,7 +1137,13 @@
 
             if (toqueX !== null) {
                 const diff = x - toqueX;
-                perola.x += diff * 0.6;
+                const velocidade = diff * 0.6;
+                perola.x += velocidade;
+                perola.velocidadeX = velocidade;
+
+                if (velocidade > 1) perola.direcao = 'direita';
+                else if (velocidade < -1) perola.direcao = 'esquerda';
+
                 if (perola.x < 0) perola.x = 0;
                 if (perola.x + perola.w > W) perola.x = W - perola.w;
                 toqueX = x;
@@ -982,16 +1153,17 @@
         canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
             toqueX = null;
-            toqueY = null;
+            perola.velocidadeX = 0;
         }, { passive: false });
 
         // ============================================================
-        // CONTROLES - TECLADO (para desktop)
+        // CONTROLES - TECLADO
         // ============================================================
         const teclas = {};
 
         window.addEventListener('keydown', (e) => {
             teclas[e.key] = true;
+
             if ((e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') &&
                 perola.noChao && rodando) {
                 e.preventDefault();
@@ -1005,13 +1177,19 @@
         // Movimento contínuo desktop
         setInterval(() => {
             if (!rodando) return;
-            if (teclas['ArrowRight'] || teclas['d']) {
-                perola.x += 4;
-                if (perola.x + perola.w > W) perola.x = W - perola.w;
-            }
-            if (teclas['ArrowLeft'] || teclas['a']) {
-                perola.x -= 4;
+
+            let dx = 0;
+            if (teclas['ArrowRight'] || teclas['d']) dx = 4;
+            else if (teclas['ArrowLeft'] || teclas['a']) dx = -4;
+
+            if (dx !== 0) {
+                perola.x += dx;
+                perola.velocidadeX = dx;
+                perola.direcao = dx > 0 ? 'direita' : 'esquerda';
                 if (perola.x < 0) perola.x = 0;
+                if (perola.x + perola.w > W) perola.x = W - perola.w;
+            } else {
+                perola.velocidadeX = 0;
             }
         }, 16);
 
@@ -1048,8 +1226,15 @@
         }
         telaInicialLoop();
 
-        console.log('🌊 Jogo carregado! Divirta-se no celular!');
-        console.log('📱 Toque na tela para pular e arraste para mover!');
+        console.log('🌊 Jogo com imagens personalizadas!');
+        console.log('📁 Imagens esperadas:');
+        console.log('   - pulando.png');
+        console.log('   - andando.png');
+        console.log('   - correndoesquerda.png');
+        console.log('   - passolargo.png');
+        console.log('   - escalando.png');
+        console.log('   - correndodireita.png');
+        console.log('📱 Coloque as imagens na mesma pasta do index.html');
     </script>
 </body>
 </html>
