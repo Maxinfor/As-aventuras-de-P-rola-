@@ -266,8 +266,9 @@
             andando: new Image(),
             correndoesquerda: new Image(),
             passolargo: new Image(),
-            escalando: new Image(),
-            correndodireita: new Image()
+            escalando1: new Image(),      // ← ALTERADO: escalando.png → escalando1.png
+            correndodireita: new Image(),
+            acelerando: new Image()       // ← NOVO: acelerando.png
         };
 
         // Configuração de cada imagem
@@ -275,32 +276,44 @@
             pulando: {
                 src: PASTA_IMAGENS + 'pulando.png',
                 largura: 50,
-                altura: 60
+                altura: 60,
+                descricao: 'Pulando'
             },
             andando: {
                 src: PASTA_IMAGENS + 'andando.png',
                 largura: 50,
-                altura: 60
+                altura: 60,
+                descricao: 'Andando'
             },
             correndoesquerda: {
                 src: PASTA_IMAGENS + 'correndoesquerda.png',
                 largura: 50,
-                altura: 60
+                altura: 60,
+                descricao: 'Correndo para esquerda'
             },
             passolargo: {
                 src: PASTA_IMAGENS + 'passolargo.png',
                 largura: 50,
-                altura: 60
+                altura: 60,
+                descricao: 'Passo largo'
             },
-            escalando: {
-                src: PASTA_IMAGENS + 'escalando.png',
+            escalando1: {                 // ← ALTERADO
+                src: PASTA_IMAGENS + 'escalando1.png',
                 largura: 50,
-                altura: 60
+                altura: 60,
+                descricao: 'Escalando'
             },
             correndodireita: {
                 src: PASTA_IMAGENS + 'correndodireita.png',
                 largura: 50,
-                altura: 60
+                altura: 60,
+                descricao: 'Correndo para direita'
+            },
+            acelerando: {                 // ← NOVO
+                src: PASTA_IMAGENS + 'acelerando.png',
+                largura: 50,
+                altura: 60,
+                descricao: 'Acelerando'
             }
         };
 
@@ -313,9 +326,10 @@
             img.src = config.src;
             img.onload = () => {
                 imagensCarregadas++;
-                console.log(`✅ Imagem "${nome}" carregada!`);
+                console.log(`✅ Imagem "${nome}" carregada! (${config.descricao})`);
                 if (imagensCarregadas >= totalImagens) {
                     console.log('🎉 Todas as imagens carregadas!');
+                    console.log('📁 Total de imagens:', totalImagens);
                 }
             };
             img.onerror = () => {
@@ -392,10 +406,11 @@
             pulo: -11,
             noChao: false,
             visivel: true,
-            direcao: 'direita', // 'direita' ou 'esquerda'
-            estado: 'parada', // 'parada', 'andando', 'correndo', 'pulando', 'escalando'
+            direcao: 'direita',
+            estado: 'parada',
             velocidadeX: 0,
             timerAnimacao: 0,
+            acelerando: false,
 
             reset() {
                 this.x = 80;
@@ -406,25 +421,21 @@
                 this.direcao = 'direita';
                 this.estado = 'parada';
                 this.velocidadeX = 0;
+                this.acelerando = false;
             },
 
-            // === FUNÇÃO PRINCIPAL PARA DESENHAR ===
             desenhar() {
                 if (!this.visivel) return;
 
-                // Define qual imagem usar baseado no estado e direção
                 let img = this.selecionarImagem();
 
-                // Se a imagem não estiver pronta, usa fallback
                 if (!img || !img.complete || img.naturalWidth === 0) {
                     this.desenharFallback();
                     return;
                 }
 
-                // Desenha a imagem
                 ctx.save();
 
-                // Vira a imagem se estiver indo para esquerda
                 if (this.direcao === 'esquerda' && 
                     (this.estado === 'andando' || this.estado === 'parada' || this.estado === 'pulando')) {
                     ctx.translate(this.x + this.w, this.y);
@@ -436,14 +447,12 @@
 
                 ctx.restore();
 
-                // Anima o personagem (troca de quadros se a imagem tiver múltiplos)
                 this.timerAnimacao++;
                 if (this.timerAnimacao > 10) {
                     this.timerAnimacao = 0;
                 }
             },
 
-            // === SELECIONA A IMAGEM CORRETA ===
             selecionarImagem() {
                 // Se estiver pulando
                 if (this.estado === 'pulando') {
@@ -452,7 +461,12 @@
 
                 // Se estiver escalando
                 if (this.estado === 'escalando') {
-                    return imagens.escalando;
+                    return imagens.escalando1;  // ← ALTERADO: usa escalando1
+                }
+
+                // Se estiver acelerando
+                if (this.acelerando) {
+                    return imagens.acelerando;   // ← NOVO: usa acelerando
                 }
 
                 // Se estiver correndo
@@ -466,7 +480,6 @@
 
                 // Se estiver andando
                 if (this.estado === 'andando') {
-                    // Alterna entre andando e passolargo para dar efeito de caminhada
                     if (Math.floor(this.timerAnimacao / 5) % 2 === 0) {
                         return imagens.andando;
                     } else {
@@ -478,11 +491,9 @@
                 return imagens.andando;
             },
 
-            // === FALLBACK: Desenha com canvas ===
             desenharFallback() {
                 ctx.save();
 
-                // Vestido
                 const grad = ctx.createRadialGradient(
                     this.x + 8, this.y + 12, 3,
                     this.x + 20, this.y + 30, 28
@@ -502,7 +513,6 @@
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Cabeça
                 ctx.shadowBlur = 4;
                 const cx = this.x + this.w / 2;
                 const cy = this.y + 14;
@@ -516,7 +526,6 @@
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Cabelo
                 ctx.shadowBlur = 0;
                 ctx.fillStyle = '#8B4513';
                 ctx.beginPath();
@@ -529,7 +538,6 @@
                 ctx.arc(cx, cy - 13, 11, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Olhos
                 ctx.fillStyle = '#FFFFFF';
                 ctx.beginPath();
                 ctx.ellipse(cx - 5, cy, 3.5, 4.5, 0, 0, Math.PI * 2);
@@ -554,14 +562,12 @@
                 ctx.arc(cx + 5.5, cy - 1, 1, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Boca
                 ctx.beginPath();
                 ctx.arc(cx, cy + 4.5, 5, 0.1, Math.PI - 0.1);
                 ctx.strokeStyle = '#CC4466';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Bochechas
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
@@ -572,7 +578,6 @@
                 ctx.fill();
                 ctx.globalAlpha = 1;
 
-                // Braços
                 ctx.fillStyle = '#F5C4A8';
                 ctx.beginPath();
                 ctx.ellipse(this.x + 4, this.y + 28, 3.5, 7, 0.3, 0, Math.PI * 2);
@@ -581,7 +586,6 @@
                 ctx.ellipse(this.x + this.w - 4, this.y + 28, 3.5, 7, -0.3, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Sapatos
                 ctx.fillStyle = '#FF6B6B';
                 ctx.beginPath();
                 ctx.ellipse(this.x + 7, this.y + this.h - 2, 7, 3.5, 0.2, 0, Math.PI * 2);
@@ -594,30 +598,40 @@
                 ctx.shadowBlur = 0;
             },
 
-            // === ATUALIZA O ESTADO BASEADO NA AÇÃO ===
             atualizarEstado() {
                 const velocidade = Math.abs(this.velocidadeX);
 
                 // Se estiver pulando
                 if (!this.noChao) {
                     this.estado = 'pulando';
+                    this.acelerando = false;
+                    return;
+                }
+
+                // Se estiver acelerando (velocidade muito alta)
+                if (velocidade > 5) {
+                    this.estado = 'correndo';
+                    this.acelerando = true;
                     return;
                 }
 
                 // Se estiver se movendo rápido (correndo)
                 if (velocidade > 3) {
                     this.estado = 'correndo';
+                    this.acelerando = false;
                     return;
                 }
 
                 // Se estiver se movendo devagar (andando)
                 if (velocidade > 0.5) {
                     this.estado = 'andando';
+                    this.acelerando = false;
                     return;
                 }
 
                 // Parado
                 this.estado = 'parada';
+                this.acelerando = false;
             }
         };
 
@@ -922,7 +936,6 @@
         }
 
         function atualizar() {
-            // Física
             perola.vy += perola.gravidade;
             perola.y += perola.vy;
 
@@ -938,10 +951,8 @@
             if (perola.x < 0) perola.x = 0;
             if (perola.x + perola.w > W) perola.x = W - perola.w;
 
-            // Atualiza o estado da Pérola baseado na velocidade
             perola.atualizarEstado();
 
-            // Spawns
             timerEstrelas++;
             if (timerEstrelas > 35 - Math.min(pontos / 10, 12)) {
                 timerEstrelas = 0;
@@ -954,7 +965,6 @@
                 if (Math.random() > 0.4) obstaculos.push(criarObstaculo());
             }
 
-            // Atualizar objetos
             for (let i = estrelas.length - 1; i >= 0; i--) {
                 const e = estrelas[i];
                 e.x -= e.vel;
@@ -986,7 +996,6 @@
         function desenhar() {
             ctx.clearRect(0, 0, W, H);
 
-            // Céu
             const g = ctx.createLinearGradient(0, 0, 0, H);
             g.addColorStop(0, '#87CEEB');
             g.addColorStop(0.4, '#4A90D9');
@@ -995,7 +1004,6 @@
             ctx.fillStyle = g;
             ctx.fillRect(0, 0, W, H);
 
-            // Sol
             ctx.shadowColor = 'rgba(255,200,50,0.15)';
             ctx.shadowBlur = 30;
             ctx.beginPath();
@@ -1008,7 +1016,6 @@
             ctx.fill();
             ctx.shadowBlur = 0;
 
-            // Chão
             const chao = H - 120;
             const gc = ctx.createLinearGradient(0, chao, 0, H);
             gc.addColorStop(0, '#F4A460');
@@ -1018,7 +1025,6 @@
             ctx.fillStyle = gc;
             ctx.fillRect(0, chao, W, H - chao);
 
-            // Grama
             ctx.strokeStyle = 'rgba(34,139,34,0.2)';
             ctx.lineWidth = 2;
             for (let i = 0; i < W; i += 10) {
@@ -1174,7 +1180,6 @@
 
         window.addEventListener('keyup', (e) => { teclas[e.key] = false; });
 
-        // Movimento contínuo desktop
         setInterval(() => {
             if (!rodando) return;
 
@@ -1228,13 +1233,15 @@
 
         console.log('🌊 Jogo com imagens personalizadas!');
         console.log('📁 Imagens esperadas:');
-        console.log('   - pulando.png');
-        console.log('   - andando.png');
-        console.log('   - correndoesquerda.png');
-        console.log('   - passolargo.png');
-        console.log('   - escalando.png');
-        console.log('   - correndodireita.png');
+        console.log('   ✅ pulando.png');
+        console.log('   ✅ andando.png');
+        console.log('   ✅ correndoesquerda.png');
+        console.log('   ✅ passolargo.png');
+        console.log('   ✅ escalando1.png  (NOVO NOME)');
+        console.log('   ✅ correndodireita.png');
+        console.log('   ✅ acelerando.png  (NOVA IMAGEM)');
         console.log('📱 Coloque as imagens na mesma pasta do index.html');
+        console.log('🎯 Total de imagens:', Object.keys(imagens).length);
     </script>
 </body>
 </html>
